@@ -48,7 +48,7 @@ exports.sendOTP = async (req, res) => {
 // signUp
 exports.signUp = async (req, res) => {
     try {
-        const { otp, email, firstName, lastName, password, confirmPassword, accountType, mobile } = req.body;
+        const { otp, email, firstName, lastName, password, accountType, mobile } = req.body;
 
 
         // validate data 
@@ -94,7 +94,7 @@ exports.signUp = async (req, res) => {
         }
 
         // Hash Password
-        const hashPassword = await bcrypt.hash(password, 5);
+        const hashPassword = await bcrypt.hash(password, 10);
 
         // Profile
         const profileDetails = await Profile.create({
@@ -143,13 +143,14 @@ exports.login = async (req, res) => {
                 message: "User Not Found"
             })
         }
+
         // generate jwt token , after pass check
         const pass_check = await bcrypt.compare(password, user.password);
         if (!pass_check) {
             return res.status(401).json({ success: false, message: "wrong password" });
         }
-        const token = jwt.sign({ id: user._id }, jwt_secret, { expiresIn: '3d' });
-        user.token = token;
+
+        const token = jwt.sign({ id: user._id, accountType: user.accountType }, jwt_secret, { expiresIn: '3d' });
 
         //set cookie
         res.status(200).cookie('token', token, { maxAge: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), httpOnly: true }).json({
@@ -180,9 +181,17 @@ exports.changePassword = async (req, res) => {
             });
         }
 
-        const { id } = jwt.verify(token, jwt_secret);
+        try {
+            const { id } = jwt.verify(token, jwt_secret);
+            res.user.id = id;
+        } catch (error) {
+            res.status(401).json({
+                success: false,
+                message: "wrong token passed"
+            })
+        }
 
-        const user = await User.findById(id);
+        const user = await User.findById(res.user.id);
 
         if (!user) {
             return res.status(401).json({
@@ -202,7 +211,7 @@ exports.changePassword = async (req, res) => {
         }
 
         // update password in db
-        const hashedPassword = await bcrypt.hash(newPassword, 5);
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
         const result = await User.updateOne({ _id: user._id }, { $set: { password: hashedPassword } });
 
         // return with response

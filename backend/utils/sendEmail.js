@@ -2,7 +2,8 @@ const nodemailer = require("nodemailer");
 
 require('dotenv').config();
 
-const otpContent = `<!DOCTYPE html>
+function getOtpContent(otp) {
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -230,8 +231,10 @@ p {
 </body>
 
 </html>`;
+}
 
-const resetContent = `<!DOCTYPE html>
+function getResetContent(link) {
+    return `<!DOCTYPE html>
                         <html lang="en">
                         <head>
                         <meta charset="UTF-8" />
@@ -356,8 +359,8 @@ const resetContent = `<!DOCTYPE html>
 
                         </html>
 `;
-
-async function sendEmail(email, title, content, link , otp) {
+}
+async function sendEmail(email, title, otp, link) {
     try {
 
         const transporter = nodemailer.createTransport({
@@ -368,7 +371,7 @@ async function sendEmail(email, title, content, link , otp) {
             },
         });
 
-        content = (content === "otpContent") ? otpContent : resetContent;
+       const content = (otp) ? getOtpContent(otp) : getResetContent(link);
 
         const info = await transporter.sendMail({
             from: process.env.nodemailer_user,

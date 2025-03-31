@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const sendEmail = require('../utils/sendOtp');
+const sendEmail = require('../utils/sendEmail');
 const { Schema } = mongoose;
 
 const otp_schema = new Schema({
@@ -18,7 +18,7 @@ const otp_schema = new Schema({
 });
 
 otp_schema.pre('save', async function (next) {
-    sendEmail(this.email, "OTP Verification !!", "otpContent", this.otp);
+    sendEmail(this.email, "OTP Verification !!", this.otp);
     next();
 });
 
