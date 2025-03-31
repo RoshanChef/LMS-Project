@@ -4,6 +4,12 @@ const otpGenerator = require('otp-generator');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+const express = require('express');
+const app = express();
+app.use(cookieParser());
+
+require('dotenv').config();
 const jwt_secret = process.env.JWT_SECRET;
 
 // sendOTP
@@ -109,12 +115,107 @@ exports.signUp = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "User is not registered",
-            error: error
+            error: error,
+            user: user
         })
     }
 }
 
 // Login
+exports.login = async (req, res) => {
+    try {
+        // get data
+        const { email, password } = req.body;
 
+        // validation of data
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Please fill all the field"
+            })
+        }
+
+        // chech if user exit
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "User Not Found"
+            })
+        }
+        // generate jwt token , after pass check
+        const pass_check = await bcrypt.compare(password, user.password);
+        if (!pass_check) {
+            return res.status(401).json({ success: false, message: "wrong password" });
+        }
+        const token = jwt.sign({ id: user._id }, jwt_secret, { expiresIn: '3d' });
+        user.token = token;
+
+        //set cookie
+        res.status(200).cookie('token', token, { maxAge: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), httpOnly: true }).json({
+            success: true,
+            token,
+            user,
+            message: 'Logged in Successfully'
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "User is not registered",
+            error: error
+        })
+    }
+}
 
 // changePassword
+exports.changePassword = async (req, res) => {
+    try {
+        //get data from req body
+        const token = req.cookies.token;
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized: No token provided"
+            });
+        }
+
+        const { id } = jwt.verify(token, jwt_secret);
+
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "User not Found"
+            })
+        }
+
+        // get oldPassword , newPassword , confirmPassword
+        const { oldPassword, newPassword } = req.body
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Incorrect password"
+            });
+        }
+
+        // update password in db
+        const hashedPassword = await bcrypt.hash(newPassword, 5);
+        const result = await User.updateOne({ _id: user._id }, { $set: { password: hashedPassword } });
+
+        // return with response
+        return res.status(200).json({
+            success: true,
+            message: "Password updated successfully"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "User is not registered",
+            error: error
+        })
+    }
+}
+
