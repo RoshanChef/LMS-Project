@@ -2,16 +2,25 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const connect = require("./config/database");
-
+const fileUpload = require('express-fileupload');
+const { cloudinaryConnect } = require("./config/cloudinary");
 
 app.use(cors());
 app.use(express.json());
 
-// Mongodb connection
+// Mongodb Connection
 connect();
+
+// Cloudinary Connection
+cloudinaryConnect();
 
 //routes
 app.use("/api",);
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
+
 
 
 

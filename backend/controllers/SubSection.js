@@ -40,7 +40,6 @@ exports.createSubSection = async (req, res) => {
     }
 }
 
-
 exports.updatedSubSection = async (req, res) => {
     try {
 
