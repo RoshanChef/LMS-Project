@@ -94,6 +94,7 @@ exports.updatedSubSection = async (req, res) => {
 exports.deleteSubSection = async (req, res) => {
     try {
         const { sectionId, subSectionId } = req.params;
+
         // Validate input
         if (!sectionId || !subSectionId) {
             return res.status(400).json({
@@ -108,6 +109,8 @@ exports.deleteSubSection = async (req, res) => {
                 subSection: subSectionId
             }
         }, { new: true });
+
+        // also delete from courseProgressSchema
 
         // remove from sub section
         const delete_subSection = await SubSection.findByIdAndDelete(subSectionId);
