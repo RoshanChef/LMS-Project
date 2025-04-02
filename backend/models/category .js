@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-
-module.exports = mongoose.model('Tag', new Schema({
+const Category = mongoose.model('Category', new Schema({
     name: {
         type: String,
         required: true,
@@ -12,8 +11,9 @@ module.exports = mongoose.model('Tag', new Schema({
         required: true,
         trim: true
     },
-    course: {
+    course: [{
         type: Schema.Types.ObjectId,
         ref: "Course"
-    }
-}))
+    }]
+}));
+module.exports = Category;
