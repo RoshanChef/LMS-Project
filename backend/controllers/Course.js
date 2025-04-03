@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Tag = require('../models/tags');
 const Course = require('../models/Course');
 const { uploadToCloudinary } = require('../utils/cloudinary');
+const { populate } = require('../models/rating_review');
 
 // createCourse handler function 
 exports.createCourse = async (req, res) => {
@@ -113,3 +114,44 @@ exports.getAllCourses = async (req, res) => {
         });
     }
 }
+
+exports.getCourseDetails = async (req, res) => {
+    try {
+        // get course id
+        const { courseId } = req.body;
+
+        // find course by id
+        const course = await Course.findById(courseId).populate([
+            {
+                path: "instructor",
+                populate: { path: "additionDetail" }
+            },
+            {
+                path: "courseContent",
+                populate: { path: "subSection" }
+            },
+            "rate_review",
+            "studentEnrolled"
+        ]).exec();
+
+        // Check if course exists
+        if (!course) {
+            return res.status(404).json({
+                success: false,
+                message: "Course not found",
+            });
+        }
+
+        // Send the response
+        return res.status(200).json({
+            success: true,
+            data: course,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: err.message
+        })
+    }
+}
+
