@@ -11,7 +11,7 @@ const Category = mongoose.model('Category', new Schema({
         required: true,
         trim: true
     },
-    course: [{
+    courses: [{
         type: Schema.Types.ObjectId,
         ref: "Course"
     }]
