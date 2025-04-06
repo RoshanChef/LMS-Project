@@ -6,7 +6,7 @@ module.exports = mongoose.model('Rate_review', new Schema({
     rating: { type: Number, require: true },
     review: { type: String, require: true },
     course: {
-		type: mongoose.Schema.Types.ObjectId,
+		type: Schema.Types.ObjectId,
 		required: true,
 		ref: "Course",
 		index: true,

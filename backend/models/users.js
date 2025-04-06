@@ -31,6 +31,11 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
+    image: {
+        type: String,
+        require: true,
+        trim: true
+    },
     additionDetail: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Profile",
@@ -40,10 +45,6 @@ const userSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Course",
     }],
-    image: {
-        type: String,
-        require: true
-    },
     courseProgress: [{
         types: mongoose.Schema.type.ObjectId,
         ref: 'CourseProgress'

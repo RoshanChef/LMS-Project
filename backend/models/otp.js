@@ -13,12 +13,12 @@ const otp_schema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        expires: 5 * 60 // Time in seconds (1 hour)
+        expires: 5 * 60 // Time in seconds (5 Minutes+)
     }
 });
 
 otp_schema.pre('save', async function (next) {
-    sendEmail(this.email, "OTP Verification !!", this.otp);
+    sendEmail(this.email, "OTP Verification !!", "otp", this.otp);
     next();
 });
 
