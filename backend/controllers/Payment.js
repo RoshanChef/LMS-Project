@@ -1,4 +1,3 @@
-const Razorpay = require('razorpay');
 const { instance } = require('../config/razorpay');
 const User = require('../models/users');
 const Course = require('../models/courses');
@@ -50,12 +49,12 @@ exports.createOrder = async (req, res) => {
             res.status(200).json({
                 success: true,
                 order,
+                courseId,
+                userId,
                 description: course.courseDescription,
                 thumbnail: course.thumbnail,
                 courseName: course.courseName,
                 price: course.price,
-                courseId: courseId,
-                userId: userId,
                 message: 'Order created successfully',
             })
         } catch (error) {
@@ -65,8 +64,6 @@ exports.createOrder = async (req, res) => {
                 error: error.message
             })
         }
-
-
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -83,6 +80,7 @@ exports.verifyPayment = async (req, res) => {
         const razorpay_signature = req.body?.razorpay_signature;
         const courses = req.body?.courses;
 
+        // validation
         if (
             !razorpay_order_id ||
             !razorpay_payment_id ||

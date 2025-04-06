@@ -28,14 +28,22 @@ exports.sendOTP = async (req, res) => {
             })
         }
 
-        let otp = otpGenerator.generate(2, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
+        let otp = otpGenerator.generate(2, {
+            upperCaseAlphabets: false,
+            lowerCaseAlphabets: false,
+            specialChars: false
+        });
+
         otp = Number.parseInt(`${otp}${crypto.randomInt(1000, 9999)}`);
 
         // send otp to email
         let payload = { email, otp };
 
-        const otpBody = await OTP.create(payload);
+
+        await OTP.create(payload);
+
         res.json({ success: true, message: "OTP sent successfully" });
+        
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -78,7 +86,7 @@ exports.signUp = async (req, res) => {
             })
         }
 
-        const recentOTP = await User.find({ email }).sort({ createdAt: -1 }).limit(1);
+        const recentOTP = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
 
         console.log(recentOTP);
         if (recentOTP.length === 0) {
@@ -146,6 +154,7 @@ exports.login = async (req, res) => {
 
         // generate jwt token , after pass check
         const pass_check = await bcrypt.compare(password, user.password);
+
         if (!pass_check) {
             return res.status(401).json({ success: false, message: "wrong password" });
         }

@@ -2,10 +2,11 @@ const nodemailer = require("nodemailer");
 const getPaymentContent = require('./Email_templates/payment_con');
 const getResetContent = require('./Email_templates/resetPass');
 const getOtpContent = require('./Email_templates/otpcontent');
+const getContactContent = require('./Email_templates/getContactContent');
 
 require('dotenv').config();
 
-async function sendEmail(email, title, type, link) {
+async function sendEmail(email, title, type, link, firstname, lastname, message, phoneNo, countrycode) {
     try {
 
         const transporter = nodemailer.createTransport({
@@ -29,6 +30,9 @@ async function sendEmail(email, title, type, link) {
                 break;
             case "confirm":
                 content = getConfirmContent(link);
+                break;
+            case "contact":
+                content = getContactContent(email, firstname, lastname, message, phoneNo, countrycode);
                 break;
         }
 

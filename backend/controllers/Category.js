@@ -2,7 +2,10 @@ const Category = require('../models/category ');
 
 exports.createCategory = async (req, res) => {
     try {
+        // get data
         const { name, description } = req.body;
+
+        // validation
         if (!name || !description) {
             return res.status(400).json({ success: false, message: "Please fill all the fields" });
         }
@@ -19,7 +22,8 @@ exports.createCategory = async (req, res) => {
 // get all the Categories 
 exports.getAllCategory = async (req, res) => {
     try {
-        let tagDetails = await Category.find({}, { name: true, description: true });
+        let tagDetails = await Category.find({},
+            { name: true, description: true });
 
         return res.status(200).json({ success: true, message: "All tags", data: tagDetails });
     } catch (error) {
@@ -37,7 +41,7 @@ exports.categoryPageDetails = async (req, res) => {
             .populate({
                 path: "courses",
                 match: { status: "Published" },
-                populate: "rate_review",
+                populate: { path: "rate_review" },
             })
             .exec();
 
@@ -50,9 +54,8 @@ exports.categoryPageDetails = async (req, res) => {
         }
 
         // get courses for different categories
-
         const otherCategoriesCourses = await Category.find({ _id: { $ne: categoryId } })
-            .populate("courses")
+            .populate({ path: "courses", match: { status: "Published" } })
             .exec();
 
         // get top selling courses
@@ -74,7 +77,7 @@ exports.categoryPageDetails = async (req, res) => {
             },
         }).exec();
 
-        const result_topSellingCourses = topSellingCourses.flatMap(category => category.courses);
+        const result_topSellingCourses = topSellingCourses.flatMap(val => val.courses);
 
         // send response
         res.status(200).json({
