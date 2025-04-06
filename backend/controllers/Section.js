@@ -1,4 +1,4 @@
-const Section = require('../models/Section');
+const Section = require('../models/section');
 const Course = require('../models/courses');
 const SubSection = require('../models/sub_section');
 
@@ -22,7 +22,6 @@ exports.createSection = async (req, res) => {
                 path: "subSection"
             }
         });
-
 
         return res.status(200).json({ sucess: true, message: "Section created successfully", section, updatedCourse });
     } catch (error) {
@@ -52,7 +51,7 @@ exports.updateSection = async (req, res) => {
 exports.deleteSection = async (req, res) => {
     try {
         //fetch data
-        const { sectionId, courseId } = req.params;
+        const { sectionId, courseId } = req.body;
 
         // validate data
         if (!sectionId) {
@@ -60,14 +59,33 @@ exports.deleteSection = async (req, res) => {
         }
 
         //we need to update course into course model ? 
+        // delete from course
+        const deletedCourse = await Course.findByIdAndUpdate(courseId, { $pull: { courseContent: sectionId } }, { new: true });
 
+
+        let section = await Section.findById(sectionId);
+
+        if (!section) {
+            return res.status(401).json({
+                success: "false",
+                message: "Section not found"
+            })
+        }
+
+        // delete the subsection
+        for (let sub_id of section.subSection) {
+            await SubSection.findByIdAndDelete(sub_id);
+        }
 
         // delete section
         const deletedSection = await Section.findByIdAndDelete(sectionId);
 
         // Handle case where section is not found
         if (!deletedSection) {
-            return res.status(404).json({ success: false, message: "Section not found" });
+            return res.status(404).json({
+                success: false,
+                message: "Section not found"
+            });
         }
 
         return res.status(200).json({ sucess: true, message: "Section deleted successfully", deletedSection });

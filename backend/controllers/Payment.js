@@ -117,7 +117,8 @@ exports.verifyPayment = async (req, res) => {
                 console.log("enrolledStudent : ", enrolledStudent);
 
                 // mail send for confirmation of enrolled
-                await sendEmail(enrolledStudent.email, "Congratulations from studymonk", "confirm");
+                await sendEmail(enrolledStudent.email, "confirm", "Congratulations from studymonk");
+                
                 return res.status(200).json({
                     success: true,
                     message: "Payment Successfull",

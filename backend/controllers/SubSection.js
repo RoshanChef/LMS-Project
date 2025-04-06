@@ -1,5 +1,6 @@
 const Section = require('../models/section');
 const sub_section = require('../models/sub_section');
+const User = require('../models/users');
 const { uploadToCloudinary } = require('../utils/imageUpload');
 require('dotenv').config();
 
@@ -108,7 +109,10 @@ exports.deleteSubSection = async (req, res) => {
             }
         }, { new: true });
 
+        const userId = await req.token.id;
+
         // also delete from courseProgressSchema
+        const courseProgress = await courseProgressSchema.updateOne(userId, { $pull: { completedVideos: subSectionId } });
 
         // remove from sub section
         const delete_subSection = await SubSection.findByIdAndDelete(subSectionId);

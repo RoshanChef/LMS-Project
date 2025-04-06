@@ -7,9 +7,6 @@ exports.updateProfile = async (req, res) => {
         // get data
         const { gender, dateOfBirth, about, ContactNumber } = req.body;
 
-        // get user id 
-        const id = req.token.id;
-
         // validate data
         if (!gender || !dateOfBirth || !about || !ContactNumber) {
             return res.status(400).json({
@@ -17,6 +14,9 @@ exports.updateProfile = async (req, res) => {
                 message: "All field are required"
             })
         }
+
+        // get user id 
+        const id = req.token.id;
 
         // find user 
         const user = await User.findById(id).populate('additionDetail');
@@ -48,7 +48,6 @@ exports.updateProfile = async (req, res) => {
     }
 }
 
-
 //deleteAccount
 exports.deleteAccount = async (req, res) => {
     try {
@@ -76,6 +75,9 @@ exports.deleteAccount = async (req, res) => {
             })
         }
 
+        // delete courseProgress
+        await CourseProgress.deleteMany({ userId: id })
+
         // delete User
         await User.findByIdAndDelete(id);
 
@@ -94,11 +96,14 @@ exports.deleteAccount = async (req, res) => {
     }
 }
 
+// geting only user's details 
 exports.getAllUserDetails = async (req, res) => {
     try {
         const id = req.token.id;
 
-        const user = await User.findById(id).populate('additionDetail').populate('accountType');
+        const user = await User.findById(id)
+            .populate('additionDetail')
+            .exec();
 
         return res.status(200).json({
             success: true,
@@ -109,6 +114,43 @@ exports.getAllUserDetails = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: 'Error while getting all user details',
+            error: error.message
+        })
+    }
+}
+
+exports.updateDisplayPicture = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Error while updating display picture',
+            error: error.message
+        })
+    }
+}
+
+exports.getEnrolledCourses = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Error while getting enrolled courses',
+            error: error.message
+        })
+        
+    }
+}
+
+exports.instructorDashboard = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Error while getting instructor dashboard',
             error: error.message
         })
     }
