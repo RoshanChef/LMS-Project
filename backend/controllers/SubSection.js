@@ -1,11 +1,10 @@
-const Section = require('../models/Section');
+const Section = require('../models/section');
 const sub_section = require('../models/sub_section');
 const { uploadToCloudinary } = require('../utils/imageUpload');
 require('dotenv').config();
 
 exports.createSubSection = async (req, res) => {
     try {
-
         // fetch data
         const { title, description, sectionId } = req.body;
         const video = req.files.video;
@@ -22,8 +21,8 @@ exports.createSubSection = async (req, res) => {
         // create sub section
         const subSection = new sub_section({
             title,
-            description: `${videoDetails.duration}`,
-            sectionId,
+            timeDuration: `${videoDetails.duration}`,
+            description,
             videoUrl: videoDetails.secure_url
         })
 
