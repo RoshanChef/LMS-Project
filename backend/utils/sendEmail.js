@@ -6,7 +6,7 @@ const getContactContent = require('./Email_templates/getContactContent');
 
 require('dotenv').config();
 
-async function sendEmail(email, title, type, link, firstname, lastname, message, phoneNo, countrycode) {
+async function sendEmail(email, title, type, otp, link, firstname, lastname, message, phoneNo, countrycode) {
     try {
 
         const transporter = nodemailer.createTransport({
@@ -20,19 +20,19 @@ async function sendEmail(email, title, type, link, firstname, lastname, message,
         let content;
         switch (type) {
             case "payment":
-                content = getPaymentContent(link);
+                content = getPaymentContent(title, link);
                 break;
             case "reset":
-                content = getResetContent(link);
+                content = getResetContent(title, link);
                 break;
             case "otp":
-                content = getOtpContent(otp);
+                content = getOtpContent(title, otp);
                 break;
             case "confirm":
-                content = getConfirmContent(link);
+                content = getConfirmContent(title, link);
                 break;
             case "contact":
-                content = getContactContent(email, firstname, lastname, message, phoneNo, countrycode);
+                content = getContactContent(title, email, firstname, lastname, message, phoneNo, countrycode);
                 break;
         }
 

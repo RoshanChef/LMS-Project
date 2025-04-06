@@ -9,7 +9,9 @@ exports.uploadToCloudinary = async (file, folder, height, quality) => {
         if (quality)
             options.quality = quality;
 
+        // automatic detect the file type
         options.resource_type = 'auto';
+        
         const result = await cloudinary.uploader.upload(file.tempFilePath, options);
         return result;
     } catch (error) {
