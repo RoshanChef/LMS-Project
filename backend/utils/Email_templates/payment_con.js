@@ -1,5 +1,5 @@
 
-function getPaymentContent(link) {
+function getPaymentContent() {
     return `<!DOCTYPE html>
 <html lang="en">
 

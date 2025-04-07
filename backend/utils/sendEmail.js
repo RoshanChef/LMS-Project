@@ -3,6 +3,7 @@ const getPaymentContent = require('./Email_templates/payment_con');
 const getResetContent = require('./Email_templates/resetPass');
 const getOtpContent = require('./Email_templates/otpcontent');
 const getContactContent = require('./Email_templates/getContactContent');
+const getConfirmContent = require("./Email_templates/confirmation");
 
 require('dotenv').config();
 
@@ -20,19 +21,19 @@ async function sendEmail(email, title, type, otp, link, firstname, lastname, mes
         let content;
         switch (type) {
             case "payment":
-                content = getPaymentContent(title, link);
+                content = getPaymentContent();
                 break;
             case "reset":
-                content = getResetContent(title, link);
+                content = getResetContent(link);
                 break;
             case "otp":
-                content = getOtpContent(title, otp);
+                content = getOtpContent(otp);
                 break;
             case "confirm":
-                content = getConfirmContent(title, link);
+                content = getConfirmContent(link);
                 break;
             case "contact":
-                content = getContactContent(title, email, firstname, lastname, message, phoneNo, countrycode);
+                content = getContactContent(firstname, lastname, message, phoneNo, countrycode);
                 break;
         }
 

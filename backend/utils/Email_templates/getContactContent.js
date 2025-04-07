@@ -1,4 +1,4 @@
-function getContactContent(email, firstname, lastname, message, phoneNo, countrycode) {
+function getContactContent(firstname, lastname, message, phoneNo, countrycode) {
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -117,12 +117,12 @@ function getContactContent(email, firstname, lastname, message, phoneNo, country
         <p>Thank you for your submission. We have received your message and will respond as soon as possible.</p>
 
         <div class="response-details">
-            <p><strong>First Name:</strong> <span id="firstname"></span></p>
-            <p><strong>Last Name:</strong> <span id="lastname"></span></p>
-            <p><strong>Email:</strong> <span id="email"></span></p>
-            <p><strong>Country Code:</strong> <span id="countrycode"></span></p>
-            <p><strong>Phone Number:</strong> <span id="phoneNo"></span></p>
-            <p><strong>Message:</strong> <span id="message"></span></p>
+            <p><strong>First Name:</strong> <span id="firstname">${firstname}</span></p>
+            <p><strong>Last Name:</strong> <span id="lastname">${lastname}</span></p>
+            <p><strong>Email:</strong> <span id="email"></span>${message}</p>
+            <p><strong>Country Code:</strong> <span id="countrycode">${countrycode}/span></p>
+            <p><strong>Phone Number:</strong> <span id="phoneNo">${phoneNo}</span></p>
+            <p><strong>Message:</strong> <span id="message">${message}</span></p>
         </div>
 
         <div class="divider"></div>
