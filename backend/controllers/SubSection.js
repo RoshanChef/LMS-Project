@@ -114,7 +114,7 @@ exports.deleteSubSection = async (req, res) => {
         // also delete from courseProgressSchema
         const courseProgress = await courseProgressSchema.updateOne(userId, { $pull: { completedVideos: subSectionId } });
 
-        // remove from sub section
+        // remove from sub-section
         const delete_subSection = await SubSection.findByIdAndDelete(subSectionId);
 
         if (!delete_subSection) {

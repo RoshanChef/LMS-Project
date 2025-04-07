@@ -35,7 +35,7 @@ exports.createRating = async (req, res) => {
         // update into course 
         course.rate_review.push(new_review._id);
 
-        await course.save();    
+        await course.save();
 
         return res.status(200).json({
             success: true,
@@ -90,10 +90,20 @@ exports.getAvgRating = async (req, res) => {
 // get All rating
 exports.getAllRating = async (req, res) => {
     try {
-        const reviews = await review.find({}).sort({ rating: -1 }).populate({ path: "user", select: "firstName lastName email image" }).populate({ path: "course", select: "courseName" }).exec();
+        const reviews = await review.find({})
+            .sort({ rating: -1 })
+            .populate({ path: "user", select: "firstName lastName email image" })
+            .populate({ path: "course", select: "courseName" })
+            .exec();
 
-        return res.status(200).json({ success: true, message: "All rating", reviews });
+        return res.status(200).json({
+            success: true,
+            message: "All rating", reviews
+        });
     } catch (error) {
-        return res.status(500).json({ success: false, message: error.message })
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })
     }
 }

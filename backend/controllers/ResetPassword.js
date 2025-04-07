@@ -31,7 +31,7 @@ exports.resetPasswordToken = async (req, res) => {
         // create url 
         const url = `http://localhost:3000/update-password/${token}`;
 
-        await sendEmail(email, "Password Reset Request", null, url);
+        await sendEmail(email, "Password Reset Request", "reset", null, url);
 
         return res.status(200).json({
             success: true,
