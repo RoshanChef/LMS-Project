@@ -8,7 +8,7 @@ require('dotenv').confit();
 // auth
 const auth = async (req, res, next) => {
     try {
-        const token = res.cookie.token
+        const token = req.cookies.token
             || res.header('Authorization').replace('Bearer', '')
             || req.body.token;
 
