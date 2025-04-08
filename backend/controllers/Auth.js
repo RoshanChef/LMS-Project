@@ -1,13 +1,15 @@
-const User = require("../models/User");
+const User = require("../models/users");
 const OTP = require("../models/otp");
 const otpGenerator = require('otp-generator');
 const crypto = require('crypto');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const express = require('express');
+const profile = require("../models/profile");
 const app = express();
 app.use(cookieParser());
+app.use(express.json());
 
 require('dotenv').config();
 const jwt_secret = process.env.JWT_SECRET;
@@ -42,8 +44,8 @@ exports.sendOTP = async (req, res) => {
 
         await OTP.create(payload);
 
-        res.json({ success: true, message: "OTP sent successfully" });
-        
+        res.json({ success: true, message: "OTP sent successfully", otp });
+
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -56,8 +58,7 @@ exports.sendOTP = async (req, res) => {
 // signUp
 exports.signUp = async (req, res) => {
     try {
-        const { otp, email, firstName, lastName, password, accountType, mobile } = req.body;
-
+        const { otp, email, firstName, lastName, password, accountType, mobile, confirmPassword } = req.body;
 
         // validate data 
         if (!firstName || !lastName || !email || !password || !confirmPassword || !accountType || !mobile || !otp) {
@@ -75,56 +76,67 @@ exports.signUp = async (req, res) => {
             })
         }
 
-        // check if user exists
-        const user = await User.findOne({ email });
 
-        // user exists
-        if (user) {
-            return res.status(401).json({
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(409).json({
                 success: false,
-                message: "User Already exists"
-            })
+                message: "User already exists"
+            });
         }
 
+        // Verify OTP
         const recentOTP = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
 
-        console.log(recentOTP);
         if (recentOTP.length === 0) {
             return res.status(400).json({
                 success: false,
                 message: "OTP not found"
-            })
-        } else if (otp !== recentOTP[0].otp) {
+            });
+        }
+        else if (otp !== recentOTP[0].otp) {
             return res.status(400).json({
                 success: false,
-                message: "invalid OTP"
-            })
+                message: "Invalid OTP"
+            });
         }
+        console.log(recentOTP[0].otp, otp, otp == recentOTP[0].otp);
 
         // Hash Password
         const hashPassword = await bcrypt.hash(password, 10);
 
         // Profile
-        const profileDetails = await Profile.create({
-            gender: null, dateOfBirth: null, about: null, ContactNumber: null
+        const profileDetails = await profile.create({
+            gender: null,
+            dateOfBirth: null,
+            about: null,
+            ContactNumber: null
+        });
+        // Generate avatar URL
+        const imageUrl = `https://api.dicebear.com/5.x/initials/svg?seed=${encodeURIComponent(firstName)} ${encodeURIComponent(lastName)}`;
+
+
+        // Create User
+        const newUser = await User.create({
+            firstName, lastName, email,
+            password: hashPassword,
+            accountType, mobile,
+            additionDetail: profileDetails._id,
+            image: imageUrl
         });
 
-        user = await User.create({
-            firstName, lastName, email, password: hashPassword, accountType, mobile, additionDetail: profileDetails._id,
-            image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`
-        });
-
-        return res.json({
+        return res.status(201).json({ // Changed to 201 Created
             success: true,
-            message: 'User is registered'
-        })
+            message: 'User registered successfully',
+            user: newUser
+        });
     }
     catch (error) {
         return res.status(500).json({
             success: false,
             message: "User is not registered",
             error: error,
-            user: user
         })
     }
 }
@@ -218,7 +230,7 @@ exports.changePassword = async (req, res) => {
                 message: "Incorrect password"
             });
         }
-
+        console.log(token);
         // update password in db
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         const result = await User.updateOne({ _id: user._id }, { $set: { password: hashedPassword } });

@@ -4,7 +4,7 @@ const sub_section = require('../models/sub_section');
 exports.updateCourseProgress = async (req, res) => {
     try {
         const { courseId, subsectionId } = req.body;
-        const userId = req.token.id;
+        const userId = req.user.id;
 
         // check existance of sub-section
         const subsection = await sub_section.findById(subsectionId);

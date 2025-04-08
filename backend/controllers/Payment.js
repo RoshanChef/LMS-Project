@@ -8,7 +8,7 @@ require('dotenv').config();
 exports.createOrder = async (req, res) => {
     try {
         const { courseId } = req.body;
-        const userId = req.token.id;
+        const userId = req.user.id;
 
         // validate course id
         let course;
@@ -31,7 +31,6 @@ exports.createOrder = async (req, res) => {
             return res.status(400).json({ message: 'Invalid course id' });
         }
 
-
         const options = {
             amount: course.price * 100,
             currency: 'INR',
@@ -41,6 +40,7 @@ exports.createOrder = async (req, res) => {
                 userId
             }
         };
+
         try {
             // create order
             const order = await instance.orders.create(options);
@@ -145,4 +145,4 @@ exports.verifyPayment = async (req, res) => {
             message: error.message
         })
     }
-}
+} 

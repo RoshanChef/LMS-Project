@@ -2,6 +2,15 @@ const profile = require("../models/profile");
 const User = require('../models/users');
 const Course = require('../models/courses');
 const uploadToCloudinary = require('../utils/imageUpload');
+const express = require("express");
+const app = express();
+const fileUpload = require('express-fileupload');
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
+
+require('dotenv').config();
 
 // updateProfile 
 exports.updateProfile = async (req, res) => {
@@ -18,7 +27,7 @@ exports.updateProfile = async (req, res) => {
         }
 
         // get user id 
-        const id = req.token.id;
+        const id = req.user.id;
 
         // find user 
         const user = await User.findById(id).populate('additionDetail');
@@ -54,7 +63,7 @@ exports.updateProfile = async (req, res) => {
 exports.deleteAccount = async (req, res) => {
     try {
         // get id
-        const id = req.token.id;
+        const id = req.user.id;
 
         // find user
         const user = await User.findById(id);
@@ -101,7 +110,7 @@ exports.deleteAccount = async (req, res) => {
 // geting only user's details 
 exports.getAllUserDetails = async (req, res) => {
     try {
-        const id = req.token.id;
+        const id = req.user.id;
 
         const user = await User.findById(id)
             .populate('additionDetail')
@@ -124,33 +133,74 @@ exports.getAllUserDetails = async (req, res) => {
 // updating user's Picture
 exports.updateDisplayPicture = async (req, res) => {
     try {
-        const id = req.token.id;
-        const image = req.files.image;
+        if(req.files)
+            console.log("yes")
+        // 1. Validate file exists
+        if (!req.files || !req.files.displayPicture) {
+            return res.status(400).json({
+                success: false,
+                message: "No file uploaded"
+            });
+        }
+ 
+        const displayPicture = req.files.displayPicture;
+        const userId = req.user.id;
 
-        const imageUrl = await uploadToCloudinary(image, process.env.CLOUDINARY_FOLDER_NAME);
+        // 2. Validate file type (optional but recommended)
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!allowedTypes.includes(displayPicture.mimetype)) {
+            return res.status(400).json({
+                success: false,
+                message: "Only JPEG, PNG, and WebP images are allowed"
+            });
+        }
 
-        const updatedUser = await User.findByIdAndUpdate(id,
-            { image: imageUrl.secure_url },
-            { new: true });
+        // 3. Upload to Cloudinary
+        const image = await uploadToCloudinary(
+            displayPicture.tempFilePath, // File path from express-fileupload
+            process.env.CLOUDINARY_FOLDER_NAME || 'user_uploads', // Fallback folder
+            1000, // Width (optional)
+            1000  // Height (optional)
+        );
 
-        res.json({
+        // 4. Update user profile
+        const updatedProfile = await User.findByIdAndUpdate(
+            userId,
+            { image: image.secure_url },
+            { new: true }
+        ).select('-password'); // Exclude sensitive data
+
+        // 5. Delete temporary file (optional cleanup)
+        try {
+            await fs.promises.unlink(displayPicture.tempFilePath);
+        } catch (cleanupError) {
+            console.warn("Could not delete temp file:", cleanupError.message);
+        }
+
+        return res.status(200).json({
             success: true,
-            data: updatedUser
+            message: "Profile picture updated successfully",
+            data: {
+                imageUrl: image.secure_url,
+                user: updatedProfile
+            }
         });
+
     } catch (error) {
+        console.error("Profile picture update error:", error);
         return res.status(500).json({
             success: false,
-            message: 'Error while updating display picture',
-            error: error.message
-        })
+            message: "Failed to update profile picture",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
     }
-}
+};
 
 // get total Enrolled courses
 exports.getEnrolledCourses = async (req, res) => {
     try {
 
-        const id = req.token.id;
+        const id = req.user.id;
         const user = await User.findById(id).populate({
             path: 'courses',
             populate: {
@@ -161,52 +211,9 @@ exports.getEnrolledCourses = async (req, res) => {
             }
         }).exec();
 
-        user = user.toObject();
-
-
-        var SubsectionLength = 0
-        for (var i = 0; i < userDetails.courses.length; i++) {
-            let totalDurationInSeconds = 0;
-            SubsectionLength = 0;
-
-            for (var j = 0; j < userDetails.courses[i].courseContent.length; j++) {
-                totalDurationInSeconds += userDetails.courses[i].courseContent[
-                    j
-                ].subSection.reduce((acc, curr) => acc + parseInt(curr.timeDuration), 0)
-                userDetails.courses[i].totalDuration = convertSecondsToDuration(
-                    totalDurationInSeconds
-                )
-                SubsectionLength +=
-                    userDetails.courses[i].courseContent[j].subSection.length
-            }
-
-            let courseProgressCount = await CourseProgress.findOne({
-                courseID: userDetails.courses[i]._id,
-                userId: userId,
-            })
-            courseProgressCount = courseProgressCount?.completedVideos.length
-            if (SubsectionLength === 0) {
-                userDetails.courses[i].progressPercentage = 100
-            } else {
-                // To make it up to 2 decimal point
-                const multiplier = Math.pow(10, 2)
-                userDetails.courses[i].progressPercentage =
-                    Math.round(
-                        (courseProgressCount / SubsectionLength) * 100 * multiplier
-                    ) / multiplier
-            }
-        }
-
-        if (!userDetails) {
-            return res.status(400).json({
-                success: false,
-                message: `Could not find user with id: ${userDetails}`,
-            })
-        }
-
         return res.status(200).json({
             success: true,
-            data: userDetails.courses,
+
         })
     } catch (error) {
         return res.status(500).json({
@@ -222,7 +229,7 @@ exports.getEnrolledCourses = async (req, res) => {
 exports.instructorDashboard = async (req, res) => {
     try {
 
-        const user_id = req.token.id;
+        const user_id = req.user.id;
         const courseDetails = await Course.find({ instructor: user_id });
 
         const courseData = courseDetails.map((course) => {

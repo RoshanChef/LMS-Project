@@ -1,7 +1,7 @@
-const User = require('../models/User');
+const User = require('../models/users');
 const Category = require('../models/category');
-const Course = require('../models/Course');
-const { uploadToCloudinary } = require('../utils/cloudinary');
+const Course = require('../models/courses');
+const { uploadToCloudinary } = require('../utils/imageUpload');
 const Section = require('../models/Section');
 const sub_section = require('../models/sub_section');
 const Rate_review = require('../models/rating_review');
@@ -24,7 +24,7 @@ exports.createCourse = async (req, res) => {
         const thumbnail = req.files.thumbnailImage;
 
         // check for instructor 
-        const userId = req.token.id;
+        const userId = req.user.id;
         const instructorDetails = await User.findById(userId);
 
         if (!instructorDetails) {
@@ -164,7 +164,7 @@ exports.getCourseDetails = async (req, res) => {
 exports.getInstructorCourses = async (req, res) => {
     try {
         // get instructor id from token
-        const { instructorId } = req.token.id;
+        const { instructorId } = req.user.id;
 
         // Find all courses belonging to the instructor
         const instructorCourses = await Course.find({

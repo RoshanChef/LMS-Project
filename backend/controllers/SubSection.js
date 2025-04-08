@@ -1,4 +1,3 @@
-const Section = require('../models/section');
 const sub_section = require('../models/sub_section');
 const User = require('../models/users');
 const { uploadToCloudinary } = require('../utils/imageUpload');
@@ -109,7 +108,7 @@ exports.deleteSubSection = async (req, res) => {
             }
         }, { new: true });
 
-        const userId = await req.token.id;
+        const userId = await req.user.id;
 
         // also delete from courseProgressSchema
         const courseProgress = await courseProgressSchema.updateOne(userId, { $pull: { completedVideos: subSectionId } });

@@ -4,7 +4,7 @@ const Course = require('../models/courses');
 // create rating
 exports.createRating = async (req, res) => {
     try {
-        const id = req.token.id;
+        const id = req.user.id;
         const { rating, review, courseId } = req.body;
 
         // check if user is enrolled or not
