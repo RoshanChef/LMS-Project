@@ -200,7 +200,6 @@ exports.editCourse = async (req, res) => {
 
         // If Thumbnail Image is found, update it.
         if (req.files && req.files.thumbnailImage) {
-            console.log("thumbnail update")
             const thumbnail = req.files.thumbnailImage
             const thumbnailImage = await uploadImageToCloudinary(
                 thumbnail,

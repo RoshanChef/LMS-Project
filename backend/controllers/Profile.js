@@ -192,6 +192,7 @@ exports.instructorDashboard = async (req, res) => {
 
         const user_id = req.user.id;
         const courseDetails = await Course.find({ instructor: user_id });
+        console.log(courseDetails);
 
         const courseData = courseDetails.map((course) => {
             const totalStudentsEnrolled = course.studentEnrolled.length;

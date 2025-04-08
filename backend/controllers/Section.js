@@ -64,8 +64,8 @@ exports.updateSection = async (req, res) => {
 exports.deleteSection = async (req, res) => {
     try {
         //fetch data
-        const { sectionId, courseId } = req.body;
-
+        const { sectionId, courseId } = req.query;
+        console.log(sectionId);
         // validate data
         if (!sectionId) {
             return res.status(400).json({ message: "Please fill all the fields" });
@@ -76,7 +76,7 @@ exports.deleteSection = async (req, res) => {
         const deletedCourse = await Course.findByIdAndUpdate(courseId, { $pull: { courseContent: sectionId } }, { new: true });
 
 
-        let section = await Section.findById(sectionId);
+        let section = await Section.findById(sectionId); f
 
         if (!section) {
             return res.status(401).json({
