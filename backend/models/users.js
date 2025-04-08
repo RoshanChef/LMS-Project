@@ -46,9 +46,9 @@ const userSchema = new Schema({
         ref: "Course",
     }],
     courseProgress: [{
-        types: mongoose.Schema.type.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'CourseProgress'
-    }],
+    }],    
     token: {
         type: String
     },

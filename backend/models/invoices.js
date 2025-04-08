@@ -6,5 +6,5 @@ module.exports = mongoose.model('Invoices', new Schema({
     courseName: { type: String, require: true },
     address: { type: String, require: true, trim: true },
     pincode: { type: String, require: true, trim: true },
-    courseId: { type: mongoose.Schema.Types.ObjectId, ref: "" }
+    courseId: { type: mongoose.Schema.Types.ObjectId, ref: "Course" }
 })); 

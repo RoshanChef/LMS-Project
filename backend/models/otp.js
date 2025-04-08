@@ -8,7 +8,7 @@ const otp_schema = new Schema({
         trim: true
     },
     otp: {
-        type: String,
+        type: Number,
     },
     createdAt: {
         type: Date,
@@ -18,7 +18,7 @@ const otp_schema = new Schema({
 });
 
 otp_schema.pre('save', async function (next) {
-    sendEmail(this.email, "OTP Verification !!", "otp", this.otp);
+    await sendEmail(this.email, "OTP Verification !!", "otp", this.otp);
     next();
 });
 
