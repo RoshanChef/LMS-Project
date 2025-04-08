@@ -11,11 +11,11 @@ const user_router = express.Router();
 
 
 // Route for sending OTP to the user's email
-router.post("/sendotp", sendOTP);
+user_router.post("/sendotp", sendOTP);
 
 // Route for user signup
 user_router.post('/signUp', signUp);
-
+   
 // Route for user login
 user_router.post('/login', login);
 
@@ -27,10 +27,10 @@ user_router.post('/changepassowd', auth, changePassword);
 // ********************************************************************************************************
 
 // Route for generating a reset password token and mail it
-router.post("/reset-password-token", resetPasswordToken);
+user_router.post("/reset-password-token", resetPasswordToken);
 
 // Route for resetting user's password after verification
-router.post("/reset-password", resetPassword);
+user_router.post("/reset-password", resetPassword);
 
 
-module.exports = user_router;
+module.exports = user_router; 

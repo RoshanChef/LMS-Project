@@ -1,7 +1,7 @@
 const express = require('express');
 const { auth, isAdmin, isStudent, isInstructor } = require('../middleware/auth');
-const { createCourse } = require('../controllers/Course');
-const { createSection, updateSection } = require('../controllers/Section');
+const { createCourse, getAllCourses, getCourseDetails } = require('../controllers/Course');
+const { createSection, updateSection, deleteSection } = require('../controllers/Section');
 const course_router = express.Router();
 
 
