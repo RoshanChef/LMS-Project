@@ -110,7 +110,7 @@ function getContactContent(firstname, lastname, message, phoneNo, countrycode) {
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://cdn-icons-png.flaticon.com/512/5778/5778234.png" alt="StudyMonk Logo" class="logo" />
+            <img src="https://res.cloudinary.com/dfxv7kj1t/image/upload/v1744096242/course_thumbnail/lhou8tihajmfzdxgocbl.png" alt="StudyMonk Logo" class="logo" />
             <h1>Contact Form Response</h1>
         </div>
 

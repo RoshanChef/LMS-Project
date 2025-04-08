@@ -1,3 +1,4 @@
+const Section = require('../models/section');
 const Course = require('../models/courses');
 const SubSection = require('../models/sub_section');
 
@@ -6,25 +7,38 @@ exports.createSection = async (req, res) => {
         // data fetch 
         const { courseId, sectionName } = req.body;
 
-        // validate data
+        // Validate data
         if (!courseId || !sectionName) {
-            return res.status(400).json({ message: "Please fill all the fields" });
+            return res.status(400).json({
+                success: false,
+                message: "Both courseId and sectionName are required"
+            });
         }
 
         // create section
-        const section = await Section.create({ sectionName });
+        const section = await Section.create({ sectionName: sectionName });
 
-        // update course
-        const updatedCourse = await Course.findByIdAndUpdate(courseId, { $push: { courseContent: section._id } }, { new: true }).populate({
+
+        // Update course with the new section
+        const updatedCourse = await Course.findByIdAndUpdate(
+            courseId,
+            { $push: { courseContent: section._id } },
+            { new: true }
+        ).populate({
             path: "courseContent",
             populate: {
                 path: "subSection"
             }
         });
 
-        return res.status(200).json({ sucess: true, message: "Section created successfully", section, updatedCourse });
+        return res.status(200).json({
+            sucess: true,
+            message: "Section created successfully",
+            section,
+            updatedCourse
+        });
     } catch (error) {
-        return res.status(500).json({ sucess: false, message: "Internal server error", error });
+        return res.status(500).json({ sucess: false, message: "Error in Section creation", error });
     }
 }
 

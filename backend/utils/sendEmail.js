@@ -13,8 +13,8 @@ async function sendEmail(email, title, type, otp, link, firstname, lastname, mes
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.nodemailer_user,
-                pass: process.env.nodemailer_pass,
+                user: process.env.NODEMAILER_USER,
+                pass: process.env.NODEMAILER_PASS,
             },
         });
 
@@ -38,7 +38,7 @@ async function sendEmail(email, title, type, otp, link, firstname, lastname, mes
         }
 
         const info = await transporter.sendMail({
-            from: process.env.nodemailer_user,
+            from: process.env.NODEMAILER_USER,
             to: email,
             subject: title,
             html: content
@@ -46,7 +46,7 @@ async function sendEmail(email, title, type, otp, link, firstname, lastname, mes
         console.log('mail info ', info);
     }
     catch (error) {
-        console.log("error while sending otp via email", error);
+        console.log("error while sending otp via email\n", error);
     }
 }
 

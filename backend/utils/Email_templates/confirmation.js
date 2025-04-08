@@ -218,7 +218,7 @@ function getConfirmContent(link) {
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://cdn-icons-png.flaticon.com/512/5778/5778234.png" alt="StudyMonk Logo" class="logo" />
+            <img src="https://res.cloudinary.com/dfxv7kj1t/image/upload/v1744096242/course_thumbnail/lhou8tihajmfzdxgocbl.png" alt="StudyMonk Logo" class="logo" />
             <h1>🎉 Congratulations!</h1>
             <p class="subheader">You're now enrolled in your new course</p>
         </div>

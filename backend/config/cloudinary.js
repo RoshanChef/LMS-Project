@@ -8,6 +8,10 @@ exports.cloudinaryConnect = () => {
             api_secret: process.env.CLOUDINARY_API_SECRET
         });
     } catch (error) {
-        console.log(error);
+        return {
+            success: false,
+            message: "cloudinary configuration failed",
+            error: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        };
     }
 }

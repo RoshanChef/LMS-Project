@@ -3,8 +3,6 @@ const User = require('../models/users');
 const Course = require('../models/courses');
 const sendEmail = require('../utils/sendEmail');
 
-require('dotenv').config();
-
 exports.createOrder = async (req, res) => {
     try {
         const { courseId } = req.body;

@@ -1,10 +1,9 @@
 const User = require('../models/users');
 const Category = require('../models/category');
 const Course = require('../models/courses');
-const { uploadToCloudinary } = require('../utils/imageUpload');
-const Section = require('../models/Section');
 const sub_section = require('../models/sub_section');
 const Rate_review = require('../models/rating_review');
+const { uploadToCloudinary } = require('../utils/imageUpload');
 
 // createCourse handler function 
 exports.createCourse = async (req, res) => {
@@ -13,15 +12,13 @@ exports.createCourse = async (req, res) => {
         const { instructions, tags, courseName, courseDescription, what_learn, category, price, status } = req.body;
 
         // validation 
-        if (!courseName || !courseDescription || !what_learn || !tags || !price || !thumbnail) {
+        if (!courseName || !courseDescription || !what_learn || !tags || !price || !req.files.thumbnailImage) {
             return res.status(400).json({
                 success: false,
                 error: 'Please fill all the fields'
             })
         }
 
-        // get thumbnail 
-        const thumbnail = req.files.thumbnailImage;
 
         // check for instructor 
         const userId = req.user.id;
@@ -39,26 +36,30 @@ exports.createCourse = async (req, res) => {
         if (!categoryDetails) {
             return res.status(404).json({
                 success: false,
-                error: 'tag Details not found'
+                error: 'category Details not found'
             });
         }
 
+        // get thumbnail 
+        const thumbnail = req.files.thumbnailImage;
+
 
         // upload to cloudinary
-        const thumbnailUrl = await uploadToCloudinary(thumbnail, process.env.CLOUDINARY_FOLDER_NAME).secure_url;
+        const thumbnailUrl = await uploadToCloudinary(thumbnail, process.env.CLOUDINARY_FOLDER_NAME);
 
+        console.log('Url : ', thumbnailUrl.secure_url);
         // create course
         const newCourse = await Course.create({
             courseName,
             courseDescription,
             what_learn,
             price,
-            thumbnail: thumbnailUrl,
+            thumbnail: thumbnailUrl.secure_url,
             category: categoryDetails._id,
             status, tags,
             instructor: instructorDetails._id,
             instructions
-        })
+        });
 
         // update this course to instructor(user)
         const instructor_user = await User.findByIdAndUpdate(userId, {
@@ -68,7 +69,7 @@ exports.createCourse = async (req, res) => {
         })
 
         // update to tags
-        const category_update = await Tag.findByIdAndUpdate({ _id: category },
+        const category_update = await Category.findByIdAndUpdate({ _id: category },
             {
                 $push: {
                     course: newCourse._id
@@ -108,7 +109,8 @@ exports.getAllCourses = async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'courses fetched successfully',
-            data: courses
+            data: courses 
+            
         });
 
     } catch (error) {

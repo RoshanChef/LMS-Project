@@ -147,7 +147,7 @@ function getPaymentContent() {
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://cdn-icons-png.flaticon.com/512/5778/5778234.png" alt="StudyMonk Logo" class="logo" />
+            <img src="https://res.cloudinary.com/dfxv7kj1t/image/upload/v1744096242/course_thumbnail/lhou8tihajmfzdxgocbl.png" alt="StudyMonk Logo" class="logo" />
             <div class="success-icon">✓</div>
             <h1>Payment Received Successfully</h1>
         </div>

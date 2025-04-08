@@ -3,7 +3,8 @@ const express = require('express');
 const app = express();
 const jwt = require('jsonwebtoken');
 app.use(cookieParser());
-require('dotenv').confit();
+
+require('dotenv').config();
 
 // auth
 const auth = async (req, res, next) => {
@@ -16,20 +17,22 @@ const auth = async (req, res, next) => {
             return res.status(401).json({ success: false, message: "Unauthrised access" });
 
         try {
-            const token = jwt.verify(token, process.env.JWT_SECRET);
-            req.token = token;
+            const user = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = user;
             next();
         } catch (error) {
             return res.status(401).json({
                 success: false,
-                message: "wrong token passed"
+                message: "wrong token passed",
+                error: error.message
             })
         }
 
     } catch (error) {
         return res.status(500).json({
             success: false,
-            error: error
+            message: "authentication failed",
+            error: error.message
         })
     }
 }
@@ -37,7 +40,7 @@ const auth = async (req, res, next) => {
 // isStudent
 const isStudent = async (req, res, next) => {
     try {
-        if (req.token.accountType !== "Student")
+        if (req.user.accountType !== "Student")
             return res.status(401).json({ success: false, message: "This route is only for Student" });
 
         next();
@@ -52,7 +55,7 @@ const isStudent = async (req, res, next) => {
 // isInstructor
 const isInstructor = async (req, res, next) => {
     try {
-        if (req.token.accountType !== "Instructor")
+        if (req.user.accountType !== "Instructor")
             return res.status(401).json({ success: false, message: "This route is only for Instructor" });
 
         next();
@@ -67,7 +70,7 @@ const isInstructor = async (req, res, next) => {
 // isAdmin
 const isAdmin = async (req, res, next) => {
     try {
-        if (req.token.accountType !== "Admin")
+        if (req.user.accountType !== "Admin")
             return res.status(401).json({ success: false, message: "This route is only for Admin" });
 
         next();
@@ -79,4 +82,4 @@ const isAdmin = async (req, res, next) => {
     }
 }
 
-module.exports = { auth, isStudent, isInstructor, isAdmin }
+module.exports = { auth, isStudent, isInstructor, isAdmin };

@@ -1,16 +1,8 @@
 const profile = require("../models/profile");
 const User = require('../models/users');
 const Course = require('../models/courses');
-const uploadToCloudinary = require('../utils/imageUpload');
-const express = require("express");
-const app = express();
-const fileUpload = require('express-fileupload');
-app.use(fileUpload({
-    useTempFiles: true,
-    tempFileDir: '/tmp/'
-}));
-
-require('dotenv').config();
+const uploadToCloudinary = require("../utils/imageUpload");
+const courseprogress = require("../models/courseprogress");
 
 // updateProfile 
 exports.updateProfile = async (req, res) => {
@@ -87,15 +79,16 @@ exports.deleteAccount = async (req, res) => {
         }
 
         // delete courseProgress
-        await CourseProgress.deleteMany({ userId: id })
+        await courseprogress.deleteMany({ userId: id })
 
         // delete User
-        await User.findByIdAndDelete(id);
+        const deletedUser = await User.findByIdAndDelete(id);
 
         // return response
         res.status(200).json({
             success: true,
-            message: "User deleted successfully"
+            message: "User deleted successfully",
+            deletedUser
         })
 
     } catch (error) {
@@ -133,66 +126,34 @@ exports.getAllUserDetails = async (req, res) => {
 // updating user's Picture
 exports.updateDisplayPicture = async (req, res) => {
     try {
-        if(req.files)
-            console.log("yes")
-        // 1. Validate file exists
-        if (!req.files || !req.files.displayPicture) {
-            return res.status(400).json({
+        if (!req.files || !req.files.displayPic) {
+            return res.status(401).json({
                 success: false,
-                message: "No file uploaded"
-            });
+                message: "Please upload a file"
+            })
         }
- 
-        const displayPicture = req.files.displayPicture;
         const userId = req.user.id;
+        const displayPic = req.files.displayPic;
 
-        // 2. Validate file type (optional but recommended)
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-        if (!allowedTypes.includes(displayPicture.mimetype)) {
-            return res.status(400).json({
-                success: false,
-                message: "Only JPEG, PNG, and WebP images are allowed"
-            });
-        }
+        // // upload to clodinary
+        const image = await uploadToCloudinary(displayPic, process.env.CLOUDINARY_FOLDER_NAME, 1000, 1000);
 
-        // 3. Upload to Cloudinary
-        const image = await uploadToCloudinary(
-            displayPicture.tempFilePath, // File path from express-fileupload
-            process.env.CLOUDINARY_FOLDER_NAME || 'user_uploads', // Fallback folder
-            1000, // Width (optional)
-            1000  // Height (optional)
-        );
-
-        // 4. Update user profile
-        const updatedProfile = await User.findByIdAndUpdate(
-            userId,
+        const user = await User.findByIdAndUpdate(userId,
             { image: image.secure_url },
             { new: true }
-        ).select('-password'); // Exclude sensitive data
-
-        // 5. Delete temporary file (optional cleanup)
-        try {
-            await fs.promises.unlink(displayPicture.tempFilePath);
-        } catch (cleanupError) {
-            console.warn("Could not delete temp file:", cleanupError.message);
-        }
+        );
 
         return res.status(200).json({
             success: true,
             message: "Profile picture updated successfully",
-            data: {
-                imageUrl: image.secure_url,
-                user: updatedProfile
-            }
-        });
-
+            image: image.secure_url,
+            user: user
+        })
     } catch (error) {
-        console.error("Profile picture update error:", error);
-        return res.status(500).json({
+        res.status(500).json({
             success: false,
-            message: "Failed to update profile picture",
-            error: process.env.NODE_ENV === 'development' ? error.message : undefined
-        });
+            message: "error while updating profile picture"
+        })
     }
 };
 

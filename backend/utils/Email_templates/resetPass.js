@@ -95,12 +95,13 @@ function getResetContent(link) {
                             border-top: 1px solid #eee;
                             margin: 20px 0;
                         }
+                          
                         </style>
-                        </head> 
+                        </head>  
                         <body>  
                         <div class="container">
                             <div class="header">
-                                <img src="https://cdn-icons-png.flaticon.com/512/5778/5778234.png" alt="Reset Password" class="logo" />
+                                <img src="https://res.cloudinary.com/dfxv7kj1t/image/upload/v1744096242/course_thumbnail/lhou8tihajmfzdxgocbl.png" alt="Reset Password" class="logo" />
                                 <h1>Reset Your Password</h1>
                             </div>
 

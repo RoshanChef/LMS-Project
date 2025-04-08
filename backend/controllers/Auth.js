@@ -101,7 +101,6 @@ exports.signUp = async (req, res) => {
                 message: "Invalid OTP"
             });
         }
-        console.log(recentOTP[0].otp, otp, otp == recentOTP[0].otp);
 
         // Hash Password
         const hashPassword = await bcrypt.hash(password, 10);
@@ -135,7 +134,7 @@ exports.signUp = async (req, res) => {
     catch (error) {
         return res.status(500).json({
             success: false,
-            message: "User is not registered",
+            message: "User is not signUp successfully",
             error: error,
         })
     }

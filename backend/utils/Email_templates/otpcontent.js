@@ -195,7 +195,7 @@ p {
 <body>  
 <div     class="container">
         <div class="header">
-            <img src="https://cdn-icons-png.flaticon.com/512/5778/5778234.png" alt="Gmail Logo" class="logo" />
+            <img src="https://res.cloudinary.com/dfxv7kj1t/image/upload/v1744096242/course_thumbnail/lhou8tihajmfzdxgocbl.png" alt="Gmail Logo" class="logo" />
             <h1>Verify your email address</h1>
         </div>
 
@@ -213,7 +213,7 @@ p {
         </div>
     </div>
 
-    <p>This OTP is valid for 30 minutes. Please do not share this code with anyone.</p>
+    <p>This OTP is valid for 5 minutes. Please do not share this code with anyone.</p>
 
     <div class="divider"></div>
 

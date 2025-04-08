@@ -1,4 +1,4 @@
-const Category = require('../models/category ');
+const Category = require('../models/category');
 
 exports.createCategory = async (req, res) => {
     try {
@@ -10,12 +10,12 @@ exports.createCategory = async (req, res) => {
             return res.status(400).json({ success: false, message: "Please fill all the fields" });
         }
 
-        let tagDetails = await Category.create({ name, description });
-        console.log(tagDetails);
+        let categoryDetails = await Category.create({ name, description });
+       
 
-        return res.status(200).json({ success: true, message: "Tag created successfully", data: tagDetails });
+        return res.status(200).json({ success: true, message: "Category created successfully", data: categoryDetails });
     } catch (error) {
-        return res.status(500).json({ success: false, message: error.message });
+        return res.status(500).json({ success: false, message: "Category can't created", error: error.message });
     }
 }
 
