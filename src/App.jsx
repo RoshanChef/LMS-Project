@@ -1,11 +1,15 @@
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Signup from "./pages/Signup";
 
-function App() {
+export default function App() {
 
-  return (
-    <>
-      <p className="bg-red-500 w-full p-3 text-white text-center cursor-pointer" onClick={() => alert("Hello Roshan")}>Hello Roshan</p>
-    </>
-  )
+  return <>
+    <div className="w-full min-h-screen flex flex-col bg-[#01050c] ">
+
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+      </Routes>
+    </div>
+  </>
 }
-
-export default App
