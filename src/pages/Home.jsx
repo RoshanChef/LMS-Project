@@ -5,10 +5,14 @@ import HighlightText from '../components/core/Homepage/HighlightText';
 import CTAButton from '../components/core/Homepage/Button';
 import Banner from "../assets/Study.mp4";
 import CodeBlocks from '../components/core/Homepage/CodeBlocks';
+import TimelineSection from '../components/core/Homepage/TimelineSection';
+import LearningLangSec from '../components/core/Homepage/LearningLangSec';
+
+import InstructorSec from '../components/core/Homepage/InstructorSec';
 
 function Home() {
   return (
-    <div>
+    <div className='flex flex-col'>
 
       {/* Section 1 */}
       <div className="relative mx-auto w-full max-w-7xl px-4 flex flex-col items-center justify-between gap-8 text-white">
@@ -31,7 +35,7 @@ function Home() {
             Empower Your Future with <br />
             <span className="relative inline-block">
               <HighlightText text={"Coding Skills"} />
-              <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-gradient-to-r from-[#99ab60] to-[#c0d36e] rounded-full animate-ping"></span>
+              <span className="absolute -bottom-2 left-0 h-[2px] w-full bg-gradient-to-r from-[#99ab60] to-[#2f3513] rounded-full animate-ping"></span>
             </span>
           </h1>
         </div>
@@ -71,32 +75,112 @@ function Home() {
         {/* Code section 1 */}
         <div>
           <CodeBlocks
-            position={"flex"}
+            position={"lg:flex-row"}
             heading={<div>Unlock your <HighlightText text={"coding potentail"} /> with our online courses.</div>}
             subheading={"Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."}
             btn1={{ link: "/signup", title: "Try it Yourself", active: true }}
             btn2={{ link: "/login", title: "Learn More", active: false }}
-            codeblack={`#include <bits/stdc++.h>\n\t\tusing namespace std;\n\t\tint main() {\n\t\tint value = 10;\n\t\tfor (int i = 1; i<=value; i++)\n\t\tcout << "Improve " << i << endl;\n\t\t}\n\t\treturn 0;\n\t\t}`}
+            codeColor={"text-white"}
+            codeblock={`#include <iostream>
+using namespace std;
+
+int main() {
+  int value = 10;
+  
+  for (int i = 1; i <= value; i++) {
+    cout << "Improved " << i << endl;
+  }
+  
+  return 0;
+}`}
           />
           <CodeBlocks
-            position={"row-reverse"}
+            position={"lg:flex-row-reverse"}
             heading={<div>Start <HighlightText text={"coding in seconds"} /> </div>}
             subheading={"Go ahead, give it a try. Our hands-on learning environment means you'll be writing real code from your very first lesson."}
             btn1={{ link: "/signup", title: "Continue Lesson", active: true }}
             btn2={{ link: "/login", title: "Learn More", active: false }}
-
+            codeColor={"#ffff76"}
+            codeblock={`import React from "react";
+import CTAButton from "./Button";
+import TypeAnimation from "react-type";
+import { FaArrowRight } from "react-icons/fa";
+const Home = () => {
+  return (
+    <div>
+      Home
+    </div>
+  );
+};
+export default Home;`}
+            backgroundGradient={<div className="codeblock2 absolute"></div>}
           />
-
         </div>
       </div>
 
       {/* section 2 */}
+      <div className='bg-white text-white'>
+        {/* home background */}
+        <div className='h-[333px] homebg'>
+          <div className='w-11/12 max-w-max md:w-10/12 mx-auto flex flex-col items-center gap-5 justify-center'>
+            <div className='h-[150px]'></div>
+            <div className='flex gap-6'>
+              <CTAButton linkto={"/signup"} active={true}>
+                <div className='flex items-center gap-2 '>
+                  <span>Expore Full Catalog</span>
+                  <FaArrowRight className='animate-pulse ' />
+                </div>
+              </CTAButton>
+              <CTAButton linkto={"/login"} active={false}>Learn More </CTAButton>
+            </div>
+          </div>
+        </div>
 
-      {/* section 3 */}
+        {/*mini content    */}
+        <div className="mx-auto flex w-11/12 max-w-maxContent  text-black flex-col items-center justify-between gap-8 ">
+          {/* Job that is in Demand - Section 1 */}
+          <div className="mb-10 mt-[-100px] flex flex-col justify-between gap-7 lg:mt-20 lg:flex-row lg:gap-0">
+            <div className="text-4xl font-semibold lg:w-[45%] ">
+              Get the skills you need for a{" "}
+              <HighlightText text={"job that is in demand."} />
+            </div>
+            <div className="flex flex-col items-start gap-10 lg:w-[40%]">
+              <div className="text-[16px]">
+                The modern StudyNotion is the dictates its own terms. Today, to
+                be a competitive specialist requires more than professional
+                skills.
+              </div>
+              <CTAButton active={true} linkto={"/signup"}>
+                <div className="">Learn More</div>
+              </CTAButton>
+            </div>
+          </div>
+        </div>
 
-      {/* footer */}
-      {/* Section 1 */}
+        {/* TimelineSection */}
+        <TimelineSection />
 
+        {/* LearningLangSec */}
+        <LearningLangSec />
+
+        <div className='bg-[#01050c]'>
+          {/* Instructor */}
+          <InstructorSec />
+
+          <h1 className='text-4xl font-semibold text-center'>Reviews from other learners</h1>
+        </div>
+
+
+
+
+        {/* section 3 */}
+
+        {/* footer */}
+        <div>
+
+        </div>
+
+      </div>
     </div>
   )
 }
