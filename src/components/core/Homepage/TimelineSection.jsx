@@ -72,14 +72,14 @@ function TimelineSection() {
                         alt="Timeline"
                         className="shadow-white shadow-[20px_20px_0px_0px] object-cover h-[400px] lg:h-[500px]"
                     />
-                    <div className='absolute lg:left-[50%] lg:bottom-0 lg:translate-x-[-50%] lg:translate-y-[50%] bg-[#014A32] flex lg:flex-row flex-col text-white uppercase py-5 gap-4 lg:gap-0 lg:py-10'>
+                    <div className='absolute lg:left-[50%] lg:bottom-0 translate-x-[15%] translate-y-[-50%] lg:translate-x-[-50%] lg:translate-y-[50%] bg-[#014A32] flex flex-row text-white uppercase py-5 gap-4 lg:gap-0 lg:py-10'>
                         <div className='flex gap-5 items-center lg:border-r border-[#04a77b] px-7 lg:px-14'>
-                            <h1 className="text-3xl font-bold w-[75px]">10</h1>
-                            <p className='text-[#04a77b] text-sm w-[75px]'>Years experiences</p>
+                            <h1 className="lg:text-3xl text-md font-bold lg:w-[75px] w-[15px]">10</h1>
+                            <p className='text-[#04a77b] lg:text-sm text-xs lg:w-[75px] w-[15px]'>Years experiences</p>
                         </div>
                         <div className='flex gap-5 items-center lg:px-14 px-7'>
-                            <h1 className='text-3xl font-bold w-[75px]'>250</h1>
-                            <p className='text-[#04a77b] text-sm w-[75px]'>Type of courses</p>
+                            <h1 className='lg:text-3xl text-md font-bold lg:w-[75px] w-[15px]'>250</h1>
+                            <p className='text-[#04a77b] lg:text-sm text-xs lg:w-[75px] w-[60px]'>Type of courses</p>
                         </div>
                     </div>
                 </div>
