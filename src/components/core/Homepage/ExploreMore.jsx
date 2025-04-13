@@ -40,18 +40,18 @@ function ExploreMore() {
     return (
         <div className='bg-[#01050c] text-white py-10 px-10'>
             <div className='flex gap-2 text-4xl font-semibold justify-center items-center'>
-                <p>Unlock the </p>
+                <span>Unlock the</span>
                 <HighlightText text={"Power of Code"} />
             </div >
             <div className='text-center text-xl text-gray-400 mt-2 font-semibold'>
                 Learn to Build Anything You Can Imagine
             </div>
 
-            <div className='flex items-center flex-col gap-12'>
+            <div className='lg:flex sm:hidden items-center flex-col gap-12'>
                 <div className='lg:flex px-2 py-2 my-[10rem] text-gray-400 bg-[#161D29] hidden gap-2 rounded-4xl justify-between cursor-pointer w-fit mt-8 text-[1rem]'>
                     {tabs}
                 </div>
-                <div className='absolute justify-center flex lg:flex-row flex-col gap-12 lg:mt-36 sm:mt-24'>
+                <div className='lg:absolute items-center justify-center flex lg:flex-row flex-col gap-12 lg:mt-36 sm:mt-24'>
                     {cards}
                 </div>
             </div>

@@ -9,6 +9,8 @@ import TimelineSection from '../components/core/Homepage/TimelineSection';
 import LearningLangSec from '../components/core/Homepage/LearningLangSec';
 
 import InstructorSec from '../components/core/Homepage/InstructorSec';
+import Footer from '../components/Common/Footer';
+import ExploreMore from '../components/core/Homepage/ExploreMore';
 
 function Home() {
   return (
@@ -96,7 +98,7 @@ int main() {
           />
           <CodeBlocks
             position={"lg:flex-row-reverse"}
-            heading={<div>Start <HighlightText text={"coding in seconds"} /> </div>}
+            heading={<div className="w-[100%] text-4xl font-semibold lg:w-[50%]">Start <HighlightText text={"coding in seconds"} /> </div>}
             subheading={"Go ahead, give it a try. Our hands-on learning environment means you'll be writing real code from your very first lesson."}
             btn1={{ link: "/signup", title: "Continue Lesson", active: true }}
             btn2={{ link: "/login", title: "Learn More", active: false }}
@@ -120,11 +122,14 @@ export default Home;`}
 
       {/* section 2 */}
       <div className='bg-white text-white'>
+        {/* ExploreMore */}
+        <ExploreMore />
+
         {/* home background */}
         <div className='h-[333px] homebg'>
           <div className='w-11/12 max-w-max md:w-10/12 mx-auto flex flex-col items-center gap-5 justify-center'>
             <div className='h-[150px]'></div>
-            <div className='flex gap-6'>
+            <div className='flex gap-6 my-10'>
               <CTAButton linkto={"/signup"} active={true}>
                 <div className='flex items-center gap-2 '>
                   <span>Expore Full Catalog</span>
@@ -168,6 +173,8 @@ export default Home;`}
           <InstructorSec />
 
           <h1 className='text-4xl font-semibold text-center'>Reviews from other learners</h1>
+
+          {/* Review slider */}
         </div>
 
 
@@ -176,8 +183,8 @@ export default Home;`}
         {/* section 3 */}
 
         {/* footer */}
-        <div>
-
+        <div className='bg-[#161D29] text-gray-400'>
+          <Footer />
         </div>
 
       </div>

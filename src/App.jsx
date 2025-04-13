@@ -1,15 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
-import './app.css'; 
+import Navbar from './components/Common/Navbar';
+import './app.css';
+import Signupform from "./components/core/Auth/Signupform";
 
 export default function App() {
 
   return <>
     <div className="w-full min-h-screen flex flex-col bg-[#01050c] ">
-
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path="/signup" element={<Signup />}></Route>
       </Routes>
     </div>
   </>
