@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Navbar from './components/Common/Navbar';
 import './app.css';
-import Signupform from "./components/core/Auth/Signupform";
+import Login from "./pages/Login";
 
 export default function App() {
 
@@ -13,6 +13,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>
   </>
