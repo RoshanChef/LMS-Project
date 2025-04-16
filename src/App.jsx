@@ -5,6 +5,8 @@ import Navbar from './components/Common/Navbar';
 import './app.css';
 import Login from "./pages/Login";
 import Error from "./pages/Error";
+import ForgotPassword from "./pages/ForgotPassword";
+import OpenRoute from "./components/core/Auth/OpenRoute";
 
 export default function App() {
 
@@ -13,9 +15,29 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="*" element={<Error />}></Route> 
+        <Route path="*" element={<Error />}></Route>
+
+        <Route
+          path="/signup"
+          element={
+            <OpenRoute>
+              <Signup />
+            </OpenRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/login"
+          element={
+            <OpenRoute>
+              <Login />
+            </OpenRoute>
+          }
+        ></Route>
+
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+
       </Routes>
     </div>
   </>

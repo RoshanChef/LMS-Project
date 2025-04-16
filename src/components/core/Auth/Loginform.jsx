@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 function Loginform() {
   const {
@@ -14,7 +15,7 @@ function Loginform() {
   } = useForm();
 
   async function onSubmit(data) {
-      
+
   }
 
 
@@ -34,7 +35,7 @@ function Loginform() {
               className="bg-[#161D29] p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
             />
           </label>
-          <label className="gap-y-1 flex flex-col w-full text-white">
+          <label className="relative gap-y-1 flex flex-col w-full text-white">
             <p className="text-sm">Password <sup className="text-red-400">*</sup></p>
             <div className="relative">
               <input
@@ -55,6 +56,9 @@ function Loginform() {
                 {showPassword ? <IoEyeOutline color="white" /> : <IoEyeOffOutline />}
               </div>
             </div>
+            <Link to="/forgot-password" >
+              <p className='text-green-400 text-xs absolute right-0'>Forgot Password?</p>
+            </Link>
           </label>
         </div>
 
