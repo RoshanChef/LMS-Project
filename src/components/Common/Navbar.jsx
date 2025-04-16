@@ -7,6 +7,7 @@ import apiconnector from "../../services/apiconnector";
 import { categories } from '../..//services/api';
 import { useEffect, useState } from "react";
 import { RiArrowDownWideLine } from "react-icons/ri";
+import toast from "react-hot-toast";
 
 function Navbar() {
     const { token } = useSelector(state => state.auth);
@@ -28,8 +29,6 @@ function Navbar() {
             try {
                 const res = await apiconnector('GET', categories.CATEGORIES_API);
                 setSubLinks(res.data.data);
-                console.log(res.data.data);
-
             } catch (error) {
                 console.log(error);
             }
@@ -55,18 +54,13 @@ function Navbar() {
                             NavbarLinks.map((link, inx) => (
                                 <li key={inx}>
                                     {link.title === "Catalog" ? (
-                                        <div className="group relative flex items-center justify-center gap-2">
+                                        <div className="group relative flex items-center justify-center gap-2 cursor-pointer">
                                             {link.title}
                                             <RiArrowDownWideLine />
 
-                                            <div className="absolute left-1/2 top-full mt-2 
-                                       invisible opacity-0 
-                                       group-hover:visible group-hover:opacity-100
-                                       transition-all duration-200 lg:w-[250px] h-10
-                                       flex flex-col rounded-md bg-white shadow-md text-gray-700
-                                       transform -translate-x-1/2 z-10
-                                     ">
-                                                <div className="absolute z-10 left-[58%] -top-1 bg-white h-6 w-6 rotate-45 "> </div>
+                                            <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-gray-100 p-4 text-gray-300 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px">
+
+                                                <div className="absolute left-[50%] bg-white top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45  rounded bg-richblack-5"></div>
                                                 {
                                                     loading ? (
                                                         <p className="text-center">Loading...</p>
@@ -74,21 +68,17 @@ function Navbar() {
                                                         (subLinks.length > 0) ? (
                                                             subLinks.map((ele, inx) => (
                                                                 <Link
-                                                                    to={`/catalog/${ele.name.replace(/[^\w\s-]/g, '').split(" ").join("-").toLowerCase()}`}
-                                                                    className="rounded-lg bg-transparent py-4 pl-4 hover:bg-gray-400"
+                                                                    to={`/catalog/${ele.name.split(" ").join("-").toLowerCase()}`}
+                                                                    className="text-black rounded-lg bg-transparent py-4 pl-4 hover:bg-gray-400/40"
                                                                     key={inx}
                                                                 >
                                                                     {ele.name}
                                                                 </Link>
-
                                                             ))
                                                         ) : (
                                                             <div>No sublinks</div>
                                                         )
-
                                                 }
-
-
                                             </div>
                                         </div>
                                     ) : (

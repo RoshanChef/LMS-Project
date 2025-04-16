@@ -11,7 +11,10 @@ createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <Router>
       <App />
-      <Toaster />
+      <Toaster toastOptions={{
+        duration: 1000, 
+      }}
+        limit={2} />
     </Router>
   </Provider>,
 )
