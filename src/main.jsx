@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')).render(
     <Router>
       <App />
       <Toaster toastOptions={{
-        duration: 1000, 
+        duration: 2000, 
       }}
         limit={2} />
     </Router>

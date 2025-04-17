@@ -5,8 +5,10 @@ const bcrypt = require('bcrypt');
 // resetPasswordToken
 exports.resetPasswordToken = async (req, res) => {
     try {
+
         // get email from body
         const { email } = req.body;
+        console.log('email : ', email);
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -30,7 +32,7 @@ exports.resetPasswordToken = async (req, res) => {
         );
 
         // create url 
-        const url = `http://localhost:3000/update-password/${token}`;
+        const url = `http://localhost:5173/update-password/${token}`;
 
         await sendEmail(email, "Password Reset Request", "reset", null, url);
 

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { getResetPassword } from '../services/operations/authAPI';
 
 function ForgotPassword() {
     const { loading } = useSelector(state => state.auth);
@@ -10,20 +11,22 @@ function ForgotPassword() {
     const [resetComplete, setresetComplete] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const [formData, setformData] = useState({
         password: "",
         confirmPassword: "",
     });
 
-
-    function handleOnSubmit() {
-
+    const dispatch = useDispatch();
+    function handleOnSubmit(e) {
+        e.preventDefault();
+        dispatch(getResetPassword(email, setEmailSent));
     }
 
     return (
         <div className='grid text-white min-h-[calc(100vh-3.5rem)] place-items-center'>
-            {loading ? (
-                <div class="custom-loader"></div>
+            {loading == 1 ? (
+                <div className="custom-loader"></div>
             ) : (
                 <div className='max-w-[500px] p-4 lg:p-8'>
                     <h1 className='text-[1.875rem] font-semibold leading-[2.375rem] text-gray-100'>

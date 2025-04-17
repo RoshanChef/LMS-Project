@@ -7,6 +7,9 @@ import Login from "./pages/Login";
 import Error from "./pages/Error";
 import ForgotPassword from "./pages/ForgotPassword";
 import OpenRoute from "./components/core/Auth/OpenRoute";
+import Dashboard from "./components/core/Auth/Dashboard";
+import UpdatePassword from "./pages/UpdatePassword";
+import VerifyEmail from "./pages/VerifyEmail";
 
 export default function App() {
 
@@ -15,8 +18,6 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="*" element={<Error />}></Route>
-
         <Route
           path="/signup"
           element={
@@ -36,8 +37,19 @@ export default function App() {
         ></Route>
 
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/update-password/:token" element={
+          <OpenRoute>
+            <UpdatePassword />
+          </OpenRoute>
+        } />
+        <Route path="/verify-otp" element={
+          <OpenRoute>
+            <VerifyEmail />
+          </OpenRoute>
+        } />
 
-
+        <Route path="*" element={<Error />}></Route>
       </Routes>
     </div>
   </>

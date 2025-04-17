@@ -64,8 +64,8 @@ function getResetContent(link) {
 
                         .reset-link {
                             display: inline-block;
-                            background-color: var(--primary-color);
-                            color: #fff;
+                            background-color: gold;
+                            color: black;
                             padding: 12px 24px;
                             border-radius: 6px;
                             text-decoration: none;
@@ -75,7 +75,8 @@ function getResetContent(link) {
                         }
 
                         .reset-link:hover {
-                            background-color: #3367d6;
+                            background-color: black;
+                            color:gold;
                         }
 
                         .footer {

@@ -189,7 +189,7 @@ exports.login = async (req, res) => {
     }
 }
 
-// changePassword
+// changePassword - I never use this function
 exports.changePassword = async (req, res) => {
     try {
         //get data from req body

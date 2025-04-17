@@ -7,7 +7,6 @@ import apiconnector from "../../services/apiconnector";
 import { categories } from '../..//services/api';
 import { useEffect, useState } from "react";
 import { RiArrowDownWideLine } from "react-icons/ri";
-import toast from "react-hot-toast";
 
 function Navbar() {
     const { token } = useSelector(state => state.auth);

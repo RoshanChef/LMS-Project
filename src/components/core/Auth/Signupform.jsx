@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import axios from "axios";
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-
+import { setSignupData } from "../../../Redux/Slices/authSlice"
+import { sendOtp } from "../../../services/operations/authAPI"
 
 
 export default function SignupForm() {

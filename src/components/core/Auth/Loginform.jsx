@@ -4,7 +4,9 @@ import axios from "axios";
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../../services/operations/authAPI";
 
 function Loginform() {
   const {
@@ -14,8 +16,13 @@ function Loginform() {
     formState: { errors },
   } = useForm();
 
-  async function onSubmit(data) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  function onSubmit(data) {
+    console.log(data);
+    const { email, password } = data;
+    dispatch(login(email, password, navigate))
   }
 
 
@@ -41,20 +48,20 @@ function Loginform() {
               <input
                 {...register("password", {
                   required: true,
-                  minLength: { value: 6, message: 'Max Len should be atleast 6' },
-                  maxLength: { value: 20, message: 'Max Len should be max 20' }
+                  // minLength: { value: 6, message: 'Max Len should be atleast 6' },
+                  // maxLength: { value: 20, message: 'Max Len should be max 20' }
                 })}
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
                 className="bg-[#161D29] p-2 pr-10 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
               />
-              {errors.password && <p className="text-xs text-red-400">{errors.password.message}</p>}
               <div
                 onClick={() => setShowPassword(prev => !prev)}
                 className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-xl text-gray-400"
               >
                 {showPassword ? <IoEyeOutline color="white" /> : <IoEyeOffOutline />}
               </div>
+              {errors.password && <p className="text-xs text-red-400">{errors.password.message}</p>}
             </div>
             <Link to="/forgot-password" >
               <p className='text-green-400 text-xs absolute right-0'>Forgot Password?</p>
