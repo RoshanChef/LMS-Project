@@ -10,7 +10,7 @@ function CourseCard({ cardData, setCurCard, currentCard }) {
 
   return (
     <div onClick={clickHandler}
-      className={`w-[360px] lg:w-[28%] p-3 rounded-2xl bg-[#18181b4b] backdrop-blur-md border border-white/10 shadow-lg flex flex-col py-5 justify-between h-[300px] box-border cursor-pointer hover:scale-105 transition-all duration-200
+      className={`w-[360px] select-none lg:w-[28%] p-3 rounded-2xl bg-[#18181b4b] backdrop-blur-md border border-white/10 shadow-lg flex flex-col py-5 justify-between h-[300px] box-border cursor-pointer hover:scale-105 transition-all duration-200
       ${currentCard.heading == cardData.heading
           ? "bg-white shadow-[12px_12px_0_0] shadow-yellow-100 text-gray-800"
           : "bg-[#18181b4b]"

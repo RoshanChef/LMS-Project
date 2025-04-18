@@ -13,6 +13,7 @@ const auth = async (req, res, next) => {
             || res.header('Authorization').replace('Bearer', '')
             || req.body.token;
 
+        console.log(token);
         if (!token)
             return res.status(401).json({ success: false, message: "Unauthrised access" });
 

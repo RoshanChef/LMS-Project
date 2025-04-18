@@ -1,4 +1,4 @@
-function getContactContent(firstname, lastname, message, phoneNo, countrycode) {
+function getContactContent(firstname, lastname, message, phoneNo) {
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -119,8 +119,6 @@ function getContactContent(firstname, lastname, message, phoneNo, countrycode) {
         <div class="response-details">
             <p><strong>First Name:</strong> <span id="firstname">${firstname}</span></p>
             <p><strong>Last Name:</strong> <span id="lastname">${lastname}</span></p>
-            <p><strong>Email:</strong> <span id="email"></span>${message}</p>
-            <p><strong>Country Code:</strong> <span id="countrycode">${countrycode}/span></p>
             <p><strong>Phone Number:</strong> <span id="phoneNo">${phoneNo}</span></p>
             <p><strong>Message:</strong> <span id="message">${message}</span></p>
         </div>

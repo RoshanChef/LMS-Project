@@ -24,7 +24,7 @@ function ExploreMore() {
     }
 
     const tabs = tabsName.map((ele, inx) => {
-        return <div key={inx} onClick={() => (setTab(ele))} className={`px-10 py-2 rounded-full transition-all duration-300 hover:bg-[#01050c] hover:text-white ${ele == currentTab ? "bg-[#01050c] text-white" : "bg-[#161D29]"} `}>
+        return <div key={inx} onClick={() => (setTab(ele))} className={`select-none px-10 py-2 rounded-full transition-all duration-300 hover:bg-[#01050c] hover:text-white ${ele == currentTab ? "bg-[#01050c] text-white" : "bg-[#161D29]"} `}>
             {ele}
         </div>
     })

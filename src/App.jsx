@@ -11,6 +11,7 @@ import Dashboard from "./components/core/Auth/Dashboard";
 import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import ProfileDropdown from "./components/Common/ProfileDropdown";
+import About_us from "./pages/About_us";
 
 export default function App() {
 
@@ -51,6 +52,7 @@ export default function App() {
         } />
 
         <Route path="/dashboard/my-profile" element={<ProfileDropdown />} />
+        <Route path="/about" element={<About_us />} />
 
         <Route path="*" element={<Error />}></Route>
       </Routes>

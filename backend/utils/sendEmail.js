@@ -9,7 +9,7 @@ require('dotenv').config();
 
 async function sendEmail(email, title, type, otp, link, firstname, lastname, message, phoneNo, countrycode) {
     try {
-
+        console.log(email);
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -33,7 +33,7 @@ async function sendEmail(email, title, type, otp, link, firstname, lastname, mes
                 content = getConfirmContent(link);
                 break;
             case "contact":
-                content = getContactContent(firstname, lastname, message, phoneNo, countrycode);
+                content = getContactContent(firstname, lastname, message, phoneNo);
                 break;
         }
 
