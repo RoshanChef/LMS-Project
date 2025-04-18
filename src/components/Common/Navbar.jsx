@@ -2,11 +2,12 @@ import { Link, matchPath, useLocation } from "react-router-dom";
 import monk from '../../assets/images/ChatGPT Image Apr 13, 2025, 01_57_26 AM.png';
 import { NavbarLinks } from "../../data/navbar-links";
 import { useSelector } from "react-redux";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai";
 import apiconnector from "../../services/apiconnector";
 import { categories } from '../..//services/api';
 import { useEffect, useState } from "react";
 import { RiArrowDownWideLine } from "react-icons/ri";
+import ProfileDropdown from "./ProfileDropdown";
 
 function Navbar() {
     const { token } = useSelector(state => state.auth);
@@ -126,12 +127,12 @@ function Navbar() {
                         </Link>
                         )
                     }
-                    {
-                        token != null &&
-                        <ProfileDropdown />
-                    }
+                    {token != null && <ProfileDropdown />}
                 </div>
+                <button className="mr-4 md:hidden">
+                    <AiOutlineMenu style={{ fontSize: 144, fill: "#AFB2BF" }} />
 
+                </button>
             </div>
         </div >
     )

@@ -10,7 +10,7 @@ function Dashboard() {
             <div className='custom-loader'></div>
         )
     }
-
+    
     return (
         <div className='relative flex bg-richblack-400'>
             {/* <Sidebar /> */}

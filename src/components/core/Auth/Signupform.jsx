@@ -1,12 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { setSignupData } from "../../../Redux/Slices/authSlice"
 import { sendOtp } from "../../../services/operations/authAPI"
-
 
 export default function SignupForm() {
     const {
@@ -19,6 +18,7 @@ export default function SignupForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const { signupData } = useSelector((state) => state.auth);
     const [accountType, setAccountType] = useState("Student");
 
     const [showPassword, setShowPassword] = useState(false);
@@ -34,19 +34,21 @@ export default function SignupForm() {
                 ...data,
                 accountType,
             };
-
+            console.log(data , payload);
+            
 
             // Setting signup data to state
             // To be used after otp verification
-            dispatch(setSignupData(signupData));
+            dispatch(setSignupData(payload));
+
+            console.log(signupData);
+
 
             // Send OTP to user for verification
-            dispatch(sendOtp(formData.email, navigate))
+            dispatch(sendOtp(data.email, navigate))
 
-            toast.success("Account created successfully!");
 
             // reset
-
             setAccountType("Student");
         } catch (error) {
             console.error(error);
@@ -121,7 +123,7 @@ export default function SignupForm() {
                                 {...register("password", {
                                     required: true,
                                     minLength: { value: 6, message: 'Max Len should be atleast 6' },
-                                    maxLength: { value: 20, message: 'Max Len should be max 20' },
+                                    maxLength: { value: 15, message: 'Max Len should be max 15' },
                                     validate: {
                                         hasUpper: (value) =>
                                             /[A-Z]/.test(value) || "Must include at least one uppercase letter , one special character , one lowercase lette,one number",
@@ -137,7 +139,6 @@ export default function SignupForm() {
                                 placeholder="Enter Password"
                                 className="bg-[#161D29] p-2 pr-10 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                             />
-                            {errors.password && <p className="text-xs text-red-400">{errors.password.message}</p>}
                             <div
                                 onClick={() => setShowPassword(prev => !prev)}
                                 className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-xl text-gray-400"
@@ -145,6 +146,7 @@ export default function SignupForm() {
                                 {showPassword ? <IoEyeOutline color="white" /> : <IoEyeOffOutline />}
                             </div>
                         </div>
+                        {errors.password && <p className="text-xs text-red-400">{errors.password.message}</p>}
 
                     </label>
 
@@ -156,13 +158,12 @@ export default function SignupForm() {
                                 {...register("confirmPassword", {
                                     required: true,
                                     minLength: { value: 6, message: 'Max Len should be atleast 6' },
-                                    maxLength: { value: 20, message: 'Max Len should be max 20' }
+                                    maxLength: { value: 15, message: 'Max Len should be max 15' }
                                 })}
                                 type={showConfirmPassword ? "text" : "password"}
                                 placeholder="Confirm Password"
                                 className="bg-[#161D29] p-2 pr-10 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                             />
-                            {errors.confirmPassword && <p className="text-xs text-red-400">{errors.confirmPassword.message}</p>}
                             <div
                                 onClick={() => setShowConfirmPassword(prev => !prev)}
                                 className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-xl text-gray-400"
@@ -170,6 +171,7 @@ export default function SignupForm() {
                                 {showConfirmPassword ? <IoEyeOutline color="white" /> : <IoEyeOffOutline />}
                             </div>
                         </div>
+                        {errors.confirmPassword && <p className="text-xs text-red-400">{errors.confirmPassword.message}</p>}
                     </label>
                 </div>
 

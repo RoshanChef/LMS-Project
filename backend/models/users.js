@@ -28,7 +28,7 @@ const userSchema = new Schema({
     },
     mobile: {
         type: String,
-        required: true,
+        // required: true,
         trim: true
     },
     image: {

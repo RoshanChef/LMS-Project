@@ -58,23 +58,23 @@ exports.sendOTP = async (req, res) => {
 // signUp
 exports.signUp = async (req, res) => {
     try {
-        const { otp, email, firstName, lastName, password, accountType, mobile, confirmPassword } = req.body;
-
+        const { otp, email, firstName, lastName, password, accountType } = req.body;
+        console.log(req.body);
         // validate data 
-        if (!firstName || !lastName || !email || !password || !confirmPassword || !accountType || !mobile || !otp) {
+        if (!firstName || !lastName || !email || !password || !accountType || !otp) {
             return res.status(400).json({
                 success: false,
                 message: "Please fill all the fields"
             })
         }
 
-        // password and confirm password should be same
-        if (password !== confirmPassword) {
-            return res.status(400).json({
-                success: false,
-                message: "Password and confirm password should be same"
-            })
-        }
+        // // password and confirm password should be same
+        // if (password !== confirmPassword) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "Password and confirm password should be same"
+        //     })
+        // }
 
 
         // Check if user already exists
@@ -120,7 +120,7 @@ exports.signUp = async (req, res) => {
         const newUser = await User.create({
             firstName, lastName, email,
             password: hashPassword,
-            accountType, mobile,
+            accountType, 
             additionDetail: profileDetails._id,
             image: imageUrl
         });

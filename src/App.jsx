@@ -10,6 +10,7 @@ import OpenRoute from "./components/core/Auth/OpenRoute";
 import Dashboard from "./components/core/Auth/Dashboard";
 import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
+import ProfileDropdown from "./components/Common/ProfileDropdown";
 
 export default function App() {
 
@@ -43,11 +44,13 @@ export default function App() {
             <UpdatePassword />
           </OpenRoute>
         } />
-        <Route path="/verify-otp" element={
+        <Route path="/verify-email" element={
           <OpenRoute>
             <VerifyEmail />
           </OpenRoute>
         } />
+
+        <Route path="/dashboard/my-profile" element={<ProfileDropdown />} />
 
         <Route path="*" element={<Error />}></Route>
       </Routes>
