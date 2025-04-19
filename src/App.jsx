@@ -12,11 +12,12 @@ import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import ProfileDropdown from "./components/Common/ProfileDropdown";
 import About_us from "./pages/About_us";
+import Contact_us from "./pages/Contact_us";
 
 export default function App() {
 
   return <>
-    <div className="w-full min-h-screen flex flex-col bg-[#01050c] ">
+    <div className="w-full text-white min-h-screen flex flex-col bg-[#01050c] ">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -51,10 +52,13 @@ export default function App() {
           </OpenRoute>
         } />
 
-        <Route path="/dashboard/my-profile" element={<ProfileDropdown />} />
+        <Route path="/dashboard/my-profile" element={<Dashboard />} />
         <Route path="/about" element={<About_us />} />
+        <Route path="/contact" element={<Contact_us />} />
 
-        <Route path="*" element={<Error />}></Route>
+
+        <Route path="/:name" element={<Home />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   </>

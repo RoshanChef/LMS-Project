@@ -8,7 +8,7 @@ function ContactFormSection() {
       <p className='text-gray-400 text-center'>
         We'd love to here for you, Please fill out this form.
       </p>
-      <ContactUsForm />
+      <ContactUsForm width="450"/>
     </div>
   )
 }

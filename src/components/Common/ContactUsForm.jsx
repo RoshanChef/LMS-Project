@@ -5,7 +5,9 @@ import apiconnector from '../../services/apiconnector';
 import { contactusEndpoint } from '../../services/api';
 import toast from 'react-hot-toast';
 
-function ContactUsForm() {
+function ContactUsForm({ width }) {
+    console.log(width);
+    
     const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm();
     const [loading, setLoading] = useState(false);
 
@@ -43,7 +45,7 @@ function ContactUsForm() {
     }, [reset, isSubmitSuccessful])
 
     return (
-        <div className="relative mx-auto w-full max-w-[450px] px-6">
+        <div className={`relative text-white mx-auto w-full max-w-[${parseInt(width)}px] px-6`}>
             {loading && (
                 <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#000000aa] rounded-md">
                     <div className="custom-loader w-[64px] h-[64px]"></div>

@@ -120,13 +120,13 @@ function About_us() {
 
             {/* Review */}
             <section>
-                <div>
+                <div className='text-center mt-22 text-3xl  font-semibold'>
                     Review from other learners
                 </div>
             </section>
 
             {/* footer */}
-            <footer>
+            <footer className='bg-[#222a38] w-full'>
                 <Footer />
             </footer>
 

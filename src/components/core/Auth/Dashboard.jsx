@@ -10,16 +10,10 @@ function Dashboard() {
             <div className='custom-loader'></div>
         )
     }
-    
+
     return (
-        <div className='relative flex bg-richblack-400'>
-            {/* <Sidebar /> */}
+        <div className=''>
             Dashboard
-            <div className=' flex-1 overflow-auto bg-gray-500'>
-                <div className='py-10'>
-                    {/* <Outlet /> */}
-                </div>
-            </div>
         </div>
     )
 }
