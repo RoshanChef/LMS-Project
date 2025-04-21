@@ -54,9 +54,11 @@ function Contact_us() {
                             )
                         })}
                     </div>
-                    <div className='w-[720px] p-4 py-14 border-gray-600 border rounded-xl'>
-                        <h1 className='text-white text-left pl-6 text-4xl font-bold'>Got a Idea? We've got the skills. Let's team up</h1>
-                        <p>Tell us more about yourself and what you're got in mind.</p>
+                    <div className='w-[720px] p-4 flex flex-col gap-12 py-14 border-gray-600 border rounded-xl'>
+                        <div className='flex flex-col gap-4'>
+                            <h1 className='text-left pl-6 text-4xl font-bold'>Got a Idea? We've got the skills. Let's team up</h1>
+                            <p className='pl-6 '>Tell us more about yourself and what you're got in mind.</p>
+                        </div>
                         <ContactUsForm width="650" />
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ProfileDropdown() {
+function ConfirmationModel() {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function ProfileDropdown() {
     )
 }
 
-export default ProfileDropdown
+export default ConfirmationModel

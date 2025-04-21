@@ -24,15 +24,15 @@ export function login(email, password, navigate) {
                     ? response.data.user.image
                     : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`
 
-                dispatch(setUser({ ...response.data.user, image: userImage })); 
+                dispatch(setUser({ ...response.data.user, image: userImage }));
 
-                localStorage.setItem("token", JSON.stringify(response.data.token)); 
-                localStorage.setItem("user", JSON.stringify(response.data.user)); 
-                navigate("/dashboard/my-profile"); 
+                localStorage.setItem("token", JSON.stringify(response.data.token));
+                localStorage.setItem("user", JSON.stringify(response.data.user));
+                navigate("/dashboard/my-profile");
             }
         } catch (error) {
             console.log("error while login");
-            toast.error(error.response.data.message);
+            toast.error(error.message);
         }
         dispatch(setLoading(false));
     }
@@ -45,8 +45,9 @@ export function logout(navigate) {
         dispatch(setUser(null));
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        toast.success("Logged Out")
-        navigate("/")
+        toast.success("Logged Out");
+        console.log("called here ... ", localStorage.getItem("token"));
+        navigate("/login");
     }
 }
 

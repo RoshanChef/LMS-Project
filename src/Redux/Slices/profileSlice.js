@@ -9,12 +9,12 @@ const profileSlice = createSlice({
     name: "profile",
     initialState: initialState,
     reducers: {
-        setUser(state, value) {
-            state.user = value.payload
-            localStorage.setItem("user", JSON.stringify(value.payload));
+        setUser(state, action) {
+            state.user = action.payload
+            localStorage.setItem("user", JSON.stringify(action.payload));
         },
-        setLoading(state, value) {
-            state.loading = value.payload
+        setLoading(state, action) {
+            state.loading = action.payload
         },
     }
 });
