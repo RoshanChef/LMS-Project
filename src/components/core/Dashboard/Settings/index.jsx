@@ -6,8 +6,8 @@ import DeleteAccount from './DeleteAccount'
 
 function Settings() {
     return (
-        <div>
-            <h1 className="mb-14 text-3xl font-medium text-richblack-5">
+        <div className='flex flex-col gap-y-10'>
+            <h1 className="mb-6 text-3xl font-medium text-richblack-5">
                 Edit Profile
             </h1>
 

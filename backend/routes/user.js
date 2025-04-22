@@ -20,7 +20,7 @@ user_router.post('/signUp', signUp);
 user_router.post('/login', login);
 
 // Route for Changing the password
-user_router.post('/changepassowd', auth, changePassword);
+user_router.post('/changepassword', auth, changePassword);
 
 // ********************************************************************************************************
 //                                      Reset Password

@@ -27,7 +27,7 @@ function Template({ title, description1, description2, image, formType }) {
     return (
         <div className="min-h-[calc(100vh-3.5rem)]">
             {loading ? (
-                <div className="spinner"></div>
+                <div className="custom-loader"></div>
             ) : (<div className="mx-auto  my-0 flex w-11/12 max-w-maxContent flex-col-reverse justify-between gap-y-12 py-12 md:flex-row md:gap-y-0 md:gap-x-12">
                 <div className="mx-auto w-11/12 max-w-[450px] md:mx-0">
                     <h1 className="text-[1.275rem] text-[#F1F2FF] font-semibold leading-[2.375rem] text-richblack-5">

@@ -65,7 +65,7 @@ function MyProfile() {
                     </div>
                     <div>
                         <h1 className='text-gray-400'>Gender</h1>
-                        <p>{user?.additionDetail?.Gender ?? "Add Gender"}</p>
+                        <p>{user?.additionDetail?.gender ?? "Add Gender"}</p>
                     </div>
                     <div>
                         <h1 className='text-gray-400'>Date of Birth</h1>

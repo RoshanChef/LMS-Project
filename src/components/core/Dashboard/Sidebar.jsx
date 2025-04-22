@@ -14,14 +14,14 @@ function Sidebar() {
     const navigate = useNavigate();
 
     if (profileLoading || authLoading) {
-        return (<div className='custom-loader flex items-center justify-center'></div>)
+        return (<div className='custom-loader w-[100vw] h-[100vh] flex items-center justify-center'></div>)
     }
 
     // to keep track of confirmation modal
     const [confirmationModal, setConfirmationModal] = useState(null);
 
     return (
-        <div className="lg:flex hidden h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-gray-900 py-10">
+        <div className="lg:flex hidden min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-gray-900 py-10">
             <div className="flex flex-col">
                 {
                     sidebarLinks.map((link) => {

@@ -120,7 +120,7 @@ exports.signUp = async (req, res) => {
         const newUser = await User.create({
             firstName, lastName, email,
             password: hashPassword,
-            accountType, 
+            accountType,
             additionDetail: profileDetails._id,
             image: imageUrl
         });
@@ -155,7 +155,7 @@ exports.login = async (req, res) => {
         }
 
         // chech if user exit
-        const user = await User.findOne({ email }).populate('additionDetail').exec(); 
+        const user = await User.findOne({ email }).populate('additionDetail').exec();
         if (!user) {
             return res.status(401).json({
                 success: false,
@@ -193,7 +193,11 @@ exports.login = async (req, res) => {
 exports.changePassword = async (req, res) => {
     try {
         //get data from req body
-        const token = req.cookies.token;
+        const token = req.cookies.token
+            || req.body.token
+            || req.header("Authorization").replace("Bearer ", "");
+        console.log(token);
+
         if (!token) {
             return res.status(401).json({
                 success: false,
@@ -203,7 +207,7 @@ exports.changePassword = async (req, res) => {
 
         try {
             const { id } = jwt.verify(token, jwt_secret);
-            res.user.id = id;
+            req.user.id = id;
         } catch (error) {
             res.status(401).json({
                 success: false,
@@ -211,7 +215,7 @@ exports.changePassword = async (req, res) => {
             })
         }
 
-        const user = await User.findById(res.user.id);
+        const user = await User.findById(req.user.id);
 
         if (!user) {
             return res.status(401).json({
@@ -229,7 +233,7 @@ exports.changePassword = async (req, res) => {
                 message: "Incorrect password"
             });
         }
-        console.log(token);
+
         // update password in db
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         const result = await User.updateOne({ _id: user._id }, { $set: { password: hashedPassword } });

@@ -41,8 +41,6 @@ function Home() {
           </h1>
         </div>
 
-
-
         {/* Subheading*/}
         <div className="mt-6 w-full max-w-2xl text-center text-md font-medium text-[#b8bfd6] leading-relaxed">
           With our online coding courses, you can learn at your own pace, from

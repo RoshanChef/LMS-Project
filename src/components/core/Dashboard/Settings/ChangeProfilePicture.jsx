@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FiUpload } from "react-icons/fi";
 import IconBtn from '../../../Common/IconBtn';
-import { updateDisplayPicture } from '../../../../services/operations/authAPI';
+import { updateDisplayPicture } from '../../../../services/operations/settingAPI';
 
 function ChangeProfilePicture() {
   const { user } = useSelector(state => state.profile);
@@ -30,27 +30,29 @@ function ChangeProfilePicture() {
   }
 
   const previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = () => {
-      setPreviewSource(reader.result)
-    }
+    const url = URL.createObjectURL(file);
+    setPreviewSource(url);
   }
 
   const handleFileUpload = () => {
     try {
-      console.log("uploading...");
+
       setLoading(true);
 
       dispatch(updateDisplayPicture(token, imageFile));
 
       setLoading(false);
-
     } catch (error) {
       console.log("ERROR MESSAGE - ", error.message);
     }
   }
+
+  useEffect(() => {
+    if (imageFile) {
+      previewFile(imageFile)
+    }
+  }, [imageFile]);
+
 
   return (
     <div>

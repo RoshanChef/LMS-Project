@@ -6,7 +6,6 @@ import * as Icon3 from "react-icons/hi2"
 import * as Icon2 from "react-icons/io5"
 
 
-
 const contactDetails = [
     {
         icon: "HiChatBubbleLeftRight",
