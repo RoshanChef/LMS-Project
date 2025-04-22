@@ -125,14 +125,14 @@ export default Home;`}
         <ExploreMore />
 
         {/* home background */}
-        <div className='h-[333px] homebg'>
+        <div className='h-[333px] homebg relative'>
           <div className='w-11/12 max-w-max md:w-10/12 mx-auto flex flex-col items-center gap-5 justify-center'>
             <div className='h-[150px]'></div>
-            <div className='flex gap-6 my-10'>
+            <div className='flex gap-6 lg:my-10 absolute top-20 lg:top-45'>
               <CTAButton linkto={"/signup"} active={true}>
                 <div className='flex items-center gap-2 '>
                   <span>Expore Full Catalog</span>
-                  <FaArrowRight className='animate-pulse ' />
+                  <FaArrowRight className='animate-pulse' />
                 </div>
               </CTAButton>
               <CTAButton linkto={"/login"} active={false}>Learn More </CTAButton>

@@ -13,6 +13,10 @@ import VerifyEmail from "./pages/VerifyEmail";
 import ProfileDropdown from "./components/Common/ProfileDropdown";
 import About_us from "./pages/About_us";
 import Contact_us from "./pages/Contact_us";
+import PrivateRoute from "./components/core/Auth/PrivateRoute";
+import MyProfile from "./components/core/Dashboard/MyProfile";
+import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
+import Settings from "./components/core/Dashboard/Settings";
 
 export default function App() {
 
@@ -52,7 +56,17 @@ export default function App() {
           </OpenRoute>
         } />
 
-        <Route path="/dashboard/my-profile" element={<Dashboard />} />
+        <Route
+          path="dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        >
+          <Route path="my-profile" element={<MyProfile />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
         <Route path="/about" element={<About_us />} />
         <Route path="/contact" element={<Contact_us />} />
 

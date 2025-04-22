@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function Button({ linkto, active, children }) {
+function Button({ linkto, active, children, hovereffect = true }) {
     return (
         <Link to={linkto}>
             <div
@@ -9,9 +9,11 @@ function Button({ linkto, active, children }) {
                     } hover:shadow-none hover:scale-95 transition-all duration-200 relative
 
                     ${active ? "before:bg-[#000]" : "before:bg-[#ffd60a]"} 
+
                     before:content-[''] before:absolute before:bottom-0 before:left-1/2 
                     before:transform before:-translate-x-1/2 
-                    before:w-0 hover:before:w-full 
+                    before:w-0 
+                ${hovereffect && "hover:before:w-full "} 
                     before:h-[0.08rem] before:transition-all before:duration-600 
                     before:rounded-2xl
                     `}

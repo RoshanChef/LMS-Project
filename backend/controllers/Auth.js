@@ -155,7 +155,7 @@ exports.login = async (req, res) => {
         }
 
         // chech if user exit
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).populate('additionDetail').exec(); 
         if (!user) {
             return res.status(401).json({
                 success: false,

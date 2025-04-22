@@ -4,6 +4,9 @@ import { setLoading, setToken } from "../../Redux/Slices/authSlice";
 import { setUser } from "../../Redux/Slices/profileSlice";
 import { endpoints } from "../api"
 import apiconnector from "../apiconnector";
+import { settingsEndpoints } from "../api";
+
+const { UPDATE_DISPLAY_PICTURE_API } = settingsEndpoints;
 
 const { SENDOTP_API, SIGNUP_API, LOGIN_API, RESETPASSTOKEN_API, RESETPASSWORD_API } = endpoints;
 
@@ -144,5 +147,32 @@ export function signUp(otp, accountType, firstName, lastName, email, password, n
         }
 
         dispatch(setLoading(false));
+    }
+}
+
+
+//updateProfilePicture
+export function updateDisplayPicture(token, displayPic) {
+    return async (dispatch) => {
+        const toastId = toast.loading("Loading...");
+        dispatch(setLoading(true));
+
+        console.log(token);
+        console.log(displayPic);
+
+        try {
+            const formData = new FormData();
+            formData.append("displayPic", displayPic);
+            formData.append('token', token);
+            console.log(formData);
+            await apiconnector('POST', UPDATE_DISPLAY_PICTURE_API, formData);
+
+        } catch (error) {
+            console.log("UPDATE_DISPLAY_PICTURE_API API ERROR............", error)
+            toast.error(error.response.data.message);
+        }
+
+        dispatch(setLoading(false));
+        toast.dismiss(toastId);
     }
 }

@@ -9,11 +9,11 @@ require('dotenv').config();
 // auth
 const auth = async (req, res, next) => {
     try {
-        const token = req.cookies.token
-            || res.header('Authorization').replace('Bearer', '')
-            || req.body.token;
 
-        console.log(token);
+        const token = req.cookies.token
+            || req.header('Authorization')?.replace('Bearer', '')
+            || req.body.token;
+    
         if (!token)
             return res.status(401).json({ success: false, message: "Unauthrised access" });
 
@@ -32,7 +32,7 @@ const auth = async (req, res, next) => {
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: "authentication failed",
+            message: "authentication failed here",
             error: error.message
         })
     }
