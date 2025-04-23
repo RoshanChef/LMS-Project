@@ -225,6 +225,7 @@ exports.instructorDashboard = async (req, res) => {
                 courseName: course.courseName,
                 courseDescription: course.courseDescription,
                 // Include other course properties as needed
+                thumbnail: course.thumbnail,
                 totalStudentsEnrolled,
                 totalAmountGenerated,
             }

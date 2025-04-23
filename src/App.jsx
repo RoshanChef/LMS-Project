@@ -10,15 +10,19 @@ import OpenRoute from "./components/core/Auth/OpenRoute";
 import Dashboard from "./components/core/Auth/Dashboard";
 import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
-import ProfileDropdown from "./components/Common/ProfileDropdown";
+import EnrolledCourses from './components/core/Dashboard/EnrolledCourses';
 import About_us from "./pages/About_us";
 import Contact_us from "./pages/Contact_us";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import MyProfile from "./components/core/Dashboard/MyProfile";
-import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 import Settings from "./components/core/Dashboard/Settings";
+import Cart from "./components/core/Dashboard/Cart";
+import { ACCOUNT_TYPE } from "./data/constants";
+import { useSelector } from "react-redux";
+import AddCourse from "./components/core/Dashboard/AddCourse";
 
 export default function App() {
+  const { user } = useSelector(state => state.profile);
 
   return <>
     <div className="w-full text-white min-h-screen flex flex-col bg-[#01050c] ">
@@ -66,6 +70,22 @@ export default function App() {
         >
           <Route path="my-profile" element={<MyProfile />} />
           <Route path="settings" element={<Settings />} />
+          {
+            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+                <Route path="enrolled-courses" element={<EnrolledCourses />} />
+                <Route path="cart" element={<Cart />} />
+              </>
+            )
+          }
+          {
+            user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+              <>
+                <Route path="add-course" element={<AddCourse />} />
+              </>
+            )
+          }
+
         </Route>
         <Route path="/about" element={<About_us />} />
         <Route path="/contact" element={<Contact_us />} />

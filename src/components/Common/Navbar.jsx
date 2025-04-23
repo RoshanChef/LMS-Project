@@ -37,7 +37,7 @@ function Navbar() {
     }, []);
 
     return (
-        <div className="flex h-11 items-center justify-center border-b-[1px] border-b-gray-600 text-white">
+        <div className="flex select-none h-11 items-center justify-center border-b-[1px] border-b-gray-600 text-white">
             <div className="flex w-11/12 items-center justify-between">
 
                 <Link to={"/"}>
@@ -112,7 +112,7 @@ function Navbar() {
                         token == null &&
                         (
                             <Link to="/login">
-                                <div className="bg-[#161D29]/60 px-4 py-1 backdrop-blur-md border border-white/10 rounded-lg text-white shadow-lg transition-all hover:bg-[#161D29]/80">
+                                <div className="px-4 text-red-400 animate-bounce hover:animate-none py-1 backdrop-blur-md  rounded-lg shadow-lg transition-all ">
                                     Log in
                                 </div>
                             </Link>
@@ -121,7 +121,7 @@ function Navbar() {
                     {
                         token == null &&
                         (<Link to="/signup">
-                            <div className="bg-[#161D29]/60 px-4 py-1 backdrop-blur-md border border-white/10 rounded-lg text-white shadow-lg transition-all hover:bg-[#161D29]/80">
+                            <div className=" px-4 py-1 backdrop-blur-mdrounded-lg text-white shadow-lg transition-all">
                                 Sign up
                             </div>
                         </Link>

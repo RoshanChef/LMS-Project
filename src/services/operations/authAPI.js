@@ -14,7 +14,7 @@ export function login(email, password, navigate) {
         dispatch(setLoading(true));
         try {
             const response = await apiconnector("POST", LOGIN_API, { email, password });
-
+            console.log(response.data);
             if (!response.data.success) {
                 toast.error(response.data.message);
             } else {
@@ -32,8 +32,8 @@ export function login(email, password, navigate) {
                 navigate("/dashboard/my-profile");
             }
         } catch (error) {
-            console.log("error while login");
-            toast.error(error.message);
+            console.log("error while login", error);
+            toast.error(error.response.data.message);
         }
         dispatch(setLoading(false));
     }

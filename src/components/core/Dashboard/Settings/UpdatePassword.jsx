@@ -18,15 +18,15 @@ function UpdatePassword() {
     register,
     handleSubmit,
     watch,
-    resetField,
+    reset,
     formState: { errors },
   } = useForm();
 
 
   const submitPasswordForm = async (data) => {
     try {
-      dispatch(changePassword(token, data.oldPassword, data.newPassword));
-      
+      await dispatch(changePassword(token, data.oldPassword, data.newPassword));
+      reset();
     } catch (error) {
       console.log("ERROR MESSAGE - ", error.message)
     }
