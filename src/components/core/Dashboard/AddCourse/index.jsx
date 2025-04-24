@@ -5,27 +5,22 @@ import { useForm } from 'react-hook-form'
 function AddCourse() {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
     function submitCourse(data) {
-        console.log(data); 
+        console.log(data);
     }
     return (
         <>
-            <div className='flex lg:flex-row flex-col justify-between'>
-                <div>
+            <div className='flex mt-10 lg:flex-row flex-col justify-between'>
+                <div className='flex-col flex-2/12'>
                     <div>
-                        <h1>Add Course</h1>
+                        <h1 className="mb-14 text-3xl font-medium text-gray-5">Add Course</h1>
                     </div>
                     <div>
                         <RenderSteps />
                     </div>
-                    <div>
-                        <form onSubmit={handleSubmit(submitCourse)}>
-
-                        </form>
-                    </div>
                 </div>
-                <div>
-                    <p>⚡ Code Upload Tips</p>
-                    <ul>
+                <div className="sticky h-fit select-none top-10 hidden max-w-[400px] flex-1 rounded-md border-[1px] border-gray-700 bg-gray-800 p-6 xl:block">
+                    <p className="mb-8 text-lg text-gray-50 ">⚡ Course Upload Tips</p>
+                    <ul className="ml-5 list-item list-disc space-y-4 text-xs text-gray-50">
                         <li>Set the Course Price option or make it free.</li>
                         <li>Standard size for the course thumbnail is 1024x576.</li>
                         <li>Video section controls the course overview video.</li>
