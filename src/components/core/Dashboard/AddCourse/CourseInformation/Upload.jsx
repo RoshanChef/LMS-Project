@@ -1,97 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import { useSelector } from 'react-redux';
-// import { FiUploadCloud } from "react-icons/fi";
-// import { MdClose } from "react-icons/md";
-
-// const Upload = ({ name, label, register, errors, setValue }) => {
-//     const [image, setImage] = useState(null);
-//     const { editCourse, course } = useSelector((state) => state.course);
-
-//     const handleChange = (e) => {
-//         const file = e.target.files[0];
-//         setValue(name, file, { shouldValidate: true });
-
-//         if (file) {
-//             const reader = new FileReader();
-//             reader.onloadend = () => setImage(reader.result);
-//             reader.readAsDataURL(file);
-//         } else {
-//             console.log("No file selected");
-//         }
-//     };
-
-//     useEffect(() => {
-//         if (editCourse && course?.thumbnail) {
-//             setImage(course.thumbnail);
-//         }
-//     }, [editCourse, course]);
-
-//     return (
-//         <div className="w-full">
-//             <p className="text-sm text-richblack-5 mb-1">
-//                 {label} <sup className="text-red-500">*</sup>
-//             </p>
-
-//             {image ? (
-//                 <div className="relative w-full rounded-md overflow-hidden group">
-//                     <img
-//                         src={image}
-//                         alt="Uploaded thumbnail"
-//                         className="w-full h-64 object-cover p-5 rounded-lg border border-gray-500"
-//                     />
-//                     <button
-//                         type="button"
-//                         onClick={() => {
-//                             setImage(null);
-//                             setValue(name, null, { shouldValidate: true });
-//                         }}
-//                         className="absolute top-2 right-2 bg-red-700 p-1 rounded-full hover:bg-richblack-600 transition"
-//                         aria-label="Remove image"
-//                     >
-//                         <MdClose className="text-green-300 cursor-pointer text-lg" />
-//                     </button>
-//                 </div>
-//             ) : (
-//                 <label
-//                     htmlFor={label}
-//                     className="flex flex-col items-center justify-center bg-richblack-700 border-2 border-dashed border-richblack-500 hover:border-yellow-300 transition-all duration-200 rounded-md min-h-[250px] cursor-pointer"
-//                 >
-//                     <input
-//                         id={label}
-//                         name={name}
-//                         type="file"
-//                         accept="image/*,.jpeg,.jpg,.png"
-//                         className="hidden"
-//                         {...register(name, { required: true })}
-//                         onChange={handleChange}
-//                     />
-
-//                     <FiUploadCloud className="text-yellow-100 text-4xl mb-4" />
-
-//                     <p className="text-richblack-200 text-sm text-center">
-//                         Drag & drop an image, or{" "}
-//                         <span className="font-semibold text-yellow-50">browse</span>
-//                     </p>
-
-//                     <ul className="mt-6 space-y-1 text-xs text-richblack-300 text-center">
-//                         <li>Aspect ratio: <span className="font-medium">16:9</span></li>
-//                         <li>Recommended size: <span className="font-medium">1024×576</span></li>
-//                     </ul>
-//                 </label>
-//             )}
-
-//             {errors[name] && (
-//                 <span className="mt-2 block text-xs text-red-400 tracking-wide">
-//                     {label} is required**
-//                 </span>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default Upload;
-
-
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { FiUploadCloud } from "react-icons/fi";
@@ -158,7 +64,7 @@ const Upload = ({ name, label, register, errors, setValue }) => {
             onChange={handleChange}
           />
 
-          <FiUploadCloud className="text-yellow-100 text-5xl" />
+          <FiUploadCloud className="text-yellow-300 text-5xl" />
 
           <div className="text-center px-4">
             <p className="text-richblack-200 text-sm">

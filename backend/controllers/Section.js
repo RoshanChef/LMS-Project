@@ -32,20 +32,20 @@ exports.createSection = async (req, res) => {
         });
 
         return res.status(200).json({
-            sucess: true,
+            success: true,
             message: "Section created successfully",
             section,
             updatedCourse
         });
     } catch (error) {
-        return res.status(500).json({ sucess: false, message: "Error in Section creation", error });
+        return res.status(500).json({ success: false, message: "Error in Section creation", error });
     }
 }
 
 exports.updateSection = async (req, res) => {
     try {
         //fetch data
-        const { sectionId, sectionName } = req.body;
+        const { sectionId, sectionName, courseId } = req.body;
 
         // validate data
         if (!sectionId || !sectionName) {
@@ -53,11 +53,13 @@ exports.updateSection = async (req, res) => {
         }
 
         // update section
-        const updatedSection = await Section.findByIdAndUpdate(sectionId, { sectionName }, { new: true });
+        const section = await Section.findByIdAndUpdate(sectionId, { sectionName: sectionName }, { new: true });
 
-        return res.status(200).json({ sucess: true, message: "Section updated successfully", updatedSection });
+        const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "subSection" } }).exec();
+
+        return res.status(200).json({ success: true, message: "Section updated successfully", updatedCourse });
     } catch (error) {
-        return res.status(500).json({ sucess: false, message: "Internal server error", error });
+        return res.status(500).json({ success: false, message: "Internal server error", error });
     }
 }
 
@@ -101,9 +103,11 @@ exports.deleteSection = async (req, res) => {
             });
         }
 
-        return res.status(200).json({ sucess: true, message: "Section deleted successfully", deletedSection });
+        const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "subSection" } }).exec();
+
+        return res.status(200).json({ success: true, message: "Section deleted successfully", deletedSection, updatedCourse });
 
     } catch (error) {
-        return res.status(500).json({ sucess: false, message: "Internal server error", error });
+        return res.status(500).json({ success: false, message: "Internal server error", error });
     }
 }

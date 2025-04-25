@@ -6,6 +6,7 @@ import IconBtn from '../../../../Common/IconBtn';
 import { useDispatch, useSelector } from "react-redux"
 import { setCourse, setStep, setEditCourse } from '../../../../../Redux/Slices/courseSlice';
 import { createSection, updateSection } from '../../../../../services/operations/courseDetailAPI';
+import NestedView from './NestedView';
 
 
 function CourseBuilderForm() {
@@ -17,13 +18,14 @@ function CourseBuilderForm() {
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const [editSection, setEditSec] = useState(null);
-  
-  console.log('course ', course);
+
+  // console.log('courseBuilder ', course);
 
   function cancelEdit() {
     setEditSec(null)
     setValue("sectionName", "")
   }
+
   const goBack = () => {
     dispatch(setStep(1));
     dispatch(setEditCourse(true));
@@ -43,6 +45,15 @@ function CourseBuilderForm() {
     dispatch(setStep(3));
   }
 
+  function handleChangeEditSectionName(sectionId, sectionName) {
+    if (editSection === sectionId) {
+      cancelEdit();
+      return;
+    }
+    setEditSec(sectionId);
+    setValue('sectionName', sectionName);
+  }
+
   async function submitBuilder(formdata) {
     setLoading(true);
     let result = null;
@@ -59,6 +70,8 @@ function CourseBuilderForm() {
         sectionName: formdata.sectionName,
         courseId: course._id
       }, token);
+      console.log('result ', result);
+
     }
 
     // update the values 
@@ -66,49 +79,58 @@ function CourseBuilderForm() {
       dispatch(setCourse(result));
       setEditSec(null);
       setValue('sectionName', '');
+      console.log('i am in');
+
     }
 
     setLoading(false);
   }
 
   return (
-    <div className="space-y-8 rounded-md border-[1px] border-gray-700 bg-gray-800 p-6">
-      <p>Course Builder</p>
-      <form onSubmit={handleSubmit(submitBuilder)}>
-        <label>
-          <p>Section Name <sup className='text-red-400'>**</sup></p>
-          <input {...register('sectionName', { required: true })} className='bg-[#2C333F] select-none w-full p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent' />
-          {errors.sectionName && <span className='text-red-400'>Please enter the section name</span>}
+    <div className="space-y-10 rounded-2xl w-full mr-4 border border-gray-700 bg-gray-800 p-8 shadow-lg">
+      <p className="text-xl font-semibold text-white">Course Builder</p>
 
-          <div className="flex items-end gap-x-4">
-            <IconBtn type="submit" text={`${editSection ? "Edit Section Name" : "Create Section"}`} >
-              <IoAddCircleOutline size={20} className="text-yellow-50" />
-            </IconBtn>
+      <form onSubmit={handleSubmit(submitBuilder)} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-200 mb-2">
+            Section Name <sup className="text-red-400">*</sup>
+          </label>
+          <input
+            {...register('sectionName', { required: true })}
+            className="w-full rounded-lg bg-gray-700 p-3 text-white placeholder-gray-400 focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            placeholder="Enter section name"
+          />
+          {errors.sectionName && (
+            <p className="mt-1 text-sm text-red-400">Please enter the section name</p>
+          )}
+        </div>
 
-            {editSection && (
-              <button
-                type="button"
-                onClick={cancelEdit}
-                className="text-sm text-gray-400 underline"
-              >
-                Cancel Edit
-              </button>
-            )}
+        <div className="flex items-center gap-4">
+          <IconBtn type="submit" text={editSection ? "Edit Section Name" : "Create Section"}>
+            <IoAddCircleOutline size={20} className="text-[#121d29]" />
+          </IconBtn>
 
-          </div>
-
-        </label>
+          {editSection && (
+            <button
+              type="button"
+              onClick={cancelEdit}
+              className="text-sm text-gray-400 underline hover:text-gray-200"
+            >
+              Cancel Edit
+            </button>
+          )}
+        </div>
       </form>
 
-      {course.courseContent.length > 0 && (
+      {course.courseContent?.length > 0 && (
         <NestedView handleChangeEditSectionName={handleChangeEditSectionName} />
       )}
 
-      {/* Next Prev Button */}
-      <div className="flex justify-end gap-x-3">
+      {/* Navigation Buttons */}
+      <div className="flex justify-end gap-4 pt-4 border-t border-gray-700">
         <button
           onClick={goBack}
-          className={`flex cursor-pointer items-center gap-x-2 rounded-md bg-gray-300 py-[8px] px-[20px] font-semibold text-gray-900`}
+          className="rounded-lg cursor-pointer bg-gray-300 px-5 py-2 font-semibold text-gray-900 hover:bg-gray-400"
         >
           Back
         </button>
@@ -117,6 +139,7 @@ function CourseBuilderForm() {
         </IconBtn>
       </div>
     </div>
+
   )
 }
 

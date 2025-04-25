@@ -73,7 +73,7 @@ function CourseInformationForm() {
     }
 
     async function onSubmit(data) {
-        console.log('formdata ........... ', data);
+        // console.log('formdata ........... ', data);
 
         // edit course
         if (editCourse) {
@@ -110,7 +110,7 @@ function CourseInformationForm() {
                 const result = await editCourseDetails(formData, token);
                 if (result) {
                     dispatch(setStep(2));
-                    dispatch(setCourse(result));
+                    dispatch(setCourse(result.newCourse));
                 }
                 setLoading(false);
                 console.log("PRINTING result", result);
@@ -137,10 +137,9 @@ function CourseInformationForm() {
             const result = await createCourse(formData, token);
             if (result) {
                 dispatch(setStep(2));
-                dispatch(setCourse(result));
+                dispatch(setCourse(result.newCourse));
             }
             setLoading(false);
-            console.log("PRINTING result", result);
         }
     }
 
@@ -276,7 +275,7 @@ function CourseInformationForm() {
                         editCourse && (
                             <button
                                 onClick={() => dispatch(setStep(2))}
-                                className=' text-[10px] md:text-sm p-2 px-1 font-semibold rounded-md flex items-center gap-x-2 bg-richblack-300'
+                                className=' text-[10px] cursor-pointer border-1 px-3 border-gray-400 md:text-sm p-2 px-1 font-semibold rounded-md flex items-center gap-x-2 bg-richblack-300'
                             >
                                 Continue Without Saving
                             </button>
