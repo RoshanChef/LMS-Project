@@ -1,58 +1,98 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { MdDelete } from "react-icons/md";
 
-function RequirementFeild({ name, register, errors, setValue, getValues }) {
-    const inputRef = React.useRef(null);
-    const [values, setValues] = React.useState([]);
+const RequirementField = ({ name, label, register, errors, setValue, getValues }) => {
+    const [requirement, setRequirement] = useState("");
+    const [requirementList, setRequirementList] = useState([]);
+    const { editCourse, course } = useSelector((state) => state.course);
 
-    function addTags() {
-        const value = inputRef.current.value;
-        if (value === '' || value === ' ')
-            return;
+    // Register the field once
+    useEffect(() => {
+        register(name, { required: true });
+    }, [register, name]);
 
-        if (values.includes(value))
-            return;
+    // Populate list on edit mode
+    useEffect(() => {
+        if (editCourse && course?.instructions) {
+            try {
+                const parsed = JSON.parse(course.instructions);
+                if (Array.isArray(parsed)) {
+                    setRequirementList(parsed);
+                    setValue(name, parsed);
+                }
+            } catch (err) {
+                console.error("Failed to parse course instructions:", err);
+            }
+        }
+    }, [editCourse, course, name, setValue]);
 
-        setValues(prev => [...prev, value]);
-        setValue(name, values);
-        inputRef.current.value = "";
-    }
+    // Update the form value whenever the list changes
+    useEffect(() => {
+        setValue(name, requirementList);
+    }, [requirementList, name, setValue]);
+
+    const handleAddRequirement = () => {
+        if (requirement.trim() !== "") {
+            setRequirementList(prev => [...prev, requirement.trim()]);
+            setRequirement(""); // Clear input after adding
+        }
+    };
+
+    const handleRemoveRequirement = (index) => {
+        setRequirementList(prev => prev.filter((_, i) => i !== index));
+    };
 
     return (
-        <div>
-            <input
-                {...register(name, {
-                    required: "This field is required",
-                })
-                }
-                onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                        addTags();
-                    }
-                }
-                }
-                ref={inputRef}
-                className="bg-[#2C333F] p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-            />
-            {errors[name] && <p className="text-red-500">{errors[name].message}</p>}
-            <div className='text-amber-300 text-lg mt-3 cursor-pointer font-semibold' onClick={addTags}>
-                <p>Add</p>
-            </div>
-            <div>
-                {values.map((ele, inx) => (
-                    <div key={inx} className='flex items-center gap-2 mt-2'>
-                        <p>{ele}</p>
-                        <p className='text-gray-400 cursor-pointer' onClick={() => {
-                            const newValues = [...values];
-                            newValues.splice(inx, 1);
-                            setValues(newValues);
-                        }
-                        }>clear</p>
-                    </div>
-                ))
-                }
-            </div>
-        </div >
-    )
-}
+        <div className=''>
+            <label className='text-sm text-richblack-5' htmlFor={name}>
+                {label}<sup className='text-red-500'>*</sup>
+            </label>
 
-export default RequirementFeild
+            <div className="flex flex-col gap-2 mt-1">
+                <input
+                    type='text'
+                    id={name}
+                    value={requirement}
+                    onChange={(e) => setRequirement(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleAddRequirement()}
+                    className="bg-[#2C333F] w-full p-3 rounded-md text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    placeholder="Enter a requirement"
+                />
+
+                <button
+                    type='button'
+                    onClick={handleAddRequirement}
+                    className='self-start cursor-pointer text-sm text-yellow-300 hover:text-yellow-400 transition'
+                >
+                    + Add
+                </button>
+            </div>
+
+            {requirementList.length > 0 && (
+                <ul className='mt-3 list-inside list-disc space-y-1 text-gray-300'>
+                    {requirementList.map((req, index) => (
+                        <li key={index} className='flex items-center justify-between'>
+                            <span>{req}</span>
+                            <button
+                                type='button'
+                                onClick={() => handleRemoveRequirement(index)}
+                                className='text-xs cursor-pointer flex items-center gap-1 text-red-300 hover:text-red-500'
+                            >
+                                <MdDelete size={16} />  Remove
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            )}
+
+            {errors[name] && (
+                <span className='mt-1 block text-xs text-pink-200'>
+                    {label} is required
+                </span>
+            )}
+        </div>
+    );
+};
+
+export default RequirementField;

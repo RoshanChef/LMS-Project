@@ -109,8 +109,8 @@ exports.getAllCourses = async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'courses fetched successfully',
-            data: courses 
-            
+            data: courses
+
         });
 
     } catch (error) {
@@ -227,7 +227,7 @@ exports.editCourse = async (req, res) => {
             .populate({
                 path: "instructor",
                 populate: {
-                    path: "additionalDetails",
+                    path: "additionDetail",
                 },
             })
             .populate("category")

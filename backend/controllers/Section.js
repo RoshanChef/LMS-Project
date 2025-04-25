@@ -64,7 +64,7 @@ exports.updateSection = async (req, res) => {
 exports.deleteSection = async (req, res) => {
     try {
         //fetch data
-        const { sectionId, courseId } = req.query;
+        const { sectionId, courseId } = req.body;
         console.log(sectionId);
         // validate data
         if (!sectionId) {
