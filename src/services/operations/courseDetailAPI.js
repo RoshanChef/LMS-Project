@@ -2,14 +2,14 @@ import toast from "react-hot-toast";
 import apiconnector from "../apiconnector";
 import { courseEndpoints } from '../api';
 
-const { COURSE_CATEGORIES_API, CREATE_SECTION_API, EDIT_COURSE_API, CREATE_COURSE_API, DELETE_SUBSECTION_API, UPDATE_SECTION_API, UPDATE_SUBSECTION_API, CREATE_SUBSECTION_API } = courseEndpoints;
+const { DELETE_SECTION_API, COURSE_CATEGORIES_API, CREATE_SECTION_API, EDIT_COURSE_API, CREATE_COURSE_API, DELETE_SUBSECTION_API, UPDATE_SECTION_API, UPDATE_SUBSECTION_API, CREATE_SUBSECTION_API } = courseEndpoints;
 
 // get course categories
 export const fetchCourseCategories = async () => {
     let result = [];
     try {
         const response = await apiconnector("GET", COURSE_CATEGORIES_API);
-        console.log("COURSE_CATEGORIES_API API RESPONSE............", response);
+        // console.log("COURSE_CATEGORIES_API API RESPONSE............", response);
         if (!response?.data?.success) {
             throw new Error("Could Not Fetch Course Categories");
         }
@@ -104,7 +104,7 @@ export async function createSection(data, token) {
             throw new Error('Could Not create Section');
         }
 
-        console.log('Create Section API Response', response.data.updatedCourse);
+        // console.log('Create Section API Response', response.data.updatedCourse);
         result = response?.data?.updatedCourse;
 
         toast.success('Course Section Created Successfully');
@@ -119,10 +119,10 @@ export async function createSection(data, token) {
 
 // delete sub-section
 export async function deleteSubSection(data, token) {
-    const result = null;
+    let result = null;
     const toastId = toast.loading('Loding ....');
     try {
-        const response = await apiconnector('DELETE', DELETE_SUBSECTION_API, data, {
+        const response = await apiconnector('POST', DELETE_SUBSECTION_API, data, {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
         });
@@ -143,7 +143,7 @@ export async function deleteSubSection(data, token) {
 }
 
 export async function createSubSection(data, token) {
-    const result = null;
+    let result = null;
     const toastId = toast.loading('Loding ....');
     try {
         const response = await apiconnector('POST', CREATE_SUBSECTION_API, data, {
@@ -166,7 +166,7 @@ export async function createSubSection(data, token) {
 }
 
 export async function updateSubSection(data, token) {
-    const result = null;
+    let result = null;
     const toastId = toast.loading('Loding ....');
     try {
         const response = await apiconnector('PUT', UPDATE_SUBSECTION_API, data, {
@@ -185,5 +185,24 @@ export async function updateSubSection(data, token) {
         toast.error(error?.response?.data?.message);
     }
     toast.dismiss(toastId);
+    return result;
+}
+
+export async function deleteSection(data, token) {
+    let result = null;
+    try {
+        const response = await apiconnector('POST', DELETE_SECTION_API, data, {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`
+        })
+        if (!response?.data?.success) {
+            throw new Error('Could Not Delete Course Section');
+        }
+        toast.success('Course Section Deleted Successfully');
+        result = response?.data?.updatedCourse;
+    } catch (error) {
+        console.log('Delete Course Section API ERROR', error);
+        toast.error(error?.response?.data?.message);
+    }
     return result;
 }

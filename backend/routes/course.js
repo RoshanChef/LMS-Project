@@ -17,7 +17,7 @@ course_router.get('/getAllCourses', getAllCourses);
 course_router.get('/getCourseDetails', getCourseDetails);
 
 // Delete a Course
-course_router.delete("/deleteCourse", deleteCourse)
+course_router.post("/deleteCourse", deleteCourse)
 
 
 // Route for create course
@@ -31,7 +31,7 @@ course_router.post('/createSection', auth, isInstructor, createSection);
 course_router.post('/updateSection', auth, isInstructor, updateSection);
 
 // Route for delete section
-course_router.delete('/deleteSection', auth, isInstructor, deleteSection);
+course_router.post('/deleteSection', auth, isInstructor, deleteSection);
 
 // Sub Section 
 // Edit Sub Section

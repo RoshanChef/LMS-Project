@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setCourse, setStep, setEditCourse } from '../../../../../Redux/Slices/courseSlice';
 import { createSection, updateSection } from '../../../../../services/operations/courseDetailAPI';
 import NestedView from './NestedView';
+import toast from 'react-hot-toast';
 
 
 function CourseBuilderForm() {
@@ -70,8 +71,7 @@ function CourseBuilderForm() {
         sectionName: formdata.sectionName,
         courseId: course._id
       }, token);
-      console.log('result ', result);
-
+      // console.log('result ', result);
     }
 
     // update the values 
@@ -79,8 +79,6 @@ function CourseBuilderForm() {
       dispatch(setCourse(result));
       setEditSec(null);
       setValue('sectionName', '');
-      console.log('i am in');
-
     }
 
     setLoading(false);
