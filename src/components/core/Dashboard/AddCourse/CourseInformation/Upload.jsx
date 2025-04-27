@@ -26,7 +26,7 @@ const Upload = ({ name, label, register, errors, setValue }) => {
 
   return (
     <div className="w-full">
-      <p className="text-sm text-richblack-5 mb-2 font-medium">
+      <p className="text-sm text-gray-500 mb-2 font-medium">
         {label} <sup className="text-red-500">*</sup>
       </p>
 
@@ -43,7 +43,7 @@ const Upload = ({ name, label, register, errors, setValue }) => {
               setImage(null);
               setValue(name, null, { shouldValidate: true });
             }}
-            className="absolute top-2 right-2 bg-richblack-800 p-1.5 rounded-full hover:bg-yellow-500/60 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-300"
+            className="absolute top-2 right-2 bg-gray-800 p-1.5 rounded-full hover:bg-yellow-500/60 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-300"
             aria-label="Remove image"
           >
             <MdClose className="text-white cursor-pointer text-lg" />

@@ -20,7 +20,6 @@ function NestedView({ handleChangeEditSectionName }) {
   const [confirmationModal, setConfirmationModal] = useState(null);
 
   const handeldeleteSection = async (sectionId) => {
-
     const result = await deleteSection({ sectionId, courseId: course._id }, token);
     if (result) {
       dispatch(setCourse(result));
@@ -86,7 +85,7 @@ function NestedView({ handleChangeEditSectionName }) {
                         <p className='font-semibold text-richblack-50' >{subSection.title}</p>
                       </div>
 
-                      <div className='flex items-center gap-x-3'>
+                      <div className='flex items-center gap-x-3' onClick={e=>e.stopPropagation()}>
                         <button>
                           <VscEdit className='text-lg text-gray-300 z-50' onClick={
                             () => {
