@@ -1,7 +1,7 @@
 import React from 'react'
 import IconBtn from './IconBtn'
 
-function ConfirmationModel({ modelData, setConfirmationModal }) {
+function ConfirmationModel({ modelData }) {
     return (
         <div className="fixed text-black inset-0 z-[1000] !mt-0 grid place-items-center overflow-auto bg-transparent bg-opacity-100 backdrop-blur-sm">
             <div className="w-11/12 max-w-[400px] rounded-lg bg-white/90 p-6">

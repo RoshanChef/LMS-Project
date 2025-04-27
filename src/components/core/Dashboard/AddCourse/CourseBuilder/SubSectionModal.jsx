@@ -33,7 +33,7 @@ function SubSectionModal({
     }, [view, edit]);
 
     async function onSubmit(data) {
-        console.log('on submi clicked');
+        console.log('Form Submitted with Data:', data);
 
         if (view) return;
         if (edit) {
@@ -89,6 +89,8 @@ function SubSectionModal({
         if (result) {
             dispatch(setCourse(result));
         }
+        console.log(result);
+
         setModalData(null);
 
         setLoading(false);
@@ -110,7 +112,7 @@ function SubSectionModal({
             <div className='my-10 w-11/12 max-w-[700px] rounded-lg border border-gray-400 bg-gray-800'>
                 <div className='flex items-center justify-between rounded-t-lg bg-gray-700 p-5'>
                     <p className='text-xl font-semibold text-gray-100'>{view && "Viewing"} {add && "Adding"} {edit && "Editing"} Lecture</p>
-                    <button onClick={() => (!loading ? setModalData(null) : {})}>
+                    <button onClick={() => (!loading ? setModalData(null) : {})} className='cursor-pointer'>
                         <RxCross1 size={20} color={"white"} />
                     </button>
                 </div>
@@ -126,40 +128,40 @@ function SubSectionModal({
                         editData={edit ? modalData.videoUrl : null}
                     />
                     <div className='flex flex-col space-y-2'>
-                        <label className='text-sm text-gray-200' htmlFor='lectureTitle'>Lecture Title</label>
+                        <label className='text-sm text-gray-200' htmlFor='lectureTitle'>Lecture Title<sup className="text-red-500">*</sup></label>
                         <input disabled={view}
                             id='lectureTitle'
                             placeholder='Enter Lecture Title'
                             {...register("lectureTitle", { required: true })}
-                            className='bg-[#2C333F] p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent'
+                            className=' bg-gray-700 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent'
                         />
-                        {errors.lectureTitle && (<span className='ml-2 text-xs tracking-wide text-pink-200'>
+                        {errors.lectureTitle && (<span className='ml-2 text-xs tracking-wide text-red-400'>
                             Lecture Title is required
                         </span>)}
                     </div>
                     <div className='flex flex-col space-y-2'>
-                        <label className='text-sm text-gray-200'>Lecture Description</label>
+                        <label className='text-sm text-gray-200'>Lecture Description<sup className="text-red-500">*</sup></label>
                         <textarea disabled={view}
                             id='lectureDesc'
                             placeholder='Enter Lecture Description'
                             {...register("lectureDesc", { required: true })}
-                            className='bg-[#2C333F] p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent resize-x-none min-h-[130px]'
+                            className='bg-gray-700 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent resize-x-none min-h-[130px]'
                         />
                         {
-                            errors.lectureDesc && (<span className='ml-2 text-xs tracking-wide text-pink-200'>
+                            errors.lectureDesc && (<span className='ml-2 text-xs tracking-wide text-red-400'>
                                 Lecture Description is required
                             </span>)
                         }
                     </div>
-                    {
-                        !view && (
-                            <div className='flex justify-end'>
-                                <IconBtn
-                                    text={loading ? "Loading..." : edit ? "Save Changes" : "Save"}
-                                />
-                            </div>
-                        )
-                    }
+                    {!view && (
+                        <div className='flex justify-end'>
+                            <IconBtn
+                                type="submit"
+                                text={loading ? "Loading..." : edit ? "Save Changes" : "Save"}
+                            />
+                        </div>
+                    )}
+
                 </form>
 
             </div>

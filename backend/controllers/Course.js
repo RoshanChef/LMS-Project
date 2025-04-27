@@ -3,6 +3,7 @@ const Category = require('../models/category');
 const Course = require('../models/courses');
 const sub_section = require('../models/sub_section');
 const Rate_review = require('../models/rating_review');
+const Section = require('../models/section');
 const { uploadToCloudinary } = require('../utils/imageUpload');
 
 // createCourse handler function 
@@ -166,12 +167,12 @@ exports.getCourseDetails = async (req, res) => {
 exports.getInstructorCourses = async (req, res) => {
     try {
         // get instructor id from token
-        const { instructorId } = req.user.id;
+        const instructorId = req.user.id;
 
         // Find all courses belonging to the instructor
         const instructorCourses = await Course.find({
             instructor: instructorId,
-        }).sort({ createdAt: -1 });
+        }).sort({ createdAt: -1 }).populate({ path: 'courseContent', populate: { path: "subSection" } }).exec();
 
         // Return the instructor's courses
         res.status(200).json({
@@ -261,17 +262,19 @@ exports.deleteCourse = async (req, res) => {
         const { courseId } = req.body;
 
         // Find the course
-        const course = await Course.findById(courseId)
+        const course = await Course.findById(courseId);
         if (!course) {
             return res.status(404).json({ message: "Course not found" })
         }
 
         // Delete from the all the user who enrolled
         const studentsEnrolled = course.studentsEnroled;
-        for (const user_id of studentsEnrolled) {
-            await User.findByIdAndUpdate(user_id, {
-                $pull: { courses: courseId },
-            })
+        if (studentsEnrolled) {
+            for (const user_id of studentsEnrolled) {
+                await User.findByIdAndUpdate(user_id, {
+                    $pull: { courses: courseId },
+                })
+            }
         }
 
         // Delete from section and subsection
@@ -302,9 +305,8 @@ exports.deleteCourse = async (req, res) => {
         await category.save();
 
         // Delete the course
-        await Course.findByIdAndDelete(courseId)
+        await Course.findByIdAndDelete(courseId);
 
-        // return response
         return res.status(200).json({
             success: true,
             message: "Course deleted successfully"

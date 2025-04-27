@@ -74,18 +74,18 @@ function NestedView({ handleChangeEditSectionName }) {
                   section.subSection.map((subSection) => (
                     <div
                       key={subSection._id}
-                      onClick={(e) => {
-                        if (e.currentTarget != e.target) return;
-                        setViewSubSection({ ...subSection, sectionId: section._id });
-                      }}
+
                       className='flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-gray-500 py-2 z-0'>
 
                       <div className='flex items-center gap-x-3'>
                         <RxDropdownMenu size={25} className=' text-richblack-50' />
-                        <p className='font-semibold text-richblack-50' >{subSection.title}</p>
+                        <p className='font-semibold text-richblack-50' onClick={(e) => {
+                          if (e.currentTarget != e.target) return;
+                          setViewSubSection({ ...subSection, sectionId: section._id });
+                        }}>{subSection.title}</p>
                       </div>
 
-                      <div className='flex items-center gap-x-3' onClick={e=>e.stopPropagation()}>
+                      <div className='flex items-center gap-x-3' onClick={e => e.stopPropagation()}>
                         <button>
                           <VscEdit className='text-lg text-gray-300 z-50' onClick={
                             () => {

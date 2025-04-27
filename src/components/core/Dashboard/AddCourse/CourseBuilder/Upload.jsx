@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { FiUploadCloud } from "react-icons/fi";
-import ReactPlayer from "react-player";
-import { MdClose } from "react-icons/md";
+import { useEffect, useRef, useState } from "react"
+import { useDropzone } from "react-dropzone"
+import { FiUploadCloud } from "react-icons/fi"
+import { useSelector } from "react-redux"
+import ReactPlayer from "react-player"   // <--- NEW import
 
 export default function Upload({
   name,
@@ -13,133 +14,112 @@ export default function Upload({
   viewData = null,
   editData = null,
 }) {
-  const [videoUrl, setVideoUrl] = useState(null);
-  const inputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null)
+  const [previewSource, setPreviewSource] = useState(
+    viewData ? viewData : editData ? editData : ""
+  )
+  const inputRef = useRef(null)
 
-  function clickHandle(e) {
-    e.preventDefault();
-    inputRef.current?.click();
-  }
-
-  function handleDrop(e) {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    if (files && files.length > 0) {
-      inputRef.current.files = files;
-
-      const file = files[0];
-      if (video) {
-        setValue(name, URL.createObjectURL(file));
-        setVideoUrl(URL.createObjectURL(file));
-      } else {
-        setValue(name, file);
-      }
+  const onDrop = (acceptedFiles) => {
+    const file = acceptedFiles[0]
+    if (file) {
+      previewFile(file)
+      setSelectedFile(file)
     }
   }
 
-  console.log(videoUrl);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: !video
+      ? { "image/*": [".jpeg", ".jpg", ".png"] }
+      : { "video/*": [".mp4"] },
+    onDrop,
+  })
 
+  const previewFile = (file) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onloadend = () => {
+      setPreviewSource(reader.result)
+    }
+  }
+
+  useEffect(() => {
+    register(name, { required: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [register])
+
+  useEffect(() => {
+    setValue(name, selectedFile)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFile, setValue])
 
   return (
-    <div className="w-full">
+    <div className="flex flex-col space-y-2">
+      <label className="text-sm text-gray-100 font-semibold" htmlFor={name}>
+        {label} {!viewData && <sup className="text-red-500">*</sup>}
+      </label>
       <div
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={handleDrop}
+        className={`${isDragActive ? "bg-gray-600" : "bg-gray-700"
+          } flex min-h-[250px] hover:border-amber-300 cursor-pointer items-center justify-center rounded-lg border-2 border-dotted border-gray-500 hover:shadow-xl transition-all ease-in-out duration-200`}
       >
-        <label className="flex flex-col gap-2">
-          <p>
-            {label}
-            <sup className="text-red-500">*</sup>
-          </p>
-
-          {/* Correct ref handling */}
-          <input
-            {...register(name, { required: true })}
-            ref={(e) => {
-              if (e) {
-                register(name, { required: true }).ref(e);
-                inputRef.current = e;
-              }
-            }}
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (file) {
-                if (video) {
-                  const videoBlobUrl = URL.createObjectURL(file);
-                  setValue(name, video);
-                  setVideoUrl(videoBlobUrl);
-                } else {
-                  setValue(name, file);
-                }
-              }
-            }}
-            name={name}
-            type="file"
-            accept="video/*"
-            className="hidden"
-          />
-
-          {videoUrl ? (
-            // Video Preview
-            <div className="w-full relative aspect-video mt-4 rounded-xl overflow-hidden group">
-              {/* Video Player */}
-              <ReactPlayer
-                url={videoUrl}
-                controls
-                width="100%"
-                height="100%"
-                className="rounded-xl"
+        {previewSource ? (
+          <div className="flex w-full flex-col p-6 space-y-4">
+            {!video ? (
+              <img
+                src={previewSource}
+                alt="Preview"
+                className="h-full w-full rounded-lg object-cover transform hover:scale-105 transition-transform duration-300"
               />
-
-              {/* Remove Button */}
+            ) : (
+              <div className="relative w-full aspect-video">
+                <ReactPlayer
+                  url={previewSource}
+                  width="100%"
+                  height="100%"
+                  controls={true}
+                />
+              </div>
+            )}
+            {!viewData && (
               <button
                 type="button"
                 onClick={() => {
-                  setVideoUrl(null);
-                  setValue(name, null, { shouldValidate: true });
+                  setPreviewSource("")
+                  setSelectedFile(null)
+                  setValue(name, null)
                 }}
-                className="absolute top-2 right-2 p-2 rounded-full bg-gray-800/70 backdrop-blur-md hover:bg-yellow-400/80 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300"
-                aria-label="Remove media"
+                className="mt-3 text-gray-400 cursor-pointer hover:text-gray-200 underline transition duration-200"
               >
-                <MdClose className="text-white text-xl" />
+                Cancel
               </button>
+            )}
+          </div>
+        ) : (
+          <div
+            className="flex w-full flex-col items-center p-6 space-y-3"
+            {...getRootProps()}
+            onClick={() => inputRef.current.click()}
+          >
+            <input {...getInputProps()} ref={inputRef} />
+            <div className="grid aspect-square w-14 place-items-center border-[.1rem] border-yellow-200 rounded-full bg-pure-greys-800 shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+              <FiUploadCloud className="text-3xl text-yellow-400" />
             </div>
-
-          ) : (
-            // Upload box
-            <div
-              className="flex flex-col items-center justify-center gap-4 p-6 bg-richblack-800 border-2 border-dashed border-richblack-600 hover:border-yellow-200 transition-all duration-300 rounded-2xl min-h-[280px] cursor-pointer shadow-inner hover:shadow-yellow-400/30 hover:scale-101 transform"
-              onClick={clickHandle}
-            >
-              <FiUploadCloud className="text-yellow-300 text-6xl mb-2 animate-bounce-slow" />
-              <div className="text-center px-6">
-                <p className="text-richblack-200 text-sm leading-relaxed">
-                  Drag & drop or{" "}
-                  <span className="font-semibold text-yellow-300 underline underline-offset-4">
-                    browse
-                  </span>{" "}
-                  to upload
-                </p>
-
-                <ul className="mt-5 text-xs text-richblack-300 space-y-1">
-                  <li>
-                    Recommended aspect ratio: <strong>16:9</strong>
-                  </li>
-                  <li>
-                    Ideal resolution: <strong>1024×576</strong>
-                  </li>
-                  <li>
-                    File types: <strong>.mkv, .mp4</strong>
-                  </li>
-                  <li>
-                    Max size: <strong>1MB</strong>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          )}
-        </label>
+            <p className="mt-3 max-w-[200px] text-center text-sm text-gray-200">
+              Drag and drop an {!video ? "image" : "video"}, or click to{" "}
+              <span className="font-semibold text-yellow-400">Browse</span> a file
+            </p>
+            <ul className="mt-4 flex list-disc justify-between space-x-12 text-center text-xs text-gray-200">
+              <li>Aspect ratio 16:9</li>
+              <li>Recommended size 1024x576</li>
+            </ul>
+          </div>
+        )}
       </div>
+      {errors[name] && (
+        <span className="ml-2 text-xs tracking-wide text-red-400">
+          {label} is required
+        </span>
+      )}
     </div>
-  );
+  )
 }

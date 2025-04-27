@@ -1,6 +1,7 @@
 const courseprogress = require('../models/courseprogress');
 const section = require('../models/section');
 const sub_section = require('../models/sub_section');
+const Course = require('../models/courses');
 const { uploadToCloudinary } = require('../utils/imageUpload');
 
 exports.createSubSection = async (req, res) => {
@@ -34,7 +35,7 @@ exports.createSubSection = async (req, res) => {
             { new: true }).populate('subSection');
 
         const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "subSection" } }).exec();
-
+        console.log(updatedCourse);
 
         return res.status(200).json({
             success: true,
