@@ -1,5 +1,5 @@
 import React from 'react'
-import IconBtn from './IconBtn'
+import IconBtn from './IconBtn'; 
 
 function ConfirmationModel({ modelData }) {
     return (
@@ -12,7 +12,7 @@ function ConfirmationModel({ modelData }) {
                         text={modelData?.btn1Text}
                     />
                     <button onClick={modelData?.btn2Handler}
-                        className="cursor-pointer bg-[#1D1629] rounded-md text-white py-[8px] px-[20px] font-semibold text-gray-900"
+                        className="cursor-pointer bg-[#1D1629] rounded-md    py-[8px] px-[20px] font-semibold text-gray-900"
                     >
                         {modelData?.btn2Text}
                     </button>

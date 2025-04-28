@@ -5,6 +5,7 @@ const sub_section = require('../models/sub_section');
 const Rate_review = require('../models/rating_review');
 const Section = require('../models/section');
 const { uploadToCloudinary } = require('../utils/imageUpload');
+const courseprogress = require('../models/courseprogress');
 
 // createCourse handler function 
 exports.createCourse = async (req, res) => {
@@ -342,12 +343,13 @@ exports.getFullCourseDetails = async (req, res) => {
             })
             .exec();
 
-        let courseProgressCount = await CourseProgress.findOne({
+        console.log('coursee ', courseDetails);
+        const userId = req.user.id;
+        let courseProgressCount = await courseprogress.findOne({
             course_id: courseId,
-            userId: userId,
+            userId,
         });
 
-        console.log("courseProgressCount : ", courseProgressCount);
 
         if (!courseDetails) {
             return res.status(400).json({
@@ -359,12 +361,14 @@ exports.getFullCourseDetails = async (req, res) => {
         return res.send({
             success: true,
             message: "Course details fetched successfully",
-            data: course,
+            data: courseDetails,
         })
 
     } catch (error) {
-        return res.send({
-
+        return res.status(500).send({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
         })
     }
 }

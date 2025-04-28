@@ -41,7 +41,7 @@ function CourseInformationForm() {
         }
 
         if (editCourse) {
-            setValue("courseTitle", course.courseName);
+            setValue("courseTitle", course?.courseName);
             setValue("courseShortDesc", course.courseDescription);
             setValue("coursePrice", course.price);
             setValue("courseTags", course.tag);

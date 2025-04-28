@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import apiconnector from "../apiconnector";
 import { courseEndpoints } from '../api';
 
-const { DELETE_COURSE_API, DELETE_SECTION_API, COURSE_CATEGORIES_API, CREATE_SECTION_API, EDIT_COURSE_API, CREATE_COURSE_API, DELETE_SUBSECTION_API, UPDATE_SECTION_API, UPDATE_SUBSECTION_API, CREATE_SUBSECTION_API, GET_ALL_INSTRUCTOR_COURSES_API } = courseEndpoints;
+const { GET_FULL_COURSE_DETAILS_AUTHENTICATED, DELETE_COURSE_API, DELETE_SECTION_API, COURSE_CATEGORIES_API, CREATE_SECTION_API, EDIT_COURSE_API, CREATE_COURSE_API, DELETE_SUBSECTION_API, UPDATE_SECTION_API, UPDATE_SUBSECTION_API, CREATE_SUBSECTION_API, GET_ALL_INSTRUCTOR_COURSES_API } = courseEndpoints;
 
 // get course categories
 export const fetchCourseCategories = async () => {
@@ -249,4 +249,26 @@ export async function deleteCourse(data, token) {
     toast.dismiss(toastId);
     return result;
 
+}
+
+export async function getFullDetailsOfCourse(courseId, token) {
+    let result = null;
+    const toastId = toast.loading('Loading Course Details...');
+    try {
+        const response = await apiconnector('POST', GET_FULL_COURSE_DETAILS_AUTHENTICATED, { courseId: courseId }, {
+            'Authorization': `Bearer ${token}`
+        });
+
+        if (!response.data.success) {
+            throw new Error('Could Not Get Course Details');
+        }
+        result = response?.data?.data;
+        console.log(result);
+    }
+    catch (error) {
+        console.log('Get Course Details API ERROR', error);
+        toast.error(error?.response?.data?.message);
+    }
+    toast.dismiss(toastId);
+    return result;
 }

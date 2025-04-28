@@ -43,8 +43,7 @@ course_router.post("/addSubSection", auth, isInstructor, createSubSection);
 
 
 // Get Details for a Specific Courses
-course_router.get("/getFullCourseDetails", auth, getFullCourseDetails);
-
+course_router.post("/getFullCourseDetails", auth, getFullCourseDetails);
 // Edit Course routes
 course_router.post("/editCourse", auth, isInstructor, editCourse)
 
