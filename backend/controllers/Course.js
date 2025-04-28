@@ -45,11 +45,10 @@ exports.createCourse = async (req, res) => {
         // get thumbnail 
         const thumbnail = req.files.thumbnailImage;
 
-
         // upload to cloudinary
         const thumbnailUrl = await uploadToCloudinary(thumbnail, process.env.CLOUDINARY_FOLDER_NAME);
 
-        console.log('Url : ', thumbnailUrl.secure_url);
+        // console.log('Url : ', thumbnailUrl.secure_url);
         // create course
         const newCourse = await Course.create({
             courseName,
@@ -71,10 +70,11 @@ exports.createCourse = async (req, res) => {
         })
 
         // update to tags
-        const category_update = await Category.findByIdAndUpdate({ _id: category },
+        const category_update = await Category.findByIdAndUpdate(
+            category,
             {
                 $push: {
-                    course: newCourse._id
+                    courses: newCourse._id
                 }
             },
             { new: true }
@@ -343,7 +343,7 @@ exports.getFullCourseDetails = async (req, res) => {
             })
             .exec();
 
-        console.log('coursee ', courseDetails);
+        // console.log('coursee ', courseDetails);
         const userId = req.user.id;
         let courseProgressCount = await courseprogress.findOne({
             course_id: courseId,

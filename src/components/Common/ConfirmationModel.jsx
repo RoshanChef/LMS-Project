@@ -12,7 +12,7 @@ function ConfirmationModel({ modelData }) {
                         text={modelData?.btn1Text}
                     />
                     <button onClick={modelData?.btn2Handler}
-                        className="cursor-pointer bg-[#1D1629] rounded-md    py-[8px] px-[20px] font-semibold text-gray-900"
+                        className="cursor-pointer bg-[#1D1629] rounded-md    py-[8px] px-[20px] font-semibold text-gray-100"
                     >
                         {modelData?.btn2Text}
                     </button>

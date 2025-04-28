@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import AddCourse from "./components/core/Dashboard/AddCourse";
 import MyCourses from "./components/core/Dashboard/MyCourses";
 import EditCourse from "./components/core/Dashboard/AddCourse/EditCourse";
+import Catelog from "./pages/Catelog";
 
 export default function App() {
   const { user } = useSelector(state => state.profile);
@@ -80,17 +81,22 @@ export default function App() {
               </>
             )
           }
+
           {
             user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
               <>
                 <Route path="add-course" element={<AddCourse />} />
                 <Route path="my-courses" element={<MyCourses />} />
                 <Route path="edit-course/:courseId" element={<EditCourse />} />
+
               </>
             )
           }
 
         </Route>
+        
+        <Route path="catalog/:catalogName" element={<Catelog />} />
+
         <Route path="/about" element={<About_us />} />
         <Route path="/contact" element={<Contact_us />} />
 

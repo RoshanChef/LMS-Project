@@ -24,8 +24,8 @@ const Community = ["Forums", "Chapters", "Events"];
 
 const Footer = () => {
   return (
-    <div className="bg-richblack-800">
-      <div className="flex lg:flex-row gap-8 items-center justify-between w-11/12 max-w-maxContent text-richblack-400 leading-6 mx-auto relative py-14">
+    <div className="bg-gray-800">
+      <div className="flex lg:flex-row gap-8 items-center justify-between w-11/12 max-w-maxContent text-gray-400 leading-6 mx-auto relative py-14">
         <div className="border-b w-[100%] flex flex-col lg:flex-row pb-5 border-gray-700">
           {/* Section 1 */}
           <div className="lg:w-[50%] flex flex-wrap flex-row justify-between lg:border-r lg:border-gray-700 pl-3 lg:pr-5 gap-3">
@@ -150,7 +150,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="flex flex-row items-center justify-between w-11/12 max-w-maxContent text-richblack-400 mx-auto  pb-14 text-sm">
+      <div className="flex flex-row items-center justify-between w-11/12 max-w-maxContent text-gray-400 mx-auto  pb-14 text-sm">
         {/* Section 1 */}
         <div className="flex justify-between lg:items-start items-center flex-col lg:flex-row gap-3 w-full">
           <div className="flex flex-row">
@@ -160,7 +160,7 @@ const Footer = () => {
                   key={i}
                   className={` ${BottomFooter.length - 1 === i
                     ? ""
-                    : "border-r border-richblack-700 cursor-pointer hover:text-white transition-all duration-200"
+                    : "border-r border-gray-700 cursor-pointer hover:text-white transition-all duration-200"
                     } px-3 `}
                 >
                   <Link to={ele.split(" ").join("-").toLocaleLowerCase()}>
@@ -171,7 +171,7 @@ const Footer = () => {
             })}
           </div>
 
-          <div className="text-center">Made with ❤️ CodeHelp © 2023 Studynotion</div>
+          <div className="text-center">Made with Studymonk</div>
         </div>
       </div>
     </div>
