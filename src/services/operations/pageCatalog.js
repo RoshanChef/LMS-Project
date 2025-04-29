@@ -14,7 +14,7 @@ export async function getCatalogData(categoryId, token) {
             }
         });
 
-        console.log('response getCatalogData api', response.data);
+        //console.log('response getCatalogData api', response.data);
 
         if (!response?.data?.success) {
             throw new Error(response?.data?.message || "Unknown error");

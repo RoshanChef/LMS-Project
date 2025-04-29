@@ -23,6 +23,7 @@ import AddCourse from "./components/core/Dashboard/AddCourse";
 import MyCourses from "./components/core/Dashboard/MyCourses";
 import EditCourse from "./components/core/Dashboard/AddCourse/EditCourse";
 import Catelog from "./pages/Catelog";
+import DetailsPage from "./pages/DetailsPage";
 
 export default function App() {
   const { user } = useSelector(state => state.profile);
@@ -94,11 +95,12 @@ export default function App() {
           }
 
         </Route>
-        
+
         <Route path="catalog/:catalogName" element={<Catelog />} />
 
         <Route path="/about" element={<About_us />} />
         <Route path="/contact" element={<Contact_us />} />
+        <Route path="/course/:id" element={<DetailsPage />} />
 
 
         <Route path="/:name" element={<Home />} />

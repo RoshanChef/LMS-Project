@@ -1,94 +1,100 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import apiconnector from '../services/apiconnector';
 import { categories } from '../services/api';
-import Footer from '../components/Common/Footer';
 import { getCatalogData } from '../services/operations/pageCatalog';
-import { useSelector } from 'react-redux';
+
+import Footer from '../components/Common/Footer';
 import Course_card from '../components/core/Catalog/Course_card';
 import CourseSlider from '../components/core/Catalog/Course_slider';
 
-function Catalog() { // Corrected function name from Catelog -> Catalog
+function Catalog() {
   const { CATEGORIES_API } = categories;
-  const { token } = useSelector(state => state.auth);
+  const { token } = useSelector((state) => state.auth);
   const { catalogName } = useParams();
+
   const [catalogPageData, setCatalogPageData] = useState(null);
   const [categoryId, setCategoryId] = useState("");
 
+  // Fetch Category ID
   useEffect(() => {
     async function getCategory() {
       const response = await apiconnector('GET', CATEGORIES_API);
-      const category_id = response.data.data?.filter(
+      const category_id = response.data.data?.find(
         (ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName
-      )[0]?._id;
-      
+      )?._id;
+
       setCategoryId(category_id);
     }
+
     getCategory();
   }, [catalogName]);
 
+  // Fetch Catalog Data
   useEffect(() => {
     async function getCategoryDetails() {
       try {
         const response = await getCatalogData(categoryId, token);
-        console.log("response ", response);
         setCatalogPageData(response);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching catalog data:", error);
       }
     }
-    if (categoryId) { // Added safeguard to not call API with empty categoryId
-      getCategoryDetails();
-    }
-  }, [categoryId]);
 
-  // console.log(catalogPageData?.selectedCategory?.courses);
-  
+    if (categoryId) getCategoryDetails();
+  }, [categoryId, token]);
 
   return (
-    <div>
-      <div className='mx-auto flex min-h-[260px] flex-col justify-center gap-4'>
-        <p className='text-sm text-gray-300'>
-          {'Home/Catalog/'} <span className="text-yellow-400">{catalogPageData?.selectedCategory?.name}</span>
+    <div className="box-content">
+      {/* Header Section */}
+      <div className="mx-auto bg-gray-800 pl-10 flex min-h-[260px] flex-col justify-center gap-4">
+        <p className="text-sm text-gray-300">
+          Home / Catalog /{" "}
+          <span className="text-yellow-400">
+            {catalogPageData?.selectedCategory?.name}
+          </span>
         </p>
-        <p>{catalogPageData?.selectedCategory?.name}</p>
-        <p>{catalogPageData?.selectedCategory?.description}</p>
+        <p className="text-3xl text-gray-100">
+          {catalogPageData?.selectedCategory?.name}
+        </p>
+        <p className="max-w-[870px] text-gray-200">
+          {catalogPageData?.selectedCategory?.description}
+        </p>
       </div>
 
-      <div>
-        {/* Section 1 */}
-        <div>
-          <div>
-            <h1>Courses to get you started</h1>
+      {/* Content Sections */}
+      <div className="mx-auto w-full max-w-maxContentTab px-2 py-12 lg:max-w-maxContent">
+        {/* Section 1: Courses to get you started */}
+        <section className="mb-12">
+          <h1 className="text-xl font-semibold mb-3">Courses to get you started</h1>
+          <div className="flex gap-x-4 mb-4 text-sm text-gray-500">
+            <p className="cursor-pointer hover:text-yellow-400">Most Popular</p>
+            <p className="cursor-pointer hover:text-yellow-400">New</p>
           </div>
-          <div className='flex gap-x-3'>
-            <p>Most Popular</p>
-            <p>New</p>
-          </div>
-          <CourseSlider courses={catalogPageData?.selectedCategory?.courses} />
-        </div>
+          <CourseSlider courses={catalogPageData?.selectedCourses} />
+        </section>
 
-        {/* Section 2 */}
-        <div>
-          <p>Top Course in {catalogPageData?.selectedCategory?.name}</p> {/* Corrected p tag */}
-          <div>
-            <CourseSlider courses={catalogPageData?.differentCourses} />
-          </div>
-        </div>
+        {/* Section 2: Top Course in Category */}
+        <section className="mb-12">
+          <h2 className="text-xl font-semibold mb-4">
+            Top Course in {catalogPageData?.selectedCategory?.name}
+          </h2>
+          <CourseSlider courses={catalogPageData?.differentCourses} />
+        </section>
 
-        {/* Section 3 */}
-        <div>
-          <p>Frequently Bought</p>
-          <div className='py-8'>
-            <div className='grid grid-cols-1 lg:grid-cols-2'>
-              {catalogPageData?.topSellingCourses?.courses?.map((course, idx) => (
-                <Course_card course={course} key={idx} Height={"h-[400px]"} />
-              ))}
-              {/* Added return with () inside map */}
-            </div>
+        {/* Section 3: Frequently Bought */}
+        <section className="mb-12">
+          <h2 className="text-xl font-semibold mb-4">Frequently Bought</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 place-items-center">
+            {catalogPageData?.mostSellingCourses?.map((course, idx) => (
+              <Course_card course={course} key={idx} Height="h-[200px]" Width="w-[50rem]"/>
+            ))}
           </div>
-        </div>
+        </section>
       </div>
+
       <Footer />
     </div>
   );

@@ -9,6 +9,7 @@ import Stats from '../components/core/About_us/Stats';
 import LearningGrid from '../components/core/About_us/LearningGrid';
 import ContactFormSection from '../components/core/About_us/ContactFormSection';
 import Footer from '../components/Common/Footer';
+import Swiper from 'swiper';
 
 function About_us() {
     return (
