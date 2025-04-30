@@ -7,7 +7,7 @@ const getConfirmContent = require("./Email_templates/confirmation");
 
 require('dotenv').config();
 
-async function sendEmail(email, title, type, otp, link, firstname, lastname, message, phoneNo, countrycode) {
+async function sendEmail(email, title, type, otp, link, firstname, lastname, message, phoneNo, payment, countrycode) {
     try {
         console.log(email);
         const transporter = nodemailer.createTransport({
@@ -21,7 +21,7 @@ async function sendEmail(email, title, type, otp, link, firstname, lastname, mes
         let content;
         switch (type) {
             case "payment":
-                content = getPaymentContent();
+                content = getPaymentContent(payment);
                 break;
             case "reset":
                 content = getResetContent(link);

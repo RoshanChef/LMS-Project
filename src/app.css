@@ -2,7 +2,10 @@
     background-image: url(./assets/bghome.svg);
 }
 
-
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  display: none;
+}
 .custom-loader {
   transform: rotateZ(45deg);
   perspective: 1000px;

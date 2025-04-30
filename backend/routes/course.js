@@ -14,7 +14,7 @@ const course_router = express.Router();
 // ********************************************************************************************************
 // Route for get all courses
 course_router.get('/getAllCourses', getAllCourses);
-course_router.get('/getCourseDetails', getCourseDetails);
+course_router.post('/getCourseDetails', getCourseDetails);
 
 // Delete a Course
 course_router.post("/deleteCourse", deleteCourse)

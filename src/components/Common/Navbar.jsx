@@ -129,9 +129,8 @@ function Navbar() {
                     }
                     {token != null && <ProfileDropdown />}
                 </div>
-                <button className="mr-4 md:hidden">
-                    <AiOutlineMenu style={{ fontSize: 144, fill: "#AFB2BF" }} />
-
+                <button className="mr-4 md:hidden cursor-pointer touch-pan-down">
+                    <AiOutlineMenu style={{ fontSize: 24, fill: "#AFB2BF" }} />
                 </button>
             </div>
         </div >

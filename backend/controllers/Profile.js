@@ -181,7 +181,6 @@ exports.updateDisplayPicture = async (req, res) => {
 // get total Enrolled courses
 exports.getEnrolledCourses = async (req, res) => {
     try {
-
         const id = req.user.id;
         const user = await User.findById(id).populate({
             path: 'courses',
@@ -195,7 +194,7 @@ exports.getEnrolledCourses = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-
+            data: user
         })
     } catch (error) {
         return res.status(500).json({

@@ -1,5 +1,7 @@
 
-function getPaymentContent() {
+function getPaymentContent(payment) {
+    let date = new Date()
+
     return `<!DOCTYPE html>
 <html lang="en">
 
@@ -157,19 +159,19 @@ function getPaymentContent() {
         <div class="details-box">
             <div class="detail-row">
                 <span class="detail-label">Payment ID:</span>
-                <span class="detail-value" id="paymentId">PAY123456789</span>
+                <span class="detail-value" id="paymentId">${payment.paymentId}</span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Amount Paid:</span>
-                <span class="detail-value" id="amount">₹1,299.00</span>
+                <span class="detail-value" id="amount">₹${payment.amount}</span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Course Name:</span>
                 <span class="detail-value" id="courseName">Advanced JavaScript</span>
             </div>
             <div class="detail-row">
-                <span class="detail-label">Date & Time:</span>
-                <span class="detail-value" id="dateTime">May 15, 2023 at 10:30 AM</span>
+                <span class="detail-label">${date.toLocaleString()}</span>
+                <span class="detail-value" id="dateTime"></span>
             </div>
         </div>
 

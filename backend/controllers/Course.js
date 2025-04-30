@@ -80,7 +80,7 @@ exports.createCourse = async (req, res) => {
             { new: true }
         );
 
-        console.log("here after update tag ", category_update);
+        // console.log("here after update tag ", category_update);
 
         return res.status(200).json({
             success: true,
@@ -130,7 +130,7 @@ exports.getCourseDetails = async (req, res) => {
         const { courseId } = req.body;
 
         // find course by id
-        const course = await Course.findById(courseId).populate([
+        const course = await Course.find({ _id: courseId }).populate([
             {
                 path: "instructor",
                 populate: { path: "additionDetail" }
@@ -142,6 +142,7 @@ exports.getCourseDetails = async (req, res) => {
             "rate_review",
             "studentEnrolled"
         ]).exec();
+        // console.log("Successfully fetched course details ", course);
 
         // Check if course exists
         if (!course) {

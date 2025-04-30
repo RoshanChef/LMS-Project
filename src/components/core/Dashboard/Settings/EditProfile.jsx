@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-
+import { FiX, FiCalendar, FiChevronDown, FiPhone, FiUser, FiSave } from "react-icons/fi"
 import { updateProfile } from "../../../../services/operations/settingAPI"
-import IconBtn from '../../../Common/IconBtn';
+import { useRef } from "react"
 
 const genders = ["Male", "Female", "Prefer not to say", "Other"]
 
@@ -19,6 +19,8 @@ export default function EditProfile() {
         formState: { errors }
     } = useForm()
 
+    const dateRef = useRef(null);
+
     const submitProfileForm = async (data) => {
         try {
             dispatch(updateProfile(token, data))
@@ -28,168 +30,209 @@ export default function EditProfile() {
     }
     return (
         <>
-            <form onSubmit={handleSubmit(submitProfileForm)}>
-                {/* Profile Information */}
-                <div className="my-10 flex flex-col gap-y-6 rounded-md border-[1px] border-gray-700  p-8 px-12">
-                    <h2 className="text-lg font-semibold text-richblack-5">
+            <form onSubmit={handleSubmit(submitProfileForm)} className="space-y-8">
+                {/* Profile Information Section */}
+                <div className="rounded-xl border transition-all hover:border-indigo-500/30 border-[#2a3245] bg-[#1e2536] p-8">
+                    <h2 className="mb-6 text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
                         Profile Information
                     </h2>
-                    <div className="flex flex-col gap-5 lg:flex-row">
-                        <div className="flex flex-col gap-2 lg:w-[48%]">
-                            <label htmlFor="firstName" className="lable-style">
+
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                        {/* First Name */}
+                        <div className="space-y-2">
+                            <label htmlFor="firstName" className="block text-sm font-medium text-gray-400 mb-1">
                                 First Name
                             </label>
-                            <input
-                                type="text"
-                                name="firstName"
-                                id="firstName"
-                                placeholder="Enter first name"
-                                className="bg-[#161D29] p-2 pr-10 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                {...register("firstName", { required: true })}
-                                defaultValue={user?.firstName}
-                            />
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    id="firstName"
+                                    placeholder="Enter first name"
+                                    className="w-full rounded-lg border border-[#2a3245] bg-[#161d29] p-3 pl-3 pr-10 text-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+                                    {...register("firstName", { required: true })}
+                                    defaultValue={user?.firstName}
+                                />
+                                <FiUser className="absolute right-3 top-3.5 h-4 w-4 text-gray-500 pointer-events-none" />
+                            </div>
                             {errors.firstName && (
-                                <span className="-mt-1 text-[12px] text-yellow-100">
-                                    Please enter your first name.
-                                </span>
+                                <p className="mt-1 text-xs text-amber-400 flex items-center gap-1">
+                                    <FiAlertCircle className="h-3 w-3" />
+                                    Please enter your first name
+                                </p>
                             )}
                         </div>
-                        <div className="flex flex-col gap-2 lg:w-[48%]">
-                            <label htmlFor="lastName" className="lable-style">
+
+                        {/* Last Name */}
+                        <div className="space-y-2">
+                            <label htmlFor="lastName" className="block text-sm font-medium text-gray-400 mb-1">
                                 Last Name
                             </label>
-                            <input
-                                type="text"
-                                name="lastName"
-                                id="lastName"
-                                placeholder="Enter first name"
-                                className="bg-[#161D29] p-2 pr-10 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                {...register("lastName", { required: true })}
-                                defaultValue={user?.lastName}
-                            />
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    id="lastName"
+                                    placeholder="Enter last name"
+                                    className="w-full rounded-lg border border-[#2a3245] bg-[#161d29] p-3 pl-3 pr-10 text-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+                                    {...register("lastName", { required: true })}
+                                    defaultValue={user?.lastName}
+                                />
+                                <FiUser className="absolute right-3 top-3.5 h-4 w-4 text-gray-500 pointer-events-none" />
+                            </div>
                             {errors.lastName && (
-                                <span className="-mt-1 text-[12px] text-yellow-100">
-                                    Please enter your last name.
-                                </span>
+                                <p className="mt-1 text-xs text-amber-400 flex items-center gap-1">
+                                    <FiAlertCircle className="h-3 w-3" />
+                                    Please enter your last name
+                                </p>
                             )}
                         </div>
-                    </div>
 
-                    <div className="flex flex-col gap-5 lg:flex-row">
-                        <div className="flex flex-col gap-2 lg:w-[48%]">
-                            <label htmlFor="dateOfBirth" className="lable-style">
+                        {/* Date of Birth - Fixed Calendar Icon */}
+                        <div className="space-y-2">
+                            <label
+                                htmlFor="dateOfBirth"
+                                className="block text-sm font-medium text-gray-400 mb-1"
+                            >
                                 Date of Birth
                             </label>
-                            <input
-                                type="date"
-                                name="dateOfBirth"
-                                id="dateOfBirth"
-                                className="bg-[#161D29] p-2 pr-10 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                {...register("dateOfBirth", {
-                                    required: {
-                                        value: true,
-                                        message: "Please enter your Date of Birth.",
-                                    },
-                                    max: {
-                                        value: new Date().toISOString().split("T")[0],
-                                        message: "Date of Birth cannot be in the future.",
-                                    },
-                                })}
-                                defaultValue={user?.additionalDetails?.dateOfBirth}
-                            />
+                            <div className="relative">
+                                <input
+                                    {...register("dateOfBirth", {
+                                        required: "Please enter your Date of Birth",
+                                        max: {
+                                            value: new Date().toISOString().split("T")[0],
+                                            message: "Date cannot be in the future",
+                                        },
+                                    })}
+                                    ref={(e) => {
+                                        register("dateOfBirth").ref(e);  // Hook Form ref
+                                        dateRef.current = e;             // Your custom ref
+                                    }}
+                                    type="date"
+                                    id="dateOfBirth"
+                                    className="w-full rounded-lg border border-[#2a3245] bg-[#161d29] p-3 pl-3 pr-10 text-gray-200 appearance-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+                                // defaultValue={user?.additionDetails?.dateOfBirth || ""}
+                                />
+                                <FiCalendar
+                                    className=" absolute right-3 top-3.5 h-4 w-4 text-gray-500 cursor-pointer z-[1000]"
+                                    onClick={() => { dateRef.current.showPicker(); }}
+                                />
+                            </div>
                             {errors.dateOfBirth && (
-                                <span className="-mt-1 text-[12px] text-yellow-100">
+                                <p className="mt-1 text-xs text-amber-400 flex items-center gap-1">
+                                    <FiAlertCircle className="h-3 w-3" />
                                     {errors.dateOfBirth.message}
-                                </span>
+                                </p>
                             )}
                         </div>
-                        <div className="flex flex-col gap-2 lg:w-[48%]">
-                            <label htmlFor="gender" className="lable-style">
+
+
+
+                        {/* Gender - Fixed Select Arrow */}
+                        <div className="space-y-2">
+                            <label htmlFor="gender" className="block text-sm font-medium text-gray-400 mb-1">
                                 Gender
                             </label>
-                            <select
-                                type="text"
-                                name="gender"
-                                id="gender"
-                                className="bg-[#161D29] p-2 pr-10 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                {...register("gender", { required: true })}
-                                defaultValue={user?.additionalDetails?.gender}
-                            >
-                                {genders.map((ele, i) => {
-                                    return (
-                                        <option key={i} value={ele}>
-                                            {ele}
+                            <div className="relative">
+                                <select
+                                    id="gender"
+                                    className="w-full rounded-lg border border-[#2a3245] bg-[#161d29] p-3 pl-3 pr-8 text-gray-200 appearance-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+                                    {...register("gender", { required: true })}
+                                    defaultValue={user?.additionalDetails?.gender}
+                                >
+                                    {genders.map((gender, index) => (
+                                        <option key={index} value={gender} className="bg-[#1e2536]">
+                                            {gender}
                                         </option>
-                                    )
-                                })}
-                            </select>
+                                    ))}
+                                </select>
+                                <FiChevronDown className="absolute right-3 top-3.5 h-4 w-4 text-gray-500 pointer-events-none" />
+                            </div>
+
+
                             {errors.gender && (
-                                <span className="-mt-1 text-[12px] text-yellow-100">
-                                    Please enter your Date of Birth.
-                                </span>
+                                <p className="mt-1 text-xs text-amber-400 flex items-center gap-1">
+                                    <FiAlertCircle className="h-3 w-3" />
+                                    Please select your gender
+                                </p>
                             )}
                         </div>
-                    </div>
 
-                    <div className="flex flex-col gap-5 lg:flex-row">
-                        <div className="flex flex-col gap-2 lg:w-[48%]">
-                            <label htmlFor="contactNumber" className="lable-style">
+                        {/* Contact Number */}
+                        <div className="space-y-2">
+                            <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-400 mb-1">
                                 Contact Number
                             </label>
-                            <input
-                                type="tel"
-                                name="contactNumber"
-                                id="contactNumber"
-                                placeholder="Enter Contact Number"
-                                className="bg-[#161D29] p-2 pr-10 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                {...register("contactNumber", {
-                                    required: {
-                                        value: true,
-                                        message: "Please enter your Contact Number.",
-                                    },
-                                    maxLength: { value: 12, message: "Invalid Contact Number" },
-                                    minLength: { value: 10, message: "Invalid Contact Number" },
-                                })}
-                                defaultValue={user?.additionalDetails?.contactNumber}
-                            />
+                            <div className="relative">
+                                <input
+                                    type="tel"
+                                    id="contactNumber"
+                                    placeholder="Enter phone number"
+                                    className="w-full rounded-lg border border-[#2a3245] bg-[#161d29] p-3 pl-3 pr-10 text-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+                                    {...register("contactNumber", {
+                                        required: "Please enter your contact number",
+                                        minLength: {
+                                            value: 10,
+                                            message: "Number must be at least 10 digits"
+                                        },
+                                        maxLength: {
+                                            value: 12,
+                                            message: "Number cannot exceed 12 digits"
+                                        }
+                                    })}
+                                    defaultValue={user?.additionalDetails?.contactNumber}
+                                />
+                                <FiPhone className="absolute right-3 top-3.5 h-4 w-4 text-gray-500 pointer-events-none" />
+                            </div>
                             {errors.contactNumber && (
-                                <span className="-mt-1 text-[12px] text-yellow-100">
+                                <p className="mt-1 text-xs text-amber-400 flex items-center gap-1">
+                                    <FiAlertCircle className="h-3 w-3" />
                                     {errors.contactNumber.message}
-                                </span>
+                                </p>
                             )}
                         </div>
-                        <div className="flex flex-col gap-2 lg:w-[48%]">
-                            <label htmlFor="about" className="lable-style">
+
+                        {/* About */}
+                        <div className="space-y-2">
+                            <label htmlFor="about" className="block text-sm font-medium text-gray-400 mb-1">
                                 About
                             </label>
-                            <input
-                                type="text"
-                                name="about"
-                                id="about"
-                                placeholder="Enter Bio Details"
-                                className="bg-[#161D29] p-2 pr-10 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                {...register("about", { required: true })}
-                                defaultValue={user?.additionalDetails?.about}
-                            />
+                            <div className="relative">
+                                <textarea
+                                    id="about"
+                                    placeholder="Tell us about yourself"
+                                    rows={3}
+                                    className="w-full rounded-lg border border-[#2a3245] bg-[#161d29] p-3 text-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+                                    {...register("about", { required: "Please tell us about yourself" })}
+                                    defaultValue={user?.additionalDetails?.about}
+                                />
+                            </div>
                             {errors.about && (
-                                <span className="-mt-1 text-[12px] text-yellow-100">
-                                    Please enter your About.
-                                </span>
+                                <p className="mt-1 text-xs text-amber-400 flex items-center gap-1">
+                                    <FiAlertCircle className="h-3 w-3" />
+                                    {errors.about.message}
+                                </p>
                             )}
                         </div>
                     </div>
                 </div>
 
-                <div className="flex justify-end gap-2">
+                {/* Form Actions */}
+                <div className="flex justify-end gap-3">
                     <button
-                        onClick={() => {
-                            navigate("/dashboard/my-profile")
-                        }}
-                        className="cursor-pointer rounded-md bg-[#161D29]  py-2 px-5 font-semibold text-richblack-50"
+                        type="button"
+                        onClick={() => navigate("/dashboard/my-profile")}
+                        className="flex items-center gap-2 cursor-pointer rounded-lg border border-[#2a3245] bg-transparent px-5 py-2 text-sm font-medium text-gray-300 transition-all hover:bg-[#2a3245] hover:text-white"
                     >
+                        <FiX className="h-4 w-4" />
                         Cancel
                     </button>
-                    <IconBtn type="submit" text="Save" />
+                    <button
+                        type="submit"
+                        className="flex cursor-pointer items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white transition-all hover:opacity-90"
+                    >
+                        <FiSave className="h-4 w-4" />
+                        Save Changes
+                    </button>
                 </div>
             </form>
         </>
