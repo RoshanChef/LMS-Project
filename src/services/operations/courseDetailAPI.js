@@ -27,6 +27,7 @@ export const editCourseDetails = async (data, token) => {
 
     let result = null;
     const toastId = toast.loading("Loading...");
+    console.log("EDIT_COURSE_API API REQUEST............", data);
     try {
         const response = await apiconnector("POST", EDIT_COURSE_API, data, {
             "Content-Type": "multipart/form-data",
@@ -284,7 +285,7 @@ export async function fetchCourseDetails(courseId, token) {
         if (!response.data.success) {
             throw new Error('Could Not Get Course Details');
         }
-        console.log('getcourseDetails ', response);
+        // console.log('getcourseDetails ', response);
         result = response?.data?.data;
     } catch (error) {
 

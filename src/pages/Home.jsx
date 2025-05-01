@@ -22,10 +22,10 @@ function Home() {
         <Link to="/signup" className="group mx-auto mt-8 w-fit">
           <div className="relative overflow-hidden rounded-full bg-gradient-to-r from-[#161d29] to-[#2a3a4d] p-[2px] font-bold shadow-lg transition-all duration-300 hover:scale-95 hover:shadow-md">
             <div className="flex flex-row items-center gap-2 rounded-full bg-[#161d29] px-8 py-3 transition-all duration-300 group-hover:bg-[#05080a]">
-              <p className="bg-gradient-to-r from-[#99ab60] to-[#c0d36e] bg-clip-text text-transparent">
+              <p className="bg-gradient-to-r from-indigo-500 to-blue-400 bg-clip-text text-transparent">
                 Become an Instructor
               </p>
-              <FaArrowRight className="text-[#99ab60] transition-transform animate-pulse duration-300 group-hover:translate-x-1" />
+              <FaArrowRight className="text-indigo-500 transition-transform animate-pulse duration-300 group-hover:translate-x-1" />
             </div>
           </div>
         </Link>
@@ -36,7 +36,7 @@ function Home() {
             Empower Your Future with <br />
             <span className="relative inline-block">
               <HighlightText text={"Coding Skills"} />
-              <span className="absolute -bottom-2 left-0 h-[2px] w-full bg-gradient-to-r from-[#99ab60] to-[#2f3513] rounded-full animate-ping"></span>
+              <span className="absolute -bottom-2 left-0 h-[2px] w-full bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full animate-ping"></span>
             </span>
           </h1>
         </div>

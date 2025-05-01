@@ -34,7 +34,7 @@ function EditCourse() {
 
     return (
         <div>
-            <div> EditCourse</div>
+            <div className='text-3xl mb-14 font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400'> EditCourse</div>
             <div>
                 {course ? (<RenderSteps />) : (<p>No Course Found</p>)}
             </div>

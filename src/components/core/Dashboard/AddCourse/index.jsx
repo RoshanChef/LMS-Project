@@ -1,12 +1,7 @@
 import React from 'react'
 import RenderSteps from './RenderSteps'
-import { useForm } from 'react-hook-form'
 
 function AddCourse() {
-    const { register, handleSubmit, formState: { errors }, watch } = useForm();
-    function submitCourse(data) {
-        console.log(data);
-    }
     return (
         <>
             <div className='flex mt-10 lg:flex-row flex-col justify-between'>

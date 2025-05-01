@@ -101,14 +101,15 @@ const ChipInput = ({ name, label, register, errors, setValue }) => {
     const { editCourse, course } = useSelector((state) => state.course);
 
 
-
     useEffect(() => {
         register(name, {
             required: true,
+            // validate: (value) => value.length > 0
+
         });
         if (editCourse) {
-            settags(JSON.parse(course?.tags));
-            setValue(name, JSON.parse(course?.tags));
+            settags((course?.tags));
+            setValue(name, (course?.tags));
         }
     }, [])
 

@@ -98,7 +98,7 @@ function CourseInformationForm() {
                     formData.append('what_learn', data.courseBenefits);
                 }
                 if (currentValues.courseCategory !== course.category) {
-                    formData.append('category', data.courseCategory);
+                    formData.append('category', data.courseCategory._id);
                 }
                 if (currentValues.courseRequirements !== course.instructions) {
                     formData.append('instructions', JSON.stringify(data.courseRequirements));
@@ -110,11 +110,11 @@ function CourseInformationForm() {
                 const result = await editCourseDetails(formData, token);
                 if (result) {
                     dispatch(setStep(2));
-                    dispatch(setCourse(result.newCourse));
+                    dispatch(setCourse(result.newCourse || result));  
                 }
                 setLoading(false);
                 console.log("PRINTING result", result);
-                
+
 
             } else {
                 toast.error("No changes made");
@@ -128,7 +128,7 @@ function CourseInformationForm() {
             formData.append('price', data.coursePrice);
             formData.append('tags', JSON.stringify(data.courseTags));
             formData.append('what_learn', data.courseBenefits);
-            formData.append('category', data.courseCategory);
+            formData.append('category', data.courseCategory._id);
             formData.append('instructions', JSON.stringify(data.courseRequirements));
             formData.append('thumbnailImage', data.courseImage);
             formData.append('status', COURSE_STATUS.DRAFT);

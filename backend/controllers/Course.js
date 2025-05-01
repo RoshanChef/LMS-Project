@@ -193,9 +193,11 @@ exports.getInstructorCourses = async (req, res) => {
 // Edit Course Details
 exports.editCourse = async (req, res) => {
     try {
-        const { courseId } = req.body
-        const updates = req.body
-        const course = await Course.findById(courseId)
+        const { courseId } = req.body;
+        console.log('courseid ', courseId);
+        const updates = req.body;
+        console.log("updates ", updates);
+        const course = await Course.findById(courseId);
 
         if (!course) {
             return res.status(404).json({ error: "Course not found" })
@@ -204,7 +206,7 @@ exports.editCourse = async (req, res) => {
         // If Thumbnail Image is found, update it.
         if (req.files && req.files.thumbnailImage) {
             const thumbnail = req.files.thumbnailImage
-            const thumbnailImage = await uploadImageToCloudinary(
+            const thumbnailImage = await uploadToCloudinary(
                 thumbnail,
                 process.env.FOLDER_NAME
             )

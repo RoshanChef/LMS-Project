@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Navbar from './components/Common/Navbar';
@@ -24,14 +24,26 @@ import MyCourses from "./components/core/Dashboard/MyCourses";
 import EditCourse from "./components/core/Dashboard/AddCourse/EditCourse";
 import Catelog from "./pages/Catelog";
 import DetailsPage from "./pages/DetailsPage";
+import AdminLog from "./pages/AdminLog";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const { user } = useSelector(state => state.profile);
+  const location = useLocation();
+  const [path, setPath] = useState(location.pathname.substring(1));
+  useEffect(() => {
+    setPath(location.pathname.substring(1));
+  }, [location.pathname]);
 
   return <>
     <div className="w-full text-white min-h-screen flex flex-col bg-[#01050c] ">
       <Navbar />
       <Routes>
+        {
+          // user?.accountType === ACCOUNT_TYPE.ADMIN &&
+        }
+
+
         <Route path="/" element={<Home />}></Route>
         <Route
           path="/signup"
@@ -101,6 +113,10 @@ export default function App() {
         <Route path="/about" element={<About_us />} />
         <Route path="/contact" element={<Contact_us />} />
         <Route path="/course/:id" element={<DetailsPage />} />
+
+
+
+
 
 
         <Route path="/:name" element={<Home />} />
