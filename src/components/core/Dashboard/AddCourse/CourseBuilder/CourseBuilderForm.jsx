@@ -20,7 +20,7 @@ function CourseBuilderForm() {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const [editSection, setEditSec] = useState(null);
 
-  console.log('courseBuilder ', course);
+  // console.log('courseBuilder ', course);
 
   function cancelEdit() {
     setEditSec(null)

@@ -113,7 +113,7 @@ function CourseInformationForm() {
                     dispatch(setCourse(result.newCourse || result));  
                 }
                 setLoading(false);
-                console.log("PRINTING result", result);
+                // console.log("PRINTING result", result);
 
 
             } else {
