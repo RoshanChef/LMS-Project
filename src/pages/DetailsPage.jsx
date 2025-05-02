@@ -13,6 +13,7 @@ import { FiShare2, FiUser } from 'react-icons/fi';
 import ConfirmationModel from '../components/Common/ConfirmationModel';
 import toast from 'react-hot-toast';
 import { addToCart } from '../Redux/Slices/cartSlice';
+import Accrodian from '../components/core/DetailPage/Accrodian';
 
 function DetailsPage() {
   const { id } = useParams();
@@ -31,7 +32,14 @@ function DetailsPage() {
   const [date, setDate] = useState(null);
 
   const [totalNumOfLec, setTotalNumOfLec] = useState(0);
+  const [totalDuration, setTotalDuration] = useState(0);
+
   const [confirmationModal, setConfirmationModal] = useState(false);
+  const [isActive, setIsActive] = useState(Array(0));
+  function handleActive(id) {
+    setIsActive(!isActive.includes(id) ? isActive.concat(id) : isActive.filter(e_id => e_id !== id))
+  }
+
 
   console.log('pagedetails ', course);
 
@@ -48,12 +56,20 @@ function DetailsPage() {
     if (course?.rate_review?.length > 0) {
       setAvgRating(GetAvgRating(course.rate_review));
     }
-    let lectures = 0;
+    let lectures = 0, total_dur = 0;
+
     (course?.courseContent || []).forEach(sec => {
       lectures += sec.subSection.length;
+      if (sec?.subSection?.length > 0) {
+        sec.subSection.forEach(sub => {
+          total_dur += parseFloat(sub.timeDuration);
+        })
+      }
     });
-    // console.log(lectures);
+
     setTotalNumOfLec(lectures);
+    setTotalDuration(total_dur);
+    console.log(total_dur);
   }, [course]);
 
   useEffect(() => {
@@ -88,8 +104,6 @@ function DetailsPage() {
       </div>
     );
   }
-  // console.log(course);
-
 
   if (loading || !course) {
     return (
@@ -108,7 +122,7 @@ function DetailsPage() {
   }
 
   return (
-    <div className='box-content h-[120v h] lg:relative bg-[#01050C]' >
+    <div className='box-content h-[120vh] lg:relative bg-[#01050C] mt-16' >
       <div className='h-full'>
 
         {/* upper section */}
@@ -221,6 +235,26 @@ function DetailsPage() {
         </div>
 
         {/* description section */}
+        <div className="flex flex-col gap-3  p-4 rounded-xl w-[62vw] shadow-md">
+          <h1 className='text-3xl font-bold'>Course Content</h1>
+          <div className="flex justify-between space-x-6  text-gray-300 text-sm font-medium">
+            <span>{course.courseContent.length} sections</span>
+            <span>{totalNumOfLec} lectures</span>
+            <span>{(totalDuration / 60).toFixed(2)} Hrs</span>
+            <button className="text-yellow-300 hover:text-yellow-400 text-sm font-semibold transition-colors">
+              Collapse all sections
+            </button>
+          </div>
+          <div>
+            {
+              course?.courseContent.map((sec, inx) => {
+                return <Accrodian section={sec} key={inx} isActive={isActive} handleActive={handleActive} />
+              })
+            }
+          </div>
+        </div>
+
+
 
       </div>
       {

@@ -34,7 +34,11 @@ function VerifyEmail() {
     return (
         <div className="min-h-[calc(100vh-3.5rem)] grid place-items-center">
             {
-                loading == 1 ? (<div className="custom-loader"></div>)
+                loading == 1 ? (
+                    <div className="w-full h-[80vh] flex justify-center items-center">
+                        <div className="custom-loader"></div>
+                    </div>
+                )
                     : (
                         <div className="max-w-[500px] p-4 lg:p-8 text-white">
                             <h1 className="text-richblack-5 font-semibold text-[1.875rem] leading-[2.375rem]">

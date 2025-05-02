@@ -14,7 +14,7 @@ import ExploreMore from '../components/core/Homepage/ExploreMore';
 
 function Home() {
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col mt-24'>
       {/* Section 1 */}
       <div className="relative mx-auto w-full max-w-7xl px-4 flex flex-col items-center justify-between gap-8 text-white">
 

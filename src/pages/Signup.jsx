@@ -5,7 +5,7 @@ import Template from '../components/core/Auth/Template';
 function Signup() {
 
   return (
-    <div>
+    <div className='mt-18'>
       <Template
         title="Join the millions learning to code with StudyNotion for free"
         description1="Build skills for today, tomorrow, and beyond."

@@ -47,7 +47,7 @@ function Catalog() {
   }, [categoryId, token]);
 
   return (
-    <div className="box-content">
+    <div className="box-content mt-16">
       {/* Header Section */}
       <div className="mx-auto bg-gray-800 pl-10 flex min-h-[260px] flex-col justify-center gap-4">
         <p className="text-sm text-gray-300">

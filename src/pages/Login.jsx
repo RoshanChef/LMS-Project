@@ -4,7 +4,7 @@ import Template from '../components/core/Auth/Template';
 
 function Login() {
     return (
-        <div>
+        <div className='mt-14'>
             <Template
                 title="Welcome Back"
                 description1="Build skills for today, tomorrow, and beyond."

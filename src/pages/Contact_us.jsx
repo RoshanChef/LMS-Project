@@ -31,7 +31,7 @@ const contactDetails = [
 function Contact_us() {
     return (
         <div>
-            <div className='flex justify-center mx-auto'>
+            <div className='flex mt-16 justify-center mx-auto'>
                 <div className='flex mt-14 mx-auto gap-12'>
                     <div className="flex flex-col max-h-max gap-6 rounded-xl  bg-[#161D29] p-4 lg:p-6">
                         {contactDetails.map((ele, i) => {

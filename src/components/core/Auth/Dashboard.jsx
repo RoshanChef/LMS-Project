@@ -9,7 +9,9 @@ function Dashboard() {
 
     if (profileLoading || authLoading) {
         return (
-            <div className='custom-loader'></div>
+            <div className='w-full h-[80vh] flex justify-center items-center'>
+                <div className='custom-loader'></div>
+            </div>
         )
     }
 
