@@ -96,17 +96,21 @@ function Navbar() {
                 <div className="hidden items-center gap-x-4 md:flex">
                     {
                         user && user?.accountType !== "Instructor" &&
-                        (<Link to="/dashboard/cart">
-                            <AiOutlineShoppingCart />
-                            {
-                                totalItems > 0 &&
-                                (
-                                    <span>
+                        (
+
+                            <Link
+                                to="/dashboard/cart"
+                                className="relative flex items-center gap-2 text-gray-200 hover:text-blue-600 transition-colors duration-200"
+                            >
+                                <AiOutlineShoppingCart className="text-2xl" />
+                                {totalItems > 0 && (
+                                    <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs font-bold h-4 w-4 flex items-center justify-center rounded-full shadow">
                                         {totalItems}
                                     </span>
-                                )
-                            }
-                        </Link>)
+                                )}
+                            </Link>
+
+                        )
                     }
                     {
                         token == null &&

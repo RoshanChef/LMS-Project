@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../../services/formatDate";
 import { deleteCourse, fetchInstructorCourse } from "../../../../services/operations/courseDetailAPI";
 import { COURSE_STATUS } from "../../../../data/constants";
-import ConfirmationModal from "../../../common/ConfirmationModel";
+import ConfirmationModel from "../../../common/ConfirmationModel";
 
 export default function CourseInsTable({ courses, setCourses }) {
     const dispatch = useDispatch();
@@ -143,7 +143,7 @@ export default function CourseInsTable({ courses, setCourses }) {
                 </Tbody>
             </Table>
 
-            {confirmationModal && <ConfirmationModal modelData={confirmationModal} />}
+            {confirmationModal && <ConfirmationModel modelData={confirmationModal} />}
         </>
     );
 }

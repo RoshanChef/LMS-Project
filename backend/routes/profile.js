@@ -3,7 +3,7 @@ const { deleteAccount, updateProfile, getAllUserDetails, updateDisplayPicture, g
 const { auth, isInstructor, isStudent } = require('../middleware/auth');
 const profile_router = express.Router();
 
-profile_router.delete('/deleteAccount', auth, deleteAccount);
+profile_router.post('/deleteAccount', auth, deleteAccount);
 profile_router.put('/updateprofile', auth, updateProfile);
 profile_router.get('/getAllUserDetails', auth, getAllUserDetails);
 

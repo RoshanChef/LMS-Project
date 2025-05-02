@@ -1,5 +1,6 @@
 
 function getPaymentContent(payment) {
+    console.log('payment html ', payment); 
     let date = new Date()
 
     return `<!DOCTYPE html>

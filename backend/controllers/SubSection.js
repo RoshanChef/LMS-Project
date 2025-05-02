@@ -35,7 +35,7 @@ exports.createSubSection = async (req, res) => {
             { new: true }).populate('subSection');
 
         const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "subSection" } }).exec();
-        console.log(updatedCourse);
+        // console.log(updatedCourse);
 
         return res.status(200).json({
             success: true,
@@ -87,14 +87,10 @@ exports.updatedSubSection = async (req, res) => {
 
         await subSection.save();
 
-        console.log("check one ");
 
         const sectionData = await section.findById({ _id: sectionId }).populate('subSection').exec();
-        console.log("check note yet ", sectionData);
-
+        
         const updatedCourse = await Course.findById(courseId).populate({ path: "courseContent", populate: { path: "subSection" } }).exec();
-
-
         return res.status(200).json({
             success: true,
             message: 'Sub section updated successfully',

@@ -10,7 +10,7 @@ const { instance } = require('../config/razorpay');
 exports.createOrder = async function (req, res) {
     try {
         const { courses } = req.body;
-        // console.log('Courses received:', courses);
+        console.log('Courses received:', courses);
 
         const userId = req.user?.id;
         // console.log('User ID:', userId);
@@ -21,8 +21,8 @@ exports.createOrder = async function (req, res) {
 
         let totalAmount = 0;
 
-        for (const courseItem of courses) {
-            const course = await Course.findById(courseItem._id);
+        for (const id of courses) {
+            const course = await Course.findById(id);
 
             if (!course) {
                 return res.status(400).json({ message: 'Course not found.' });
@@ -34,7 +34,7 @@ exports.createOrder = async function (req, res) {
             if (course?.studentEnrolled?.includes(userId)) {
                 return res.status(200).json({
                     success: false,
-                    message: 'Student is already enrolled',
+                    message: 'You are already enrolled',
                 });
             }
 
@@ -148,11 +148,38 @@ async function enrollStudents(courses, userId) {
                 $push: { courses: courseId }
             });
 
-            await sendEmail(student.email, 'Course Enrolled', 'confirm');
+            await sendEmail(student.email, 'Course Enrolled', 'payment');
         }
     }
 }
 
+
+
+exports.sendPaymentSuccessEmail = async (req, res) => {
+    const { orderId, paymentId, amount } = req.body;
+    console.log(amount); 
+
+    const userId = req.user.id
+
+    if (!orderId || !paymentId || !amount || !userId) {
+        return res
+            .status(400)
+            .json({ success: false, message: "Please provide all the details" })
+    }
+
+    try {
+        const enrolledStudent = await User.findById(userId)
+
+        await sendEmail(enrolledStudent.email, "Payment successfully recived", "payment", "", "", "", "", "", "", { amount: (amount / 100), paymentId }, "")
+
+        res.status(200).json({ success: true, message: "Email sent successfully" })
+    } catch (error) {
+        console.log("error in sending mail", error)
+        return res
+            .status(400)
+            .json({ success: false, message: "Could not send email" })
+    }
+}
 
 
 // exports.createOrder = async (req, res) => {
@@ -296,28 +323,3 @@ async function enrollStudents(courses, userId) {
 //         })
 //     }
 // }
-
-exports.sendPaymentSuccessEmail = async (req, res) => {
-    const { orderId, paymentId, amount } = req.body
-
-    const userId = req.user.id
-
-    if (!orderId || !paymentId || !amount || !userId) {
-        return res
-            .status(400)
-            .json({ success: false, message: "Please provide all the details" })
-    }
-
-    try {
-        const enrolledStudent = await User.findById(userId)
-
-        await sendEmail(enrolledStudent.email, "Payment successfully recived", "payment", "", "", "", "", "", "", { amount: (amount / 100), paymentId }, "")
-
-        res.status(200).json({ success: true, message: "Email sent successfully" })
-    } catch (error) {
-        console.log("error in sending mail", error)
-        return res
-            .status(400)
-            .json({ success: false, message: "Could not send email" })
-    }
-}

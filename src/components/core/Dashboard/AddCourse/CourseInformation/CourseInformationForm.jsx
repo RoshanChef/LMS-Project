@@ -39,6 +39,7 @@ function CourseInformationForm() {
 
             setLoading(false);
         }
+        console.log('editcourse state ', editCourse);
 
         if (editCourse) {
             setValue("courseTitle", course?.courseName);
@@ -62,7 +63,7 @@ function CourseInformationForm() {
             currentValues.coursePrice !== course.price ||
             currentValues.courseTags.toString() !== course.tags.toString() ||
             currentValues.courseBenefits !== course.what_learn ||
-            currentValues.courseCategory !== course.category ||
+            currentValues.courseCategory._id !== course.category._id ||
             currentValues.courseRequirements.toString() !== course.instructions.toString() ||
             currentValues.courseImage !== course.thumbnail
         ) {
@@ -97,7 +98,7 @@ function CourseInformationForm() {
                 if (currentValues.courseBenefits !== course.whatYouWillLearn) {
                     formData.append('what_learn', data.courseBenefits);
                 }
-                if (currentValues.courseCategory !== course.category) {
+                if (currentValues.courseCategory._id !== course.category._id) {
                     formData.append('category', data.courseCategory._id);
                 }
                 if (currentValues.courseRequirements !== course.instructions) {
@@ -110,12 +111,10 @@ function CourseInformationForm() {
                 const result = await editCourseDetails(formData, token);
                 if (result) {
                     dispatch(setStep(2));
-                    dispatch(setCourse(result.newCourse || result));  
+                    dispatch(setCourse(result.newCourse || result));
                 }
                 setLoading(false);
                 // console.log("PRINTING result", result);
-
-
             } else {
                 toast.error("No changes made");
             }
@@ -128,7 +127,7 @@ function CourseInformationForm() {
             formData.append('price', data.coursePrice);
             formData.append('tags', JSON.stringify(data.courseTags));
             formData.append('what_learn', data.courseBenefits);
-            formData.append('category', data.courseCategory._id);
+            formData.append('category', data.courseCategory);
             formData.append('instructions', JSON.stringify(data.courseRequirements));
             formData.append('thumbnailImage', data.courseImage);
             formData.append('status', COURSE_STATUS.DRAFT);
@@ -275,7 +274,7 @@ function CourseInformationForm() {
                         editCourse && (
                             <button
                                 onClick={() => dispatch(setStep(2))}
-                                className=' text-[10px] cursor-pointer border-1 px-3 border-gray-400 md:text-sm p-2 px-1 font-semibold rounded-md flex items-center gap-x-2 bg-richblack-300'
+                                className=' text-[10px] cursor-pointer border-1 border-gray-400 md:text-sm p-2 px-1 font-semibold rounded-md flex items-center gap-x-2 bg-richblack-300'
                             >
                                 Continue Without Saving
                             </button>

@@ -13,7 +13,8 @@ function MyProfile() {
         <div className='flex flex-col gap-8 w-full max-w-screen-xl mx-auto px-4 py-8'>
 
             {/* Header with gradient text */}
-            <h1 className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400'>
+            <h1 
+            className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400'>
                 My Profile
             </h1>
 

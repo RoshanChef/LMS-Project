@@ -18,13 +18,13 @@ function MyCourses() {
             }
         }
         fetchCourse();
-    }, [token]); 
+    }, [token]);
 
     return (
         <div className="p-4">
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold">My Courses</h1>
-                <IconBtn text="Add Course" onClick={() => navigate("/dashboard/add-course")} />
+                <IconBtn text="Add Course" onclick={()=>navigate("/dashboard/add-course")} />
             </div>
             <div>
                 <CourseInsTable courses={courses} setCourses={setCourses} />

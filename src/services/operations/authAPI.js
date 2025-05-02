@@ -4,13 +4,13 @@ import { setLoading, setToken } from "../../Redux/Slices/authSlice";
 import { setUser } from "../../Redux/Slices/profileSlice";
 import { endpoints } from "../api";
 import apiconnector from "../apiconnector";
+import { resetCart } from "../../Redux/Slices/cartSlice";
 
 
 const { SENDOTP_API, SIGNUP_API, LOGIN_API, RESETPASSTOKEN_API, RESETPASSWORD_API } = endpoints;
 
 export function login(email, password, navigate) {
     return async (dispatch) => {
-
         dispatch(setLoading(true));
         try {
             const response = await apiconnector("POST", LOGIN_API, { email, password });
@@ -41,14 +41,14 @@ export function login(email, password, navigate) {
 
 
 export function logout(navigate) {
-    return async (dispatch) => {
-        dispatch(setToken(null));
-        dispatch(setUser(null));
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        toast.success("Logged Out");
-        console.log("called here ... ", localStorage.getItem("token"));
-        navigate("/login");
+    return (dispatch) => {
+        dispatch(setToken(null))
+        dispatch(setUser(null))
+        dispatch(resetCart())
+        localStorage.removeItem("token")
+        localStorage.removeItem("user")
+        toast.success("Logged Out")
+        navigate("/")
     }
 }
 

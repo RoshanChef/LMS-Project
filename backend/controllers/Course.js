@@ -194,9 +194,9 @@ exports.getInstructorCourses = async (req, res) => {
 exports.editCourse = async (req, res) => {
     try {
         const { courseId } = req.body;
-        console.log('courseid ', courseId);
+        // console.log('courseid ', courseId);
         const updates = req.body;
-        console.log("updates ", updates);
+        // console.log("updates ", updates);
         const course = await Course.findById(courseId);
 
         if (!course) {

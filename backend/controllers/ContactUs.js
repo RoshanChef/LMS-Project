@@ -4,14 +4,12 @@ exports.contactUsController = async (req, res) => {
     try {
         const { email, firstname, lastname, message, phoneNo, countrycode } = req.body;
 
-        console.log(
-            req.body
-        );
+        console.log(req.body);
         // send to admin
         await sendEmail("studymork@gmail.com", "Query received", "contact", null, null, firstname, lastname, message, phoneNo, countrycode);
 
         // send to user 
-        await sendEmail(email, "Your Query received successfully", "contact", null,null, firstname, lastname, message, phoneNo, countrycode);
+        await sendEmail(email, "Your Query received successfully", "contact", null, null, firstname, lastname, message, phoneNo, countrycode);
 
         res.status(200).json({
             success: true,

@@ -3,6 +3,7 @@ const User = require('../models/users');
 const Course = require('../models/courses');
 const { uploadToCloudinary } = require("../utils/imageUpload");
 const courseprogress = require("../models/courseprogress");
+const bcrypt = require('bcrypt');
 
 // updateProfile 
 exports.updateProfile = async (req, res) => {
@@ -62,6 +63,7 @@ exports.updateProfile = async (req, res) => {
         })
 
     } catch (error) {
+        console.log(error);
         return res.status(500).json({
             success: false,
             message: 'Error updating sub section',
@@ -73,22 +75,27 @@ exports.updateProfile = async (req, res) => {
 // deleteAccount
 exports.deleteAccount = async (req, res) => {
     try {
+        console.log("delete account");
         // get id
         const id = req.user.id;
+        const password = req.body.password;
 
         // find user
         const user = await User.findById(id);
+        const match = await bcrypt.compare(password, user.password)
 
         // validate user
-        if (!user) {
+        if (!user || !match) {
             return res.status(404).json({
                 success: false,
-                message: "User not found"
+                message: `${!user ? 'User not found' : 'Incorrect password'}`
             })
         }
 
         // delete profile
-        await profile.findByIdAndDelete(user.additionDetail);
+        if (user.additionDetail) {
+            await profile.findByIdAndDelete(user.additionDetail);
+        }
 
         // unenroll the user from all courses
         for (const courseId of user.courses) {
@@ -108,7 +115,7 @@ exports.deleteAccount = async (req, res) => {
             success: true,
             message: "User deleted successfully",
             deletedUser
-        })
+        });
 
     } catch (error) {
         return res.status(500).json({
@@ -212,7 +219,7 @@ exports.instructorDashboard = async (req, res) => {
 
         const user_id = req.user.id;
         const courseDetails = await Course.find({ instructor: user_id });
-        console.log(courseDetails);
+        // console.log(courseDetails);
 
         const courseData = courseDetails.map((course) => {
             const totalStudentsEnrolled = course.studentEnrolled.length;

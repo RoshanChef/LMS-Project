@@ -34,15 +34,14 @@ exports.getAllCategory = async (req, res) => {
 exports.categoryPageDetails = async (req, res) => {
     try {
         const { categoryId } = req.body;
-        
+
         // Get courses for the specified category
-        const selectedCategory = await Category.findById(categoryId)    
+        const selectedCategory = await Category.findById(categoryId)
             .populate({ path: "courses", match: { status: "Published" }, populate: ([{ path: "instructor" }, { path: "rate_review" }]) })
             .exec();
 
-        console.log(selectedCategory);
-
         // console.log(selectedCategory);
+
         // Handle the case when the category is not found
         if (!selectedCategory) {
             console.log("Category not found.");
