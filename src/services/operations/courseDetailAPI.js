@@ -265,7 +265,6 @@ export async function getFullDetailsOfCourse(courseId, token) {
             throw new Error('Could Not Get Course Details');
         }
         result = response?.data?.data;
-        console.log(result);
     }
     catch (error) {
         console.log('Get Course Details API ERROR', error);

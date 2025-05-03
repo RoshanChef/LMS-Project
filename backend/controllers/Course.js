@@ -6,6 +6,7 @@ const Rate_review = require('../models/rating_review');
 const Section = require('../models/section');
 const { uploadToCloudinary } = require('../utils/imageUpload');
 const courseprogress = require('../models/courseprogress');
+const { convertSecondsToDuration } = require('../utils/secToDuration');
 
 // createCourse handler function 
 exports.createCourse = async (req, res) => {
@@ -49,6 +50,14 @@ exports.createCourse = async (req, res) => {
         const thumbnailUrl = await uploadToCloudinary(thumbnail, process.env.CLOUDINARY_FOLDER_NAME);
 
         // console.log('Url : ', thumbnailUrl.secure_url);
+        let ins = null;
+        try {
+            ins = JSON.parse(instructions);
+        }
+        catch (error) {
+            ins = instructions;
+        }
+
         // create course
         const newCourse = await Course.create({
             courseName,
@@ -59,8 +68,10 @@ exports.createCourse = async (req, res) => {
             category: categoryDetails._id,
             status, tags,
             instructor: instructorDetails._id,
-            instructions
+            instructions: ins
         });
+
+        // console.log('New Course : ', newCourse);
 
         // update this course to instructor(user)
         const instructor_user = await User.findByIdAndUpdate(userId, {
@@ -361,10 +372,26 @@ exports.getFullCourseDetails = async (req, res) => {
             })
         }
 
+        let totalDurationInSeconds = 0
+        courseDetails.courseContent.forEach((content) => {
+            content.subSection.forEach((subSection) => {
+                const timeDurationInSeconds = parseInt(subSection.timeDuration)
+                totalDurationInSeconds += timeDurationInSeconds;
+            })
+        })
+
+        const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
         return res.send({
             success: true,
             message: "Course details fetched successfully",
-            data: courseDetails,
+            data: {
+                courseDetails,
+                totalDuration,
+                completedVideos: courseProgressCount?.completedVideos
+                    ? courseProgressCount?.completedVideos
+                    : []
+            },
         })
 
     } catch (error) {

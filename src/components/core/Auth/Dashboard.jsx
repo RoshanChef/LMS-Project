@@ -16,7 +16,7 @@ function Dashboard() {
     }
 
     return (
-        <div className="relative flex">
+        <div className="relative flex mt-16">
 
             <Sidebar />
             <div className=" flex-1 overflow-auto">

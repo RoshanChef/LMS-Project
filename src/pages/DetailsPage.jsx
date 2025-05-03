@@ -35,7 +35,7 @@ function DetailsPage() {
   const [totalDuration, setTotalDuration] = useState(0);
 
   const [confirmationModal, setConfirmationModal] = useState(false);
-  const [isActive, setIsActive] = useState(Array(0));
+  const [isActive, setIsActive] = useState([]);
   function handleActive(id) {
     setIsActive(!isActive.includes(id) ? isActive.concat(id) : isActive.filter(e_id => e_id !== id))
   }
@@ -69,7 +69,6 @@ function DetailsPage() {
 
     setTotalNumOfLec(lectures);
     setTotalDuration(total_dur);
-    console.log(total_dur);
   }, [course]);
 
   useEffect(() => {
@@ -122,7 +121,7 @@ function DetailsPage() {
   }
 
   return (
-    <div className='box-content h-[120vh] lg:relative bg-[#01050C] mt-16' >
+    <div className='box-content min-h-[100vh] lg:relative bg-[#01050C] mt-16' >
       <div className='h-full'>
 
         {/* upper section */}
@@ -201,7 +200,7 @@ function DetailsPage() {
             <div className="border-t border-gray-700 pt-4">
               <p className="font-medium text-white mb-2">This Course Includes:</p>
               {
-                JSON.parse(course?.instructions).map((item, inx) => {
+                (course?.instructions).map((item, inx) => {
                   return (
                     <div key={inx}>
                       <p className="flex items-center gap-2 text-sm text-green-300"><IoMdReturnRight /> {item}</p>
@@ -238,10 +237,12 @@ function DetailsPage() {
         <div className="flex flex-col gap-3  p-4 rounded-xl w-[62vw] shadow-md">
           <h1 className='text-3xl font-bold'>Course Content</h1>
           <div className="flex justify-between space-x-6  text-gray-300 text-sm font-medium">
-            <span>{course.courseContent.length} sections</span>
-            <span>{totalNumOfLec} lectures</span>
-            <span>{(totalDuration / 60).toFixed(2)} Hrs</span>
-            <button className="text-yellow-300 hover:text-yellow-400 text-sm font-semibold transition-colors">
+            <div className='flex gap-2'>
+              <span>{course.courseContent.length} sections</span>
+              <span>{totalNumOfLec} lectures</span>
+              <span>{(totalDuration / 60).toFixed(2)} Hrs</span>
+            </div>
+            <button className="text-yellow-300 hover:text-yellow-400 text-sm font-semibold cursor-pointer transition-colors" onClick={() => setIsActive([])}>
               Collapse all sections
             </button>
           </div>
@@ -251,6 +252,17 @@ function DetailsPage() {
                 return <Accrodian section={sec} key={inx} isActive={isActive} handleActive={handleActive} />
               })
             }
+          </div>
+        </div>
+
+        {/* Author section */}
+        <div className='ml-4 flex flex-col gap-6'>
+          <h1 className='text-2xl font-medium'>Author</h1>
+          <div className='flex text-xl font-medium items-center gap-3'>
+            <div className='h-12 w-12 '>
+              <img src={course.instructor.image} alt="" className='object-cover rounded-full w-full h-full' />
+            </div>
+            <p>{course.instructor.firstName} {course.instructor.lastName}</p>
           </div>
         </div>
 

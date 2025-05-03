@@ -8,7 +8,7 @@ function Cart() {
     const { total, totalItems } = useSelector(state => state.cart);
 
     return (
-        <div>
+        <div className='mt-12'>
             <h1 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
                 My Wishlist
             </h1>

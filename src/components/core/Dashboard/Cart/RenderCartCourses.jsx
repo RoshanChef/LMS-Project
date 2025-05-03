@@ -30,7 +30,7 @@ function RenderCartCourses() {
           >
             <img src={course?.thumbnail} alt="course"
               className="h-[148px] w-[220px] rounded-lg object-cover" />
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col space-y-1 cursor-pointer" >
               <p className="text-lg font-medium text-gray-500">
                 {course?.courseName}
               </p>

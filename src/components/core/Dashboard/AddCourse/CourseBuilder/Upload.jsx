@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { FiUploadCloud } from "react-icons/fi"
-import { useSelector } from "react-redux"
-import ReactPlayer from "react-player"   // <--- NEW import
+import ReactPlayer from "react-player"   
 
 export default function Upload({
   name,

@@ -9,9 +9,24 @@ function Accordion({ section, isActive, handleActive }) {
             ? `${contentRef.current.scrollHeight}px`
             : "0px";
     }, [isActive, section._id]);
+    function formatDuration(seconds) {
+        if (!seconds) return "0s"; // Handle undefined/0 case
 
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = Math.floor(seconds % 60);
+
+        // Return formatted string based on duration length
+        if (hours > 0) {
+            return `${hours}h ${minutes}m`;
+        } else if (minutes > 0) {
+            return `${minutes}m ${secs}s`;
+        } else {
+            return `${secs}s`;
+        }
+    }
     return (
-        <div className="mb-3 rounded-lg overflow-hidden shadow-sm bg-[#1e2535] border border-[#2a3344]">
+        <div className="mb-3 rounded-lg overflow-hidden shadow-sm bg-[#1e2535] border border-[#2a3344] select-none">
             {/* Section Header */}
             <div
                 onClick={() => handleActive(section._id)}
@@ -32,7 +47,7 @@ function Accordion({ section, isActive, handleActive }) {
             {/* Animated Content */}
             <div
                 ref={contentRef}
-                className="transition-all duration-300 ease-in-out overflow-hidden"
+                className="transition-all duration-300 ease-in-out select-none overflow-hidden"
                 style={{ maxHeight: "0px" }}
             >
                 {section.subSection.map((subSection, index) => (
@@ -47,8 +62,8 @@ function Accordion({ section, isActive, handleActive }) {
                             </p>
                             {/* Optional: Add duration if available */}
                             <span className="ml-auto text-xs text-[#5a6a8f] group-hover:text-[#7d8db5]">
-                    {subSection.timeDuration}
-                </span>
+                                {formatDuration(subSection.timeDuration)}
+                            </span>
                         </div>
                     </div>
                 ))}

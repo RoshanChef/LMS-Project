@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getEnrolledCourses } from '../../../services/operations/profileAPI.JS'
-import * as Progress from '@radix-ui/react-progress'
+import { useNavigate } from 'react-router-dom';
 
 function EnrolledCourses() {
   const { token } = useSelector(state => state.auth);
   const [enrolledCourses, setEnrolledCourses] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   async function getEnrCourses() {
     try {
@@ -22,7 +23,7 @@ function EnrolledCourses() {
   }, []);
 
   return (
-    <div className="min-h-screen px-4 py-8">
+    <div className="min-h-screen mt-4 px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
         Enrolled Courses
       </h1>
@@ -51,6 +52,8 @@ function EnrolledCourses() {
           {enrolledCourses.map((course, index) => (
             <div
               key={index}
+              onClick={() => navigate(`/view-course/${course._id}/section/${course.courseContent[0]._id}/sub-section/${course.courseContent[0].
+                subSection[0]._id}`)}
               className="group cursor-pointer flex flex-col md:flex-row md:items-center gap-4 p-2 bg-[#1e2536] rounded-xl border border-[#2a3245] hover:border-indigo-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10"
             >
               {/* Course Info */}
