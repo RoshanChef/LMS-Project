@@ -22,7 +22,8 @@ const RequirementField = ({ name, label, register, errors, setValue, getValues }
                     setValue(name, parsed);
                 }
             } catch (err) {
-                console.error("Failed to parse course instructions:", err);
+                setRequirementList(course?.instructions);
+                setValue(name, course?.instructions);
             }
         }
     }, [editCourse, course, name, setValue]);

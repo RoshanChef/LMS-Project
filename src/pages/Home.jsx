@@ -11,6 +11,7 @@ import LearningLangSec from '../components/core/Homepage/LearningLangSec';
 import InstructorSec from '../components/core/Homepage/InstructorSec';
 import Footer from '../components/Common/Footer';
 import ExploreMore from '../components/core/Homepage/ExploreMore';
+import ReviewSlider from '../components/Common/ReviewSlider';
 
 function Home() {
   return (
@@ -172,6 +173,7 @@ export default Home;`}
           <h1 className='text-4xl font-semibold text-center'>Reviews from other learners</h1>
 
           {/* Review slider */}
+          <ReviewSlider />
         </div>
 
         {/* section 3 */}

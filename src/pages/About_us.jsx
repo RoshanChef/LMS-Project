@@ -10,6 +10,7 @@ import LearningGrid from '../components/core/About_us/LearningGrid';
 import ContactFormSection from '../components/core/About_us/ContactFormSection';
 import Footer from '../components/Common/Footer';
 import Swiper from 'swiper';
+import ReviewSlider from '../components/Common/ReviewSlider';
 
 function About_us() {
     return (
@@ -124,6 +125,7 @@ function About_us() {
                 <div className='text-center mt-22 text-3xl  font-semibold'>
                     Review from other learners
                 </div>
+                <ReviewSlider/>
             </section>
 
             {/* footer */}

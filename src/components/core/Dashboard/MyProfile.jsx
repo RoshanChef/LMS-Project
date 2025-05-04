@@ -13,8 +13,8 @@ function MyProfile() {
         <div className='flex flex-col gap-8 w-full max-w-screen-xl mx-auto px-4 py-8'>
 
             {/* Header with gradient text */}
-            <h1 
-            className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400'>
+            <h1
+                className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400'>
                 My Profile
             </h1>
 
@@ -23,12 +23,17 @@ function MyProfile() {
 
                 {/* Profile Card */}
                 <div className='flex flex-col lg:flex-row items-center gap-6 bg-[#1e2536] p-6 rounded-xl border border-[#2a3245] hover:border-indigo-500/50 transition-colors flex-1'>
-                    <div className='relative'>
+                    {/* <div className='relative overflow-hidden'>
                         <img
                             src={user.image}
-                            className='w-20 h-20 rounded-full object-cover border-2 border-[#2a3245] group-hover:border-indigo-500/60 transition-colors'
+                            className='w-20 h-20 aspect-square rounded-full object-cover border-2 border-[#2a3245] group-hover:border-indigo-500/60 transition-colors'
+                        /> */}
+                    <div className="group relative">
+                        <img
+                            src={user.image}
+                            alt={`profile-${user?.img}`}
+                            className="h-14 w-14 rounded-full border-2 border-[#2a3245] object-cover transition-all group-hover:border-indigo-500/60"
                         />
-                        <div className='absolute inset-0 rounded-full bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity' />
                     </div>
 
                     <div className='flex flex-col gap-1 text-center lg:text-left'>

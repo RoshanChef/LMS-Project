@@ -1,26 +1,48 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { getEnrolledCourses } from '../../../services/operations/profileAPI.JS'
 import { useNavigate } from 'react-router-dom';
 
 function EnrolledCourses() {
   const { token } = useSelector(state => state.auth);
   const [enrolledCourses, setEnrolledCourses] = useState(null);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   async function getEnrCourses() {
     try {
       const data = await getEnrolledCourses(token);
-
       setEnrolledCourses(data);
     } catch (error) {
       console.log('error in enrolled course ', error);
     }
   }
 
+  function calDuration(content) {
+    let totalSeconds = 0;
+
+    content.forEach(sec => {
+      sec.subSection.forEach(sub => {
+        totalSeconds += parseFloat(sub.timeDuration);
+      });
+    });
+
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+
+    const parts = [];
+    if (hours > 0) parts.push(`${hours}hr`);
+    if (minutes > 0) parts.push(`${minutes}min`);
+    if (seconds > 0 || parts.length === 0) parts.push(`${seconds}s`);
+
+    return parts.join(' ');
+  }
+
+
+
   useEffect(() => {
     getEnrCourses();
+
   }, []);
 
   return (
@@ -74,12 +96,12 @@ function EnrolledCourses() {
               </div>
 
               {/* Duration */}
-              <div className="w-full md:w-1/6 text-gray-300 font-medium">
-                <span className="inline-flex items-center gap-1">
+              <div className="w-full md:w-1/6 text-gray-300   font-medium">
+                <span className="inline-flex items-center gap-2">
                   <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  {course?.courseContent[0]?.subSection?.timeDuration}
+                  {calDuration(course.courseContent)}
                 </span>
               </div>
 
@@ -89,7 +111,7 @@ function EnrolledCourses() {
                   <span className="text-sm text-gray-400">Progress</span>
                   <span className="text-sm font-medium text-indigo-400">{course?.progressPercentage || 0}%</span>
                 </div>
-                <div className="w-full h-2 bg-[#2a3245] rounded-full overflow-hidden">
+                <div className="w-full h-1 bg-[#2a3245] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-indigo-500 to-blue-500 transition-all duration-500 ease-in-out"
                     style={{ width: `${course?.progressPercentage || 0}%` }}

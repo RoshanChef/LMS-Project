@@ -385,6 +385,7 @@ exports.getFullCourseDetails = async (req, res) => {
         return res.send({
             success: true,
             message: "Course details fetched successfully",
+            // data : courseDetails
             data: {
                 courseDetails,
                 totalDuration,

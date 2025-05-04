@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 import { ratingsEndpoints } from '../api';
 import apiconnector from '../apiconnector';
 
-const { CREATE_REVIEW_API } = ratingsEndpoints;
+const { CREATE_REVIEW_API, REVIEWS_DETAILS_API } = ratingsEndpoints;
 
 export async function create_Rating(data, token) {
     try {
@@ -18,4 +18,19 @@ export async function create_Rating(data, token) {
     } catch (error) {
         toast.error(error?.response?.data?.message || 'Something went wrong while reviewing');
     }
+}
+
+export async function gettingReviews() {
+    let result = null;
+    try {
+        const response = await apiconnector('GET', REVIEWS_DETAILS_API);
+        if (!response.data.success) {
+            throw new Error('review not getting');
+        }
+        result = response?.data?.reviews;
+    } catch (error) {
+        console.log('error ', error);
+        toast.error(error?.response?.data?.message || 'Something went wrong while reviewing');
+    }
+    return result;
 }

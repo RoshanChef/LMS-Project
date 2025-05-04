@@ -15,4 +15,5 @@ module.exports = mongoose.model('Rate_review', new Schema({
 		ref: "Course",
 		index: true,
 	},
+	reviewedAt: { type: Date, default: Date.now }
 }))

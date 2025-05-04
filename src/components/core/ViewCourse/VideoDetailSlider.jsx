@@ -91,7 +91,7 @@ function VideoDetailSlider({ setReviewModal }) {
                       <div
                         className="bg-gradient-to-r from-green-400 to-green-500 h-1.5  rounded-full"
                         style={{
-                          width: `${(completedLectures.length / totalNoOfLectures) * 100}%`
+                          width: `${(completedLectures?.length / totalNoOfLectures) * 100}%`
                         }}
                       ></div>
                     </div>

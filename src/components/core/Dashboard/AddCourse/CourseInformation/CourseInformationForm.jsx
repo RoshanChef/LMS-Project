@@ -42,14 +42,16 @@ function CourseInformationForm() {
         console.log('editcourse state ', editCourse);
 
         if (editCourse) {
+            console.log(course?.courseDetails?.instructions);
+
             setValue("courseTitle", course?.courseName);
-            setValue("courseShortDesc", course.courseDescription);
-            setValue("coursePrice", course.price);
-            setValue("courseTags", course.tag);
-            setValue("courseBenefits", course.what_learn);
-            setValue("courseCategory", course.category);
-            setValue("courseRequirements", course.instructions);
-            setValue("courseImage", course.thumbnail);
+            setValue("courseShortDesc", course?.courseDescription);
+            setValue("coursePrice", course?.price);
+            setValue("courseTags", course?.tag);
+            setValue("courseBenefits", course?.what_learn);
+            setValue("courseCategory", course?.category);
+            setValue("courseRequirements", (course?.instructions));
+            setValue("courseImage", course?.thumbnail);
         }
 
         getCategories();
