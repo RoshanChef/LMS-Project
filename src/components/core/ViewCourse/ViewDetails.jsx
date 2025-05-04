@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import ReactPlayer from "react-player";
 import { FaStepBackward, FaPlay, FaStepForward } from "react-icons/fa";
+import { lecturesComplete } from '../../../services/operations/courseDetailAPI';
+import { MdOutlineDescription } from "react-icons/md";
+import { setCompletedLectures } from '../../../Redux/Slices/viewCourseSlice';
 
 function ViewDetails() {
     const navigate = useNavigate();
@@ -101,8 +104,24 @@ function ViewDetails() {
         }
     }
 
-    function handleLectureCompletion() {
-        // logic tomorrow
+    async function handleLectureCompletion(Data) {
+        if (Data) {
+
+            let obj = {
+                courseId,
+                sectionId,
+                subSectionId
+            }
+            if (completedLectures.includes(videoData._id)) return;
+            await lecturesComplete(obj, token);
+            dispatch(setCompletedLectures([...completedLectures, videoData._id]));
+        }
+        else {
+            let newcompledLec = completedLectures.filter((item) => item !== videoData._id);
+            console.log(newcompledLec);
+
+            dispatch(setCompletedLectures(newcompledLec));
+        }
     }
 
     return (
@@ -112,7 +131,7 @@ function ViewDetails() {
                     No Data Found
                 </div>) : (
                     <div>
-                        <div className='lg:w-[60vw] w-screen p-8'>
+                        <div className='lg:w-[60vw]  w-screen p-8'>
                             <div className='relative aspect-video bg-black rounded-xl overflow-hidden'>
                                 <ReactPlayer
                                     ref={playerRef}
@@ -145,7 +164,7 @@ function ViewDetails() {
                                                     if (playerRef?.current) {
                                                         playerRef?.current.seekTo(0);
                                                         playerRef.current.getInternalPlayer().play();
-
+                                                        handleLectureCompletion(false);
                                                         setVideoEnded(false);
                                                         setShowVideoControls(false);
                                                     }
@@ -164,9 +183,9 @@ function ViewDetails() {
                                     )
                                 }
                             </div>
-                            <div>
-                                <p>{videoData.title}</p>
-                                <p>{videoData.description}</p>
+                            <div className='flex flex-col gap-2'>
+                                <p className='text-2xl'>{videoData.title}</p>
+                                <p className='text-gray-400 flex items-center gap-2'><MdOutlineDescription />{videoData.description}</p>
                             </div>
                         </div>
 

@@ -3,7 +3,7 @@ import apiconnector from "../apiconnector";
 import { courseEndpoints } from '../api';
 import { setProgress } from "../../Redux/Slices/loadingBarSlice";
 
-const { COURSE_DETAILS_API, GET_FULL_COURSE_DETAILS_AUTHENTICATED, DELETE_COURSE_API, DELETE_SECTION_API, COURSE_CATEGORIES_API, CREATE_SECTION_API, EDIT_COURSE_API, CREATE_COURSE_API, DELETE_SUBSECTION_API, UPDATE_SECTION_API, UPDATE_SUBSECTION_API, CREATE_SUBSECTION_API, GET_ALL_INSTRUCTOR_COURSES_API } = courseEndpoints;
+const { LECTURE_COMPLETION_API, COURSE_DETAILS_API, GET_FULL_COURSE_DETAILS_AUTHENTICATED, DELETE_COURSE_API, DELETE_SECTION_API, COURSE_CATEGORIES_API, CREATE_SECTION_API, EDIT_COURSE_API, CREATE_COURSE_API, DELETE_SUBSECTION_API, UPDATE_SECTION_API, UPDATE_SUBSECTION_API, CREATE_SUBSECTION_API, GET_ALL_INSTRUCTOR_COURSES_API } = courseEndpoints;
 
 // get course categories
 export const fetchCourseCategories = async () => {
@@ -260,15 +260,15 @@ export async function getFullDetailsOfCourse(courseId, token) {
         const response = await apiconnector('POST', GET_FULL_COURSE_DETAILS_AUTHENTICATED, { courseId: courseId }, {
             'Authorization': `Bearer ${token}`
         });
-
+        // console.log(response);
         if (!response.data.success) {
-            throw new Error('Could Not Get Course Details');
+            return new Error('Could Not Get Course Details');
         }
         result = response?.data?.data;
     }
     catch (error) {
-        console.log('Get Course Details API ERROR', error);
         toast.error(error?.response?.data?.message);
+        console.log('Get Course Details API ERROR', error);
     }
     toast.dismiss(toastId);
     return result;
@@ -291,4 +291,20 @@ export async function fetchCourseDetails(courseId, token) {
     }
     toast.dismiss(toastId);
     return result;
+}
+
+export async function lecturesComplete(data, token) {
+    try {
+        const response = await apiconnector('POST', LECTURE_COMPLETION_API, data, {
+            'Authorization': `Bearer ${token}`
+        })
+        console.log(response);
+        if (!response.data.success) {
+            throw new Error('Could Not Complete Lecture');
+        }
+        toast.success('Lecture Completed Successfully');
+
+    } catch (error) {
+        console.log('err ', error);
+    }
 }

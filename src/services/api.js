@@ -48,7 +48,8 @@ export const courseEndpoints = {
 // RATINGS AND REVIEWS
 export const ratingsEndpoints = {
     REVIEWS_DETAILS_API: BASE_URL + "/course/getReviews",
-    AVG_RATING_API: BASE_URL + "/course/getAverageRating"
+    AVG_RATING_API: BASE_URL + "/course/getAverageRating",
+    CREATE_REVIEW_API: BASE_URL + "/course//createRating"
 }
 
 // CATAGORIES API

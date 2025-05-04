@@ -4,9 +4,9 @@ const User = require('../models/users');
 const Course = require('../models/courses');
 const sendEmail = require('../utils/sendEmail');
 const { instance } = require('../config/razorpay');
+const courseprogress = require('../models/courseprogress');
 
 // Create Order
-
 exports.createOrder = async function (req, res) {
     try {
         const { courses } = req.body;
@@ -140,12 +140,23 @@ async function enrollStudents(courses, userId) {
         );
 
         if (!alreadyEnrolled) {
+            // update in course
             await Course.findByIdAndUpdate(courseId, {
                 $push: { studentEnrolled: uid }
             });
 
+
+            // create course progress
+            const enroll_progress = await courseprogress.create({
+                course_id: courseId,
+                userId: userId,
+                completedVideos: []
+            })
+
+
+            // update in user
             await User.findByIdAndUpdate(userId, {
-                $push: { courses: courseId }
+                $push: { courses: courseId, courseProgress: enroll_progress._id }
             });
 
             await sendEmail(student.email, 'Course Enrolled', 'payment');
@@ -153,11 +164,9 @@ async function enrollStudents(courses, userId) {
     }
 }
 
-
-
 exports.sendPaymentSuccessEmail = async (req, res) => {
     const { orderId, paymentId, amount } = req.body;
-    console.log(amount); 
+    console.log(amount);
 
     const userId = req.user.id
 
@@ -180,7 +189,6 @@ exports.sendPaymentSuccessEmail = async (req, res) => {
             .json({ success: false, message: "Could not send email" })
     }
 }
-
 
 // exports.createOrder = async (req, res) => {
 //     try {

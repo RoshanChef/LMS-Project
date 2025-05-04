@@ -174,9 +174,6 @@ export default Home;`}
           {/* Review slider */}
         </div>
 
-
-
-
         {/* section 3 */}
 
         {/* footer */}

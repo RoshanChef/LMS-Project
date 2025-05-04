@@ -31,10 +31,8 @@ export default function ViewCourse() {
         getFullDetailsOfCors();
     }, []);
 
-
-
     return (
-        <div className="mt-16 flex w-screen">
+        <div className="mt-16 flex w-screen overflow-x-hidden">
             <VideoDetailSlider setReviewModal={setReviewModal} />
             <div className="w-[75%] h-[70vh]">
                 <Outlet />

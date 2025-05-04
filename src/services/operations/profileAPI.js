@@ -13,12 +13,13 @@ export async function getEnrolledCourses(token) {
             Authorization: `Bearer ${token}`,
         });
 
-        console.log('get enroll ', response.data.data.courses);
+        // console.log('get enroll ', response.data.data);
         if (!response.data.success) {
             throw new Error('No student enrolled in courses');
         }
 
         result = response?.data?.data?.courses
+        result = response.data.data; 
 
     } catch (error) {
         console.log(error);

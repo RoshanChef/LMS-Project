@@ -4,9 +4,12 @@ import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { FaStar } from "react-icons/fa"
 import ReactStars from "react-stars"
+import { create_Rating } from '../../../services/operations/reviewAPI'
 
 function CourseReviewModal({ setReviewModal }) {
-  const { user } = useSelector(state => state.profile)
+  const { user } = useSelector(state => state.profile);
+  const { token } = useSelector(state => state.auth);
+  const { courseEntireData } = useSelector((state) => state.viewCourse)
   const { register, setValue, getValues, handleSubmit, formState: { errors } } = useForm()
 
   useEffect(() => {
@@ -15,12 +18,18 @@ function CourseReviewModal({ setReviewModal }) {
   }, [setValue])
 
   const ratingChange = (rating) => {
-    console.log(rating)
     setValue('courseRating', rating)
   }
 
-  const onSubmit = (data) => {
-    console.log(data)
+
+  const onSubmit = async (data) => {
+    let obj = {
+      rating: data.courseRating,
+      review: data.courseExperience,
+      courseId: courseEntireData._id
+    };
+    await create_Rating(obj, token);
+    setReviewModal(false); 
   }
 
   return (

@@ -89,14 +89,14 @@ function VideoDetailSlider({ setReviewModal }) {
                   <div className="flex-1 min-w-0">
                     <div className="w-full bg-gray-800 rounded-full h-1.5">
                       <div
-                        className="bg-gradient-to-r from-yellow-500 to-amber-500 h-1.5 rounded-full"
+                        className="bg-gradient-to-r from-green-400 to-green-500 h-1.5  rounded-full"
                         style={{
                           width: `${(completedLectures.length / totalNoOfLectures) * 100}%`
                         }}
                       ></div>
                     </div>
                   </div>
-                  <span className="text-xs font-medium text-yellow-400 ml-2 whitespace-nowrap">
+                  <span className="text-xs font-medium text-green-400 ml-2 whitespace-nowrap">
                     {Math.round((completedLectures.length / totalNoOfLectures) * 100)}%
                   </span>
                 </div>

@@ -12,6 +12,7 @@ function EnrolledCourses() {
   async function getEnrCourses() {
     try {
       const data = await getEnrolledCourses(token);
+
       setEnrolledCourses(data);
     } catch (error) {
       console.log('error in enrolled course ', error);
