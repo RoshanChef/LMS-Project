@@ -17,7 +17,7 @@ export async function getCatalogData(categoryId, token) {
         //console.log('response getCatalogData api', response.data);
 
         if (!response?.data?.success) {
-            throw new Error(response?.data?.message || "Unknown error");
+            toast.error(response?.data?.message || "Unknown error");
         }
 
         result = response.data;

@@ -11,7 +11,7 @@ export async function create_Rating(data, token) {
         });
 
         if (!response) {
-            throw new Error('Something went wrong while reviewing');
+            toast.error('Something went wrong while reviewing');
         }
         toast.success('Reviewed saved successfully');
 

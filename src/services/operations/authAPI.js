@@ -84,7 +84,7 @@ export function resetPassword(password, token) {
             const response = await apiconnector("POST", RESETPASSWORD_API, { password, token });
             
             if (!response.data.success) {
-                throw new Error(response.data.message);
+                toast.error(response.data.message);
             }
 
             toast.success("Password has been reset successfully");
@@ -109,7 +109,7 @@ export function sendOtp(email, navigate) {
 
             const response = await apiconnector("POST", SENDOTP_API, { email });
             if (!response.data.success) {
-                throw new Error(response.data.message);
+                toast.error(response.data.message);
             }
 
             toast.success("OTP sent successfully");
@@ -134,7 +134,7 @@ export function signUp(otp, accountType, firstName, lastName, email, password, n
 
             const response = await apiconnector("POST", SIGNUP_API, { otp, email, firstName, lastName, password, accountType });
             if (!response.data.success) {
-                throw new Error(response.data.message);
+                toast.error(response.data.message);
             }
 
             toast.success("Account created successfully");

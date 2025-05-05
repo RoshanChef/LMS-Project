@@ -15,7 +15,7 @@ export async function getEnrolledCourses(token) {
 
         // console.log('get enroll ', response.data.data);
         if (!response.data.success) {
-            throw new Error('No student enrolled in courses');
+            toast.error('No student enrolled in courses');
         }
 
         result = response?.data?.data?.courses
@@ -36,7 +36,7 @@ export async function delete_Account(token, password, navigate, dispatch) {
             'Authorization': `${token}`
         });
         if (!response.data.success) {
-            throw new Error('Not get any response of delete account');
+            toast.error('Not get any response of delete account');
         }
         toast.success('Deleted your account');
         dispatch(logout(navigate))
@@ -51,11 +51,11 @@ export async function delete_Account(token, password, navigate, dispatch) {
 export async function getInstructorData(token) {
     let result = null;
     try {
-        const response = await apiconnector('GET', GET_INSTRUCTOR_DATA_API, null,{
-            "Authorization" : `Bearer ${token}`
+        const response = await apiconnector('GET', GET_INSTRUCTOR_DATA_API, null, {
+            "Authorization": `Bearer ${token}`
         });
         if (!response.data.success)
-            throw new Error("Error while fetching instructor data");
+            toast.error("Error while fetching instructor data");
         result = response.data;
     } catch (error) {
         console.log(error);

@@ -46,7 +46,7 @@ export function updateProfile(token, data) {
             });
 
             if (!response.data.success) {
-                throw new Error(response.data.message);
+                toast.error(response.data.message);
             }
 
             const userImage = response.data.user.image
@@ -71,7 +71,7 @@ export function changePassword(token, oldPassword, newPassword) {
     return async (dispatch) => {
         const toastId = toast.loading("Loading...");
         try {
-           
+
             const response = await apiconnector('POST', CHANGE_PASSWORD_API, { oldPassword, newPassword }, {
                 Authorization: `Bearer ${token}`,
             });

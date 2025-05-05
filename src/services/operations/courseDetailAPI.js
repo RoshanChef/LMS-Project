@@ -11,7 +11,7 @@ export const fetchCourseCategories = async () => {
         const response = await apiconnector("GET", COURSE_CATEGORIES_API);
         // console.log("COURSE_CATEGORIES_API API RESPONSE............", response);
         if (!response?.data?.success) {
-            throw new Error("Could Not Fetch Course Categories");
+            toast.error("Could Not Fetch Course Categories");
         }
         result = response?.data?.data;
     } catch (error) {
@@ -34,7 +34,7 @@ export const editCourseDetails = async (data, token) => {
         });
 
         if (!response?.data?.success) {
-            throw new Error("Could Not Edit Course Details");
+            toast.error("Could Not Edit Course Details");
         }
         toast.dismiss(toastId);
         toast(`Course Details Updated Successfully`);
@@ -57,7 +57,7 @@ export const createCourse = async (data, token) => {
         });
 
         if (!response?.data?.success) {
-            throw new Error("Could Not Create Course");
+            toast.error("Could Not Create Course");
         }
         result = response?.data?.data;
         toast.dismiss(toastId);
@@ -80,7 +80,7 @@ export async function updateSection(data, token) {
         });
      
         if (!response?.data?.success) {
-            throw new Error('Could Not Update Section');
+            toast.error('Could Not Update Section');
         }
         toast.success('Course Section Updated Successfully');
         result = response?.data?.updatedCourse;
@@ -102,7 +102,7 @@ export async function createSection(data, token) {
             Authorization: `Bearer ${token}`,
         });
         if (!response?.data?.success) {
-            throw new Error('Could Not create Section');
+            toast.error('Could Not create Section');
         }
 
         // console.log('Create Section API Response', response.data.updatedCourse);
@@ -128,7 +128,7 @@ export async function deleteSubSection(data, token) {
             Authorization: `Bearer ${token}`,
         });
         if (!response?.data?.success) {
-            throw new Error('Could Not Delete SubSection');
+            toast.error('Could Not Delete SubSection');
         }
       
         toast.success('Course SubSection Deleted Successfully');
@@ -151,7 +151,7 @@ export async function createSubSection(data, token) {
             Authorization: `Bearer ${token}`,
         });
         if (!response?.data?.success) {
-            throw new Error('Could Not Create SubSection');
+            toast.error('Could Not Create SubSection');
         }
         result = response?.data?.data?.updatedCourse;
         toast.success('Course SubSection Created Successfully');
@@ -173,7 +173,7 @@ export async function updateSubSection(data, token) {
             Authorization: `Bearer ${token}`,
         });
         if (!response?.data?.success) {
-            throw new Error('Could Not Update SubSection');
+            toast.error('Could Not Update SubSection');
         }
         result = response?.data?.updatedCourse;
         toast.success('Course SubSection Updated Successfully');
@@ -196,7 +196,7 @@ export async function deleteSection(data, token) {
             Authorization: `Bearer ${token}`
         })
         if (!response?.data?.success) {
-            throw new Error('Could Not Delete Course Section');
+            toast.error('Could Not Delete Course Section');
         }
         toast.success('Course Section Deleted Successfully');
         result = response?.data?.updatedCourse;
@@ -216,7 +216,7 @@ export async function fetchInstructorCourse(token) {
         })
 
         if (!response.data.success) {
-            throw new Error('Could Not Get any Courses');
+            toast.error('Could Not Get any Courses');
         }
         result = response?.data?.data;
     } catch (error) {
@@ -260,7 +260,7 @@ export async function getFullDetailsOfCourse(courseId, token) {
             'Authorization': `Bearer ${token}`
         });
         if (!response.data.success) {
-            return new Error('Could Not Get Course Details');
+            toast.error('Could Not Get Course Details');
         }
         result = response?.data?.data;
     }
@@ -280,7 +280,7 @@ export async function fetchCourseDetails(courseId, token) {
             "Authorization": `Bearear ${token}`
         })
         if (!response.data.success) {
-            throw new Error('Could Not Get Course Details');
+            toast.error('Could Not Get Course Details');
         }
         // console.log('getcourseDetails ', response);
         result = response?.data?.data;
@@ -298,9 +298,9 @@ export async function lecturesComplete(data, token) {
         })
        
         if (!response.data.success) {
-            throw new Error('Could Not Complete Lecture');
+            toast.error('Could Not Complete Lecture');
         }
-        // toast.success('Lecture Completed Successfully');
+        toast.success('Lecture Completed Successfully');
 
     } catch (error) {
         console.log('err ', error);
