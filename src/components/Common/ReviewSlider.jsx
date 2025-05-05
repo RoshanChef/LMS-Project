@@ -38,7 +38,7 @@ function ReviewSlider() {
                 scrollbar={{ draggable: true }}
                 className="my-swiper !pb-16 cursor-pointer"
             >
-                {reviews.map((review, index) => (
+                {reviews?.map((review, index) => (
                     <SwiperSlide key={index} className="min-h-[300px]">
                         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 mx-1 sm:mx-2 border border-white/20 shadow-xl hover:shadow-2xl transition duration-300 h-full flex flex-col justify-between">
                             {/* Avatar */}

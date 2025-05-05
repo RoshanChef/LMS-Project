@@ -106,7 +106,7 @@ function Navbar() {
                     {/* Desktop Navigation */}
                     <nav className="hidden md:block">
                         <ul className="flex gap-x-8 items-center">
-                            {NavbarLinks.map((link, index) => (
+                            {NavbarLinks?.map((link, index) => (
                                 <li key={index}>
                                     {link.title === "Catalog" ? (
                                         <div className="group relative">
@@ -127,7 +127,7 @@ function Navbar() {
                                                             <div className="h-8 w-8 animate-spin rounded-full border-4 border-amber-400 border-t-transparent"></div>
                                                         </div>
                                                     ) : subLinks.length > 0 ? (
-                                                        subLinks.map((ele, idx) => (
+                                                        subLinks?.map((ele, idx) => (
                                                             <Link
                                                                 to={`/catalog/${ele.name.split(" ").join("-").toLowerCase()}`}
                                                                 className="block rounded-lg px-4 py-3 text-[#d1d9e8] hover:bg-[#2a3344] hover:text-amber-300 transition-colors duration-200"
@@ -219,7 +219,7 @@ function Navbar() {
 
                         <nav className="py-16 px-6 overflow-y-auto h-full">
                             <ul className="flex flex-col gap-y-6">
-                                {NavbarLinks.map((link, index) => (
+                                {NavbarLinks?.map((link, index) => (
                                     <li key={index} className="group relative">
                                         {link.title === "Catalog" ? (
                                             <div className="relative">
@@ -242,7 +242,7 @@ function Navbar() {
                                                                 <div className="h-8 w-8 animate-spin rounded-full border-4 border-amber-400 border-t-transparent" />
                                                             </div>
                                                         ) : subLinks.length > 0 ? (
-                                                            subLinks.map((ele, idx) => (
+                                                            subLinks?.map((ele, idx) => (
                                                                 <Link
                                                                     to={`/catalog/${ele.name.split(" ").join("-").toLowerCase()}`}
                                                                     key={idx}

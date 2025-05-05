@@ -66,7 +66,7 @@ const Footer = () => {
           <div className="min-w-[120px]">
             <h3 className="text-white text-sm font-semibold mb-3">Resources</h3>
             <ul className="space-y-2">
-              {Resources.slice(0, 4).map((item, index) => (
+              {Resources.slice(0, 4)?.map((item, index) => (
                 <li key={index}>
                   <Link
                     // to={item.split(" ").join("-").toLowerCase()}
@@ -84,7 +84,7 @@ const Footer = () => {
           <div className="min-w-[120px]">
             <h3 className="text-white text-sm font-semibold mb-3">Plans</h3>
             <ul className="space-y-2">
-              {Plans.map((item, index) => (
+              {Plans?.map((item, index) => (
                 <li key={index}>
                   <Link
                     // to={item.split(" ").join("-").toLowerCase()}
@@ -102,7 +102,7 @@ const Footer = () => {
           <div className="min-w-[120px]">
             <h3 className="text-white text-sm font-semibold mb-3">Community</h3>
             <ul className="space-y-2">
-              {Community.map((item, index) => (
+              {Community?.map((item, index) => (
                 <li key={index}>
                   <Link
                     // to={item.split(" ").join("-").toLowerCase()}
@@ -118,11 +118,11 @@ const Footer = () => {
           </div>
 
           {/* FooterLink2 Data - made more compact */}
-          {FooterLink2.map((section, index) => (
+          {FooterLink2?.map((section, index) => (
             <div key={index} className="min-w-[120px]">
               <h3 className="text-white text-sm font-semibold mb-3">{section.title}</h3>
               <ul className="space-y-2">
-                {section.links.slice(0, 4).map((link, linkIndex) => (
+                {section.links.slice(0, 4)?.map((link, linkIndex) => (
                   <li key={linkIndex}>
                     <Link
                       // to={link.link}
@@ -142,7 +142,7 @@ const Footer = () => {
         {/* Compact Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
           <div className="flex flex-wrap gap-3 justify-center text-xs">
-            {BottomFooter.map((item, index) => (
+            {BottomFooter?.map((item, index) => (
               <Link
                 key={index}
                 to={"/"}

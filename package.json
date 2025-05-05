@@ -7,6 +7,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "start": "vite start",
     "dev": "concurrently -n \"frontend,backend\" -c \"bgGreen,bgYellow\" \"vite\" \"npm run backend\"",
     "backend": "cd backend && npm run dev"
   },
