@@ -88,6 +88,7 @@ exports.signUp = async (req, res) => {
 
         // Verify OTP
         const recentOTP = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
+        // console.log(recentOTP[0].otp);
 
         if (recentOTP.length === 0) {
             return res.status(400).json({

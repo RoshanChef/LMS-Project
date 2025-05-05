@@ -6,7 +6,7 @@ exports.uploadToCloudinary = async (file, folder, height, quality) => {
             folder,
             resource_type: "auto", // Automatically detect image, video, etc.
         };
-        console.log('reached here \n\n\n\n');
+       
         if (height) options.height = height;
         if (quality) options.quality = quality;
 
