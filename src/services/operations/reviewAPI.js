@@ -9,7 +9,7 @@ export async function create_Rating(data, token) {
         const response = await apiconnector('POST', CREATE_REVIEW_API, data, {
             "Authorization": `Bearer ${token}`
         });
-        
+
         if (!response) {
             throw new Error('Something went wrong while reviewing');
         }
@@ -21,16 +21,21 @@ export async function create_Rating(data, token) {
 }
 
 export async function gettingReviews() {
-    let result = null;
     try {
         const response = await apiconnector('GET', REVIEWS_DETAILS_API);
-        if (!response.data.success) {
-            throw new Error('review not getting');
+
+        // Optional: check success flag if your API returns it
+        if (!response?.data?.success) {
+            toast.error('Failed to fetch reviews');
+            return [];
         }
-        result = response?.data?.reviews;
+
+        // Return reviews array or empty array if none
+        return response?.data?.reviews || [];
+
     } catch (error) {
-        console.log('error ', error);
-        toast.error(error?.response?.data?.message || 'Something went wrong while reviewing');
+        console.log('Error fetching reviews:', error);
+        toast.error(error?.response?.data?.message || 'Something went wrong while fetching reviews');
+        return [];
     }
-    return result;
 }
