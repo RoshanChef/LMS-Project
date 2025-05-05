@@ -1,7 +1,6 @@
 import toast from "react-hot-toast";
 import apiconnector from "../apiconnector";
 import { courseEndpoints } from '../api';
-import { setProgress } from "../../Redux/Slices/loadingBarSlice";
 
 const { LECTURE_COMPLETION_API, COURSE_DETAILS_API, GET_FULL_COURSE_DETAILS_AUTHENTICATED, DELETE_COURSE_API, DELETE_SECTION_API, COURSE_CATEGORIES_API, CREATE_SECTION_API, EDIT_COURSE_API, CREATE_COURSE_API, DELETE_SUBSECTION_API, UPDATE_SECTION_API, UPDATE_SUBSECTION_API, CREATE_SUBSECTION_API, GET_ALL_INSTRUCTOR_COURSES_API } = courseEndpoints;
 
@@ -214,7 +213,7 @@ export async function fetchInstructorCourse(token) {
     const toastId = toast.loading('Loading...');
     try {
         const response = await apiconnector('GET', GET_ALL_INSTRUCTOR_COURSES_API, null, {
-            Authorization: `Bearer ${token}`
+            "Authorization": `Bearer ${token}`
         })
 
         if (!response.data.success) {

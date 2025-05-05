@@ -23,8 +23,8 @@ function MyCourses() {
     return (
         <div className="p-4">
             <div className="flex items-center justify-between mb-4">
-                <h1 className="text-2xl font-bold">My Courses</h1>
-                <IconBtn text="Add Course" onclick={()=>navigate("/dashboard/add-course")} />
+                <h1 className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400'>My Courses</h1>
+                <IconBtn text="Add Course" onclick={() => navigate("/dashboard/add-course")} />
             </div>
             <div>
                 <CourseInsTable courses={courses} setCourses={setCourses} />

@@ -39,19 +39,18 @@ function CourseInformationForm() {
 
             setLoading(false);
         }
-        console.log('editcourse state ', editCourse);
 
         if (editCourse) {
-            console.log(course?.courseDetails?.instructions);
+            // console.log(course?.courseDetails?.thumbnail);
 
-            setValue("courseTitle", course?.courseName);
-            setValue("courseShortDesc", course?.courseDescription);
-            setValue("coursePrice", course?.price);
-            setValue("courseTags", course?.tag);
-            setValue("courseBenefits", course?.what_learn);
-            setValue("courseCategory", course?.category);
-            setValue("courseRequirements", (course?.instructions));
-            setValue("courseImage", course?.thumbnail);
+            setValue("courseTitle", course?.courseDetails?.courseName);
+            setValue("courseShortDesc", course?.courseDetails?.courseDescription);
+            setValue("coursePrice", course?.courseDetails?.price);
+            setValue("courseTags", course?.courseDetails?.tag);
+            setValue("courseBenefits", course?.courseDetails?.what_learn);
+            setValue("courseCategory", course?.courseDetails?.category);
+            setValue("courseRequirements", course?.courseDetails?.instructions);
+            setValue("courseImage", course?.courseDetails?.thumbnail);
         }
 
         getCategories();

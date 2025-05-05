@@ -3,7 +3,7 @@ import apiconnector from "../apiconnector";
 import { profileEndpoints } from '../api';
 import { settingsEndpoints } from '../api';
 import { logout } from "./authAPI";
-const { GET_USER_ENROLLED_COURSES_API } = profileEndpoints;
+const { GET_USER_ENROLLED_COURSES_API, GET_INSTRUCTOR_DATA_API } = profileEndpoints;
 const { DELETE_PROFILE_API } = settingsEndpoints;
 
 export async function getEnrolledCourses(token) {
@@ -19,7 +19,7 @@ export async function getEnrolledCourses(token) {
         }
 
         result = response?.data?.data?.courses
-        result = response.data.data; 
+        result = response.data.data;
 
     } catch (error) {
         console.log(error);
@@ -47,3 +47,22 @@ export async function delete_Account(token, password, navigate, dispatch) {
     }
     toast.dismiss(toastId);
 }
+
+
+export async function getInstructorData(token) {
+    let result = null;
+    try {
+        const response = await apiconnector('GET', GET_INSTRUCTOR_DATA_API, null,{
+            "Authorization" : `Bearer ${token}`
+        });
+        if (!response.data.success)
+            throw new Error("Error while fetching instructor data");
+        result = response.data;
+    } catch (error) {
+        console.log(error);
+        toast.error(error);
+    } finally {
+        return result;
+    }
+}
+

@@ -15,11 +15,11 @@ const ChipInput = ({ name, label, register, errors, setValue }) => {
             // validate: (value) => value.length > 0
         });
         if (editCourse) {
-            settags(JSON.parse(course?.tags));
-            setValue(name, (course?.tags));
+            settags(JSON.parse(course?.courseDetails?.tags));
+            setValue(name, (course?.courseDetails?.tags));
         }
     }, [])
-    console.log(course)
+    // console.log(course)
 
     return (
         <div>

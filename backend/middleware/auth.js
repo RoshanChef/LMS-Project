@@ -11,7 +11,8 @@ const auth = async (req, res, next) => {
     try {
         const token = req.cookies.token
             || req.body.token
-            || req.header("Authorization").replace("Bearer ", "");
+            || req.header("Authorization")?.replace("Bearer ", "");
+            console.log(req.body); 
 
         // console.log('token ', token);
         if (!token)
