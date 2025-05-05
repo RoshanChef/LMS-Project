@@ -8,7 +8,6 @@ exports.resetPasswordToken = async (req, res) => {
 
         // get email from body
         const { email } = req.body;
-        console.log('email : ', email);
         const user = await User.findOne({ email });
 
         if (!user) {

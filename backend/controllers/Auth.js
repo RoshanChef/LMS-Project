@@ -59,7 +59,7 @@ exports.sendOTP = async (req, res) => {
 exports.signUp = async (req, res) => {
     try {
         const { otp, email, firstName, lastName, password, accountType } = req.body;
-        console.log(req.body);
+        // console.log(req.body);
         // validate data 
         if (!firstName || !lastName || !email || !password || !accountType || !otp) {
             return res.status(400).json({
@@ -196,7 +196,7 @@ exports.changePassword = async (req, res) => {
         const token = req.cookies.token
             || req.body.token
             || req.header("Authorization").replace("Bearer ", "");
-        console.log(token);
+        // console.log(token);
 
         if (!token) {
             return res.status(401).json({

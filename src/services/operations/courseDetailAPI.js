@@ -26,7 +26,7 @@ export const editCourseDetails = async (data, token) => {
 
     let result = null;
     const toastId = toast.loading("Loading...");
-    console.log("EDIT_COURSE_API API REQUEST............", data);
+
     try {
         const response = await apiconnector("POST", EDIT_COURSE_API, data, {
             "Content-Type": "multipart/form-data",
@@ -78,7 +78,7 @@ export async function updateSection(data, token) {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
         });
-        console.log('Update Section API Response', response);
+     
         if (!response?.data?.success) {
             throw new Error('Could Not Update Section');
         }
@@ -130,8 +130,7 @@ export async function deleteSubSection(data, token) {
         if (!response?.data?.success) {
             throw new Error('Could Not Delete SubSection');
         }
-
-        console.log('Delete SubSection API Response', response.data.updatedCourse);
+      
         toast.success('Course SubSection Deleted Successfully');
         result = response?.data?.updatedCourse;
     } catch (error) {
@@ -178,7 +177,7 @@ export async function updateSubSection(data, token) {
         }
         result = response?.data?.updatedCourse;
         toast.success('Course SubSection Updated Successfully');
-        console.log('response i got ', result);
+        
 
     } catch (error) {
         console.log('Update SubSection API ERROR', error);
@@ -232,14 +231,15 @@ export async function deleteCourse(data, token) {
     let result = null;
     const toastId = toast.loading('Deleting Course...');
     try {
-        console.log('Data I got ', data);
-        const response = await apiconnector('POST', DELETE_COURSE_API, data);
+        const response = await apiconnector('POST', DELETE_COURSE_API, data, {
+            "Authorization": `Bearer ${token}`
+        });
 
         if (!response.data.success) {
-            console.log(response);
+           
             throw new Error('Could Not Delete Course');
         }
-        console.log(response);
+       
         toast.success('Course Deleted Successfully');
         result = response?.data?.deletedCourse;
         console.log(result);
@@ -259,7 +259,6 @@ export async function getFullDetailsOfCourse(courseId, token) {
         const response = await apiconnector('POST', GET_FULL_COURSE_DETAILS_AUTHENTICATED, { courseId: courseId }, {
             'Authorization': `Bearer ${token}`
         });
-        // console.log(response);
         if (!response.data.success) {
             return new Error('Could Not Get Course Details');
         }
@@ -297,11 +296,11 @@ export async function lecturesComplete(data, token) {
         const response = await apiconnector('POST', LECTURE_COMPLETION_API, data, {
             'Authorization': `Bearer ${token}`
         })
-        console.log(response);
+       
         if (!response.data.success) {
             throw new Error('Could Not Complete Lecture');
         }
-        toast.success('Lecture Completed Successfully');
+        // toast.success('Lecture Completed Successfully');
 
     } catch (error) {
         console.log('err ', error);

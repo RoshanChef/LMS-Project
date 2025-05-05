@@ -21,9 +21,8 @@ function DetailsPage() {
   const { cart } = useSelector(state => state.cart);
   const { user } = useSelector(state => state.profile);
   const { loading } = useSelector(state => state.auth);
-  const { paymentLoading } = useSelector(state => state.course);
+  const [alreadyEnrolled, setAlreadyEnrolled] = useState(false);
 
-  console.log()
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,12 +35,15 @@ function DetailsPage() {
 
   const [confirmationModal, setConfirmationModal] = useState(false);
   const [isActive, setIsActive] = useState([]);
+
+  function check() {
+    console.log(course._id, user.courses)
+    return user.courses.includes(course._id);
+  }
+
   function handleActive(id) {
     setIsActive(!isActive.includes(id) ? isActive.concat(id) : isActive.filter(e_id => e_id !== id))
   }
-
-
-  console.log('pagedetails ', course);
 
   useEffect(() => {
     async function getCourse() {
@@ -76,6 +78,19 @@ function DetailsPage() {
       setDate(formatDate(course.createdAt));
     }
   }, [course]);
+
+  useEffect(() => {
+    if (course && user) {
+      const isEnrolled = course.studentEnrolled?.some((student) => {
+        return String(student._id) === String(user._id);
+      });
+      setAlreadyEnrolled(isEnrolled);
+    } else {
+      setAlreadyEnrolled(false);
+    }
+  }, [course, user?._id]);
+  // /view-course/course?._id/section/course?.courseContent[0]._id/sub-section/course?.courseContent[0].subSection[0]._id
+  console.log(course,course?.courseContent[0].subSection[0]._id)
 
   async function handleBuyNow() {
     if (token) {
@@ -177,8 +192,9 @@ function DetailsPage() {
             {
               user?.accountType === 'Instructor' ? (
                 <div>
+                  Not for Instructor
                 </div>
-              ) : (
+              ) : (!alreadyEnrolled) ? (
                 <>
                   <button
                     onClick={handleBuyNow}
@@ -192,6 +208,12 @@ function DetailsPage() {
                     Add to Cart
                   </button>
                 </>
+              ) : (
+                <button
+                  onClick={() => navigate(`/view-course/${course?._id}/section/${course?.courseContent[0]._id}/sub-section/${course?.courseContent[0].subSection[0]._id}`)}
+                  className="w-full border cursor-pointer border-yellow-400 text-yellow-400 font-semibold py-2 rounded-lg hover:bg-yellow-400 hover:text-black transition">
+                  Go to Course
+                </button>
               )
             }
 

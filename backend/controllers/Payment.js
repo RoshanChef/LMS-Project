@@ -10,7 +10,6 @@ const courseprogress = require('../models/courseprogress');
 exports.createOrder = async function (req, res) {
     try {
         const { courses } = req.body;
-        console.log('Courses received:', courses);
 
         const userId = req.user?.id;
         // console.log('User ID:', userId);
@@ -30,7 +29,8 @@ exports.createOrder = async function (req, res) {
             // console.log('course ', course);
 
             // const uid = new mongoose.Types.ObjectId(userId);
-            console.log('uid res ', course?.studentEnrolled?.includes(userId));
+            // console.log('uid res ', course?.studentEnrolled?.includes(userId));
+
             if (course?.studentEnrolled?.includes(userId)) {
                 return res.status(200).json({
                     success: false,
@@ -41,7 +41,7 @@ exports.createOrder = async function (req, res) {
             totalAmount += course.price;
         }
 
-        console.log('Total Amount:', totalAmount);
+        // console.log('Total Amount:', totalAmount);
 
         const options = {
             amount: totalAmount * 100, // Convert to paisa
@@ -84,7 +84,7 @@ exports.createOrder = async function (req, res) {
 
 // Verify Payment
 exports.verifyPayment = async (req, res) => {
-    console.log('Verifying payment:', req.user.id);
+    // console.log('Verifying payment:', req.user.id);
     try {
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature, courses } = req.body;
 
@@ -166,7 +166,7 @@ async function enrollStudents(courses, userId) {
 
 exports.sendPaymentSuccessEmail = async (req, res) => {
     const { orderId, paymentId, amount } = req.body;
-    console.log(amount);
+    // console.log(amount);
 
     const userId = req.user.id
 

@@ -232,7 +232,7 @@ exports.getEnrolledCourses = async (req, res) => {
             }
         }
 
-        console.log('uere ', userDetails);
+        // console.log('uere ', userDetails);
         return res.status(200).json({
             success: true,
             data: userDetails.courses,

@@ -14,17 +14,16 @@ const RequirementField = ({ name, label, register, errors, setValue, getValues }
 
     // Populate list on edit mode
     useEffect(() => {
-        if (editCourse && course?.courseDetails?.instructions) {
+        if (editCourse && course?.instructions) {
             try {
-                const parsed = JSON.parse(course?.courseDetails?.instructions);
+                const parsed = JSON.parse(course?.instructions);
                 if (Array.isArray(parsed)) {
                     setRequirementList(parsed);
                     setValue(name, parsed);
                 }
             } catch (err) {
-               
-                setRequirementList(course?.courseDetails?.instructions);
-                setValue(name, course?.courseDetails?.instructions);
+                setRequirementList(course?.instructions);
+                setValue(name, course?.instructions);
             }
         }
     }, [editCourse, course, name, setValue]);

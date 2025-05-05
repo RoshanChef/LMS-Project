@@ -71,7 +71,7 @@ export function changePassword(token, oldPassword, newPassword) {
     return async (dispatch) => {
         const toastId = toast.loading("Loading...");
         try {
-            console.log(CHANGE_PASSWORD_API);
+           
             const response = await apiconnector('POST', CHANGE_PASSWORD_API, { oldPassword, newPassword }, {
                 Authorization: `Bearer ${token}`,
             });

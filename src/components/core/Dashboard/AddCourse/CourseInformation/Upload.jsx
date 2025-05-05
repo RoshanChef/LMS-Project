@@ -19,8 +19,8 @@ const Upload = ({ name, label, register, errors, setValue }) => {
   };
 
   useEffect(() => {
-    if (editCourse && course?.courseDetails?.thumbnail) {
-      setImage(course?.courseDetails?.thumbnail);
+    if (editCourse && course?.thumbnail) {
+      setImage(course?.thumbnail);
     }
   }, [editCourse, course]);
 

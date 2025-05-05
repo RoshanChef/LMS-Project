@@ -1,7 +1,6 @@
 import toast from 'react-hot-toast';
 import { ratingsEndpoints } from '../../services/api';
 
-
 const { AVG_RATING_API } = ratingsEndpoints;
 
 

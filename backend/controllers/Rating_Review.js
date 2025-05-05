@@ -103,7 +103,7 @@ exports.getAllRating = async (req, res) => {
             .populate({ path: "user", select: "firstName lastName email image" })
             .populate({ path: "course", select: "courseName" })
             .exec();
-        console.log('reviews  ', reviews);
+        // console.log('reviews  ', reviews);
         
         return res.status(200).json({
             success: true,

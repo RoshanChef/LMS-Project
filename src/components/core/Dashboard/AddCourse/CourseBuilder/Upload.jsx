@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { FiUploadCloud } from "react-icons/fi"
-import ReactPlayer from "react-player"   
+import ReactPlayer from "react-player"
 
 export default function Upload({
   name,
@@ -12,6 +12,7 @@ export default function Upload({
   video = false,
   viewData = null,
   editData = null,
+  getValues
 }) {
   const [selectedFile, setSelectedFile] = useState(null)
   const [previewSource, setPreviewSource] = useState(

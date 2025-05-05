@@ -23,6 +23,9 @@ function VideoDetailSlider({ setReviewModal }) {
     totalNoOfLectures
   } = useSelector((state) => state.viewCourse);
 
+  console.log("completedLectures ",completedLectures);
+  
+
   useEffect(() => {
     function getData() {
       if (!courseSectionData?.length) return;

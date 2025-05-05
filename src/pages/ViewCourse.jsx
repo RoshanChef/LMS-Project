@@ -15,17 +15,18 @@ export default function ViewCourse() {
     useEffect(() => {
         async function getFullDetailsOfCors() {
             const courseData = await getFullDetailsOfCourse(courseId, token);
-            // console.log('courseData i got ', courseData);
-
+            
             dispatch(setCourseSectionData(courseData.courseDetails.courseContent));
             dispatch(setEntireCourseData(courseData.courseDetails));
             dispatch(setCompletedLectures(courseData.completedVideos));
-
+            
+            console.log('courseData i got ', courseData.completedVideos );
             let lectures = 0;
-            courseData?.courseDetails.courseContent?.forEach((section) => {
+            courseData?.courseDetails?.courseContent?.forEach((section) => {
                 lectures += section.subSection.length;
             })
             dispatch(setTotalNoOfLectures(lectures));
+
         }
 
         getFullDetailsOfCors();

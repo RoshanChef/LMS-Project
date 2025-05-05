@@ -35,7 +35,6 @@ export async function delete_Account(token, password, navigate, dispatch) {
         const response = await apiconnector('POST', DELETE_PROFILE_API, { password }, {
             'Authorization': `${token}`
         });
-        console.log("response i got delete ", response);
         if (!response.data.success) {
             throw new Error('Not get any response of delete account');
         }

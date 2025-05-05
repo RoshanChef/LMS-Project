@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { setCourse, setEditCourse } from '../../../../../Redux/Slices/courseSlice';
+import { setCourse, setEditCourse, setStep } from '../../../../../Redux/Slices/courseSlice';
 import RenderSteps from '../RenderSteps';
 import { getFullDetailsOfCourse } from '../../../../../services/operations/courseDetailAPI';
 
@@ -17,9 +17,13 @@ function EditCourse() {
             if (courseId) {
                 setLoading(true);
                 const result = await getFullDetailsOfCourse(courseId, token);
+
+                dispatch(setCourse(result.courseDetails));
                 dispatch(setEditCourse(true));
-                dispatch(setCourse(result));
+                dispatch(setStep(1));
+
                 setLoading(false);
+                console.log("result ", result);
             }
 
         }

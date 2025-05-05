@@ -275,6 +275,7 @@ exports.editCourse = async (req, res) => {
 exports.deleteCourse = async (req, res) => {
     try {
         const { courseId } = req.body;
+        const userId = req.user.id;
 
         // Find the course
         const course = await Course.findById(courseId);
@@ -321,6 +322,16 @@ exports.deleteCourse = async (req, res) => {
 
         // Delete the course
         await Course.findByIdAndDelete(courseId);
+
+        // Delete from the insturctor 
+        const result = await User.findByIdAndUpdate(userId, {
+            $pull: {
+                courses: courseId
+            }
+        });
+
+        // console.log('instructor ', result); 
+
 
         return res.status(200).json({
             success: true,
@@ -381,11 +392,9 @@ exports.getFullCourseDetails = async (req, res) => {
         })
 
         const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
-
         return res.send({
             success: true,
             message: "Course details fetched successfully",
-            // data : courseDetails
             data: {
                 courseDetails,
                 totalDuration,

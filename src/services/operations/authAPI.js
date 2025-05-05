@@ -14,7 +14,7 @@ export function login(email, password, navigate) {
         dispatch(setLoading(true));
         try {
             const response = await apiconnector("POST", LOGIN_API, { email, password });
-            console.log(response.data);
+            // console.log(response.data);
             if (!response.data.success) {
                 toast.error(response.data.message);
             } else {
@@ -56,7 +56,7 @@ export function logout(navigate) {
 export function getResetPassword(email, setEmailSent) {
     return async (dispatch) => {
         dispatch(setLoading(true));
-        console.log(RESETPASSTOKEN_API);
+
         // Backend call 
         try {
             const res = await apiconnector("POST", RESETPASSTOKEN_API, { email });
@@ -82,7 +82,7 @@ export function resetPassword(password, token) {
         // Backend call
         try {
             const response = await apiconnector("POST", RESETPASSWORD_API, { password, token });
-            console.log("response i got ", response);
+            
             if (!response.data.success) {
                 throw new Error(response.data.message);
             }

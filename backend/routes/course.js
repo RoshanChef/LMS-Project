@@ -17,7 +17,7 @@ course_router.get('/getAllCourses', getAllCourses);
 course_router.post('/getCourseDetails', getCourseDetails);
 
 // Delete a Course
-course_router.post("/deleteCourse", deleteCourse)
+course_router.post("/deleteCourse", auth , deleteCourse)
 
 
 // Route for create course

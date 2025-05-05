@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { IoAddCircleOutline } from "react-icons/io5"
 import { MdNavigateNext } from "react-icons/md"
@@ -12,10 +12,18 @@ import toast from 'react-hot-toast';
 
 function CourseBuilderForm() {
 
-  const { course } = useSelector((state) => state.course);
+  const { editCourse, course } = useSelector((state) => state.course);
   const { token } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  console.log('builderform ', course, editCourse);
+  useEffect(() => {
+    if (editCourse){
+        // setValue('sectionName' , course?.courseDetails?.)
+    }
+     
+  }, [])
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const [editSection, setEditSec] = useState(null);

@@ -9,7 +9,7 @@ export async function create_Rating(data, token) {
         const response = await apiconnector('POST', CREATE_REVIEW_API, data, {
             "Authorization": `Bearer ${token}`
         });
-        console.log(response);
+        
         if (!response) {
             throw new Error('Something went wrong while reviewing');
         }

@@ -51,7 +51,7 @@ export const createorderApi = async (data, userDetails, token, navigate, dispatc
                 email: userDetails?.email,
             },
             handler: async function (response) {
-                console.log("Razorpay payment successful:", response);
+                // console.log("Razorpay payment successful:", response);
                 await sendPaymentSuccessEmail(response, orderData.amount, token);
                 await verifypayment(response, data.courses, token, navigate, dispatch);
             },
