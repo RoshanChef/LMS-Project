@@ -32,9 +32,11 @@ const contactDetails = [
 function Contact_us() {
     return (
         <div>
-            <div className='flex mt-16 justify-center mx-auto'>
-                <div className='flex mt-14 mx-auto gap-12'>
-                    <div className="flex flex-col max-h-max gap-6 rounded-xl  bg-[#161D29] p-4 lg:p-6">
+            <div className='flex  mt-16 justify-center mx-auto'>
+                <div className='flex flex-col lg:flex-row mt-14 mx-auto gap-12'>
+
+                    {/* information section */}
+                    <div className="flex flex-col max-h-max gap-6 rounded-xl mx-3 bg-[#161D29] lg:p-6">
                         {contactDetails.map((ele, i) => {
                             let Icon = Icon1[ele.icon] || Icon2[ele.icon] || Icon3[ele.icon]
                             return (
@@ -54,9 +56,11 @@ function Contact_us() {
                             )
                         })}
                     </div>
-                    <div className='w-[720px] p-4 flex flex-col gap-12 py-14 border-gray-600 border rounded-xl'>
+
+                    {/* form section */}
+                    <div className='lg:w-[720px] p-4 flex flex-col gap-12 py-14 border-gray-600 border rounded-xl'>
                         <div className='flex flex-col gap-4'>
-                            <h1 className='text-left pl-6 text-4xl font-bold'>Got a Idea? We've got the skills. Let's team up</h1>
+                            <h1 className='text-left pl-6 lg:text-4xl text-xl   font-bold'>Got a Idea? We've got the skills. Let's team up</h1>
                             <p className='pl-6 '>Tell us more about yourself and what you're got in mind.</p>
                         </div>
                         <ContactUsForm width="650" />
