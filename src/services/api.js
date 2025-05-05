@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost/api/v1";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
 // AUTH ENDPOINTS
