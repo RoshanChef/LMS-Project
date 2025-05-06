@@ -300,7 +300,7 @@ export async function lecturesComplete(data, token) {
         if (!response.data.success) {
             toast.error('Could Not Complete Lecture');
         }
-        toast.success('Lecture Completed Successfully');
+        // toast.success('Lecture Completed Successfully');
 
     } catch (error) {
         console.log('err ', error);
