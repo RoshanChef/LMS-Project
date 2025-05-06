@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "postinstall": "npm dedupe",
+    "preinstall": "npm install --no-optional rollup@4.39.0",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
