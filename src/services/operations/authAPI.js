@@ -115,7 +115,7 @@ export function sendOtp(email, navigate) {
             toast.success("OTP sent successfully");
             navigate("/verify-email")
         } catch (error) {
-            toast.error("Unable to send otp");
+            toast.error(error.response.data.message);
         }
 
         dispatch(setLoading(false));
