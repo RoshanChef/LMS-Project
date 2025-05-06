@@ -1,17 +1,21 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import framebg from '../../../assets/images/framebg.png';
 import Signupform from './Signupform';
 import Loginform from './Loginform';
 import { FcGoogle } from "react-icons/fc";
-import { auth, google_provider } from '../../../services/firebase';
+import { auth, provider } from '../../../services/firebase';
 import { signInWithPopup } from "firebase/auth";
+import { signUpGoogle } from '../../../services/operations/authAPI';
+import { useNavigate } from 'react-router-dom';
 
 function Template({ title, description1, description2, image, formType }) {
     const { loading } = useSelector((state) => state.auth);
+    const [account_Type, setAccountType] = useState("Student");
+    const navigate = useNavigate();
 
     async function googleLogin() {
-        const res = await signInWithPopup(auth, google_provider);
+        const res = await signInWithPopup(auth, provider);
         let user = await res.user;
         let dataObj = {
             firstName: user.displayName.split(" ")[0],
@@ -21,7 +25,17 @@ function Template({ title, description1, description2, image, formType }) {
             mobile: user.phoneNumber,
             image: user.photoURL
         }
+        let accountType = null;
+        if (formType !== "signup")
+            accountType = "Student"
+        else
+            accountType = account_Type
+
+        dataObj = { ...dataObj, accountType };
+
         console.log('Google ', dataObj);
+
+        await signUpGoogle(dataObj, navigate);
     }
 
     return (
@@ -41,16 +55,17 @@ function Template({ title, description1, description2, image, formType }) {
                             {description2}
                         </span>
                     </p>
-                    {formType === "signup" ? <Signupform /> : <Loginform />}
+                    {formType === "signup" ? <Signupform account_Type={account_Type} setAccountType={setAccountType} /> : <Loginform />}
                     <div className='flex  w-full items-center my-4 gap-x-2'>
                         <div className='h-[1px] w-full bg-gray-800'></div>
                         <p className='text-white'>OR</p>
                         <div className='h-[1px] w-full bg-gray-800'></div>
                     </div>
                     <div className=' hover:scale-102 duration-200 transition-all w-full' onClick={googleLogin}>
-                        <button className='text-white cursor-pointer items-center gap-2 border-gray-800 p-1 rounded-[8px] gap-x-2 mt-5 border flex justify-center w-[100%]'>
+                        <button
+                            className='text-white cursor-pointer items-center gap-2 border-gray-800 p-1 rounded-[8px] gap-x-2 mt-5 border flex justify-center w-[100%]'>
                             <FcGoogle />
-                            <p >
+                            <p>
                                 Sign Up with Google
                             </p>
                         </button>

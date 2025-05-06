@@ -5,6 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const endpoints = {
     SENDOTP_API: BASE_URL + `/auth/sendotp`,
     SIGNUP_API: BASE_URL + `/auth/signUp`,
+    SIGNUP_GOOGLE_API: BASE_URL + `/auth/signUpGoogle`,
     LOGIN_API: BASE_URL + `/auth/login`,
     RESETPASSTOKEN_API: BASE_URL + `/auth/reset-password-token`,
     RESETPASSWORD_API: BASE_URL + `/auth/reset-password`,

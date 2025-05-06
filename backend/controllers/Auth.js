@@ -126,7 +126,7 @@ exports.signUp = async (req, res) => {
             image: imageUrl
         });
 
-        return res.status(201).json({ // Changed to 201 Created
+        return res.status(200).json({ // Changed to 201 Created
             success: true,
             message: 'User registered successfully',
             user: newUser
@@ -141,6 +141,52 @@ exports.signUp = async (req, res) => {
     }
 }
 
+exports.signUpGoogle = async (req, res) => {
+    try {
+        const { firstName, lastName, email, password, image, accountType } = req.body;
+        const user_find = await User.findOne({ email });
+        console.log('user find ', user_find);
+
+        if (user_find) {
+            return res.json({
+                success: true
+            })
+        }
+
+        // console.log('google signup ', req.body);
+
+        // Hash Password
+        const hashPassword = await bcrypt.hash(password, 10);
+
+        // Profile
+        const additionDetail = await profile.create({
+            gender: null,
+            dateOfBirth: null,
+            about: null,
+            ContactNumber: null
+        });
+
+        const newUser = await User.create({
+            firstName, lastName, email, 
+            password: hashPassword, accountType, additionDetail, image
+        })
+
+        console.log('new user ', newUser);
+
+        resres.status(200).json({
+            success: true,
+            message: 'User registered successfully',
+            data: newUser
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "User is not signUp with google successfully",
+            error: error,
+        })
+    }
+
+}
 // Login
 exports.login = async (req, res) => {
     try {

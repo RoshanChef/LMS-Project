@@ -7,7 +7,7 @@ import apiconnector from "../apiconnector";
 import { resetCart } from "../../Redux/Slices/cartSlice";
 
 
-const { SENDOTP_API, SIGNUP_API, LOGIN_API, RESETPASSTOKEN_API, RESETPASSWORD_API } = endpoints;
+const { SENDOTP_API, SIGNUP_GOOGLE_API, SIGNUP_API, LOGIN_API, RESETPASSTOKEN_API, RESETPASSWORD_API } = endpoints;
 
 export function login(email, password, navigate) {
     return async (dispatch) => {
@@ -82,7 +82,7 @@ export function resetPassword(password, token) {
         // Backend call
         try {
             const response = await apiconnector("POST", RESETPASSWORD_API, { password, token });
-            
+
             if (!response.data.success) {
                 toast.error(response.data.message);
             }
@@ -146,4 +146,18 @@ export function signUp(otp, accountType, firstName, lastName, email, password, n
 
         dispatch(setLoading(false));
     }
+}
+
+export async function signUpGoogle(data , navigate) {
+        try {
+            const response = await apiconnector('POST', SIGNUP_GOOGLE_API, data, null);
+            if (!response.data.success) {
+                toast.error("Please login vai signup form");
+            }
+            console.log(response.data); 
+            localStorage.setItem("user", JSON.stringify(response.data.newUser));
+            navigate("/dashboard/my-profile");
+        } catch (error) {
+            console.log(error);
+        }
 }

@@ -7,7 +7,7 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { setSignupData } from "../../../Redux/Slices/authSlice"
 import { sendOtp } from "../../../services/operations/authAPI"
 
-export default function SignupForm() {
+export default function SignupForm({account_Type,setAccountType}) {
     const {
         register,
         handleSubmit,
@@ -19,7 +19,7 @@ export default function SignupForm() {
     const dispatch = useDispatch();
 
     const { signupData } = useSelector((state) => state.auth);
-    const [accountType, setAccountType] = useState("Student");
+
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -32,7 +32,7 @@ export default function SignupForm() {
 
             const payload = {
                 ...data,
-                accountType,
+                account_Type,
             };
             console.log(data , payload);
             
@@ -64,14 +64,14 @@ export default function SignupForm() {
             <div className="bg-[#161D29] text-gray-400 rounded-full my-6 flex p-1 items-center max-w-max select-none">
                 <button
                     type="button"
-                    className={`px-6 py-2 rounded-full cursor-pointer transition-all duration-200 ${accountType === "Student" ? "bg-[#01050C] text-white" : "bg-[#161D29]"}`}
+                    className={`px-6 py-2 rounded-full cursor-pointer transition-all duration-200 ${account_Type === "Student" ? "bg-[#01050C] text-white" : "bg-[#161D29]"}`}
                     onClick={() => setAccountType("Student")}
                 >
                     Student
                 </button>
                 <button
                     type="button"
-                    className={`px-6 py-2 rounded-full cursor-pointer transition-all duration-200 ${accountType === "Instructor" ? "bg-[#01050C] text-white" : "bg-[#161D29]"}`}
+                    className={`px-6 py-2 rounded-full cursor-pointer transition-all duration-200 ${account_Type === "Instructor" ? "bg-[#01050C] text-white" : "bg-[#161D29]"}`}
                     onClick={() => setAccountType("Instructor")}
                 >
                     Instructor
