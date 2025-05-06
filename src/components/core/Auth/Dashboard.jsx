@@ -17,7 +17,6 @@ function Dashboard() {
 
     return (
         <div className="relative flex mt-16">
-
             <Sidebar />
             <div className=" flex-1 overflow-auto">
                 <div className="mx-auto w-11/12 max-w-[1000px] py-10">
