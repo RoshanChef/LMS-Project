@@ -32,7 +32,7 @@ export default function SignupForm({account_Type,setAccountType}) {
 
             const payload = {
                 ...data,
-                account_Type,
+                accountType:account_Type,
             };
             console.log(data , payload);
             
