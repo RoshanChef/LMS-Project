@@ -39,10 +39,10 @@ function ExploreMore() {
 
     return (
         <div className='bg-[#01050c] text-white py-10 px-10'>
-            <div className='flex gap-2 text-4xl font-semibold justify-center items-center'>
+            <div className='flex flex-col sm:flex-row gap-1 sm:gap-2 md:gap-3 text-2xl sm:text-3xl md:text-4xl font-semibold justify-center items-center'>
                 <span>Unlock the</span>
                 <HighlightText text={"Power of Code"} />
-            </div >
+            </div>
             <div className='text-center text-xl text-gray-400 mt-2 font-semibold'>
                 Learn to Build Anything You Can Imagine
             </div>
