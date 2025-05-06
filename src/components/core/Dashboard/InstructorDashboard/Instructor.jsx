@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getInstructorData } from "../../../../services/operations/profileAPI.JS";
+import { getInstructorData } from "../../../../services/operations/profileAPI";
 import { useSelector } from "react-redux";
 import { fetchInstructorCourse } from "../../../../services/operations/courseDetailAPI";
 import { Link } from "react-router-dom";
