@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getEnrolledCourses } from '../../../services/operations/profileAPI.JS'
+import { getEnrolledCourses } from '../../../services/operations/profileAPI'
 import { useNavigate } from 'react-router-dom';
 
 function EnrolledCourses() {
