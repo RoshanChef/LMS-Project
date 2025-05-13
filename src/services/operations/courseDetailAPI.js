@@ -1,7 +1,9 @@
 import toast from "react-hot-toast";
 import apiconnector from "../apiconnector";
 import { courseEndpoints } from '../api';
+import { categories } from '../api';
 
+const { CREATE_CATEGORIES_API } = categories;
 const { LECTURE_COMPLETION_API, COURSE_DETAILS_API, GET_FULL_COURSE_DETAILS_AUTHENTICATED, DELETE_COURSE_API, DELETE_SECTION_API, COURSE_CATEGORIES_API, CREATE_SECTION_API, EDIT_COURSE_API, CREATE_COURSE_API, DELETE_SUBSECTION_API, UPDATE_SECTION_API, UPDATE_SUBSECTION_API, CREATE_SUBSECTION_API, GET_ALL_INSTRUCTOR_COURSES_API } = courseEndpoints;
 
 // get course categories
@@ -78,7 +80,7 @@ export async function updateSection(data, token) {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
         });
-     
+
         if (!response?.data?.success) {
             toast.error('Could Not Update Section');
         }
@@ -130,7 +132,7 @@ export async function deleteSubSection(data, token) {
         if (!response?.data?.success) {
             toast.error('Could Not Delete SubSection');
         }
-      
+
         toast.success('Course SubSection Deleted Successfully');
         result = response?.data?.updatedCourse;
     } catch (error) {
@@ -177,7 +179,7 @@ export async function updateSubSection(data, token) {
         }
         result = response?.data?.updatedCourse;
         toast.success('Course SubSection Updated Successfully');
-        
+
 
     } catch (error) {
         console.log('Update SubSection API ERROR', error);
@@ -236,10 +238,10 @@ export async function deleteCourse(data, token) {
         });
 
         if (!response.data.success) {
-           
+
             throw new Error('Could Not Delete Course');
         }
-       
+
         toast.success('Course Deleted Successfully');
         result = response?.data?.deletedCourse;
         console.log(result);
@@ -296,7 +298,7 @@ export async function lecturesComplete(data, token) {
         const response = await apiconnector('POST', LECTURE_COMPLETION_API, data, {
             'Authorization': `Bearer ${token}`
         })
-       
+
         if (!response.data.success) {
             toast.error('Could Not Complete Lecture');
         }
@@ -305,4 +307,21 @@ export async function lecturesComplete(data, token) {
     } catch (error) {
         console.log('err ', error);
     }
+}
+
+export async function create_category(data, token) {
+    let result = null;
+    try {
+        const response = await apiconnector('POST', CREATE_CATEGORIES_API, data, {
+            'Authorization': `Bearer ${token}`
+        })
+        if (!response.data.success) {
+            toast.error('Could Not Complete Lecture');
+        }
+        toast.success(response.data.message)
+        result = response.data.message;
+    } catch (err) {
+        console.log(err);
+    }
+    return result;
 }
