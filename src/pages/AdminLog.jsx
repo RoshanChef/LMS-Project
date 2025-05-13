@@ -82,7 +82,7 @@ export default function AdminLog() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-semibold transition duration-200"
+            className="w-full cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-semibold transition duration-200"
           >
             Login
           </button>
