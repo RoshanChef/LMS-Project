@@ -20,6 +20,7 @@ export function login(email, password, navigate) {
             } else {
                 toast.success("Login Successful");
                 dispatch(setToken(response.data.token));
+                console.log(response.data.user.accountType);
 
                 const userImage = response.data?.user?.image
                     ? response.data.user.image
@@ -29,7 +30,11 @@ export function login(email, password, navigate) {
 
                 localStorage.setItem("token", JSON.stringify(response.data.token));
                 localStorage.setItem("user", JSON.stringify(response.data.user));
-                navigate("/dashboard/my-profile");
+
+                if (response.data.user.accountType === 'Admin')
+                    navigate('/admin/board');
+                else
+                    navigate("/dashboard/my-profile");
             }
         } catch (error) {
             console.log("error while login", error);
@@ -148,16 +153,17 @@ export function signUp(otp, accountType, firstName, lastName, email, password, n
     }
 }
 
-export async function signUpGoogle(data , navigate) {
-        try {
-            const response = await apiconnector('POST', SIGNUP_GOOGLE_API, data, null);
-            if (!response.data.success) {
-                toast.error("Please login vai signup form");
-            }
-            console.log(response.data); 
-            localStorage.setItem("user", JSON.stringify(response.data.newUser));
-            navigate("/dashboard/my-profile");
-        } catch (error) {
-            console.log(error);
+export async function signUpGoogle(data, navigate) {
+    try {
+        const response = await apiconnector('POST', SIGNUP_GOOGLE_API, data, null);
+        if (!response.data.success) {
+            toast.error("Please login vai signup form");
         }
+        console.log(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data.newUser));
+        navigate("/dashboard/my-profile");
+    } catch (error) {
+        console.log(error);
+    }
 }
+

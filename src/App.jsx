@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLoaderData, useLocation, useParams } from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Navbar from './components/Common/Navbar';
@@ -29,6 +29,8 @@ import { useEffect, useState } from "react";
 import ViewCourse from "./pages/ViewCourse";
 import ViewDetails from "./components/core/ViewCourse/ViewDetails";
 import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
+import AdminRoute from "./components/core/Auth/AdminRoute";
+import Category_form from "./components/core/Admin/Category_form";
 
 export default function App() {
     const { user } = useSelector(state => state.profile);
@@ -38,9 +40,13 @@ export default function App() {
         setPath(location.pathname.substring(1));
     }, [location.pathname]);
 
+
     return <>
         <div className="w-full text-white min-h-screen flex flex-col bg-[#01050c] ">
-            <Navbar />
+            {
+                !location.pathname.includes('/admin') &&
+                <Navbar />
+            }
             <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route
@@ -51,6 +57,8 @@ export default function App() {
                         </OpenRoute>
                     }
                 ></Route>
+
+                <Route path="/admin" element={<AdminLog />}></Route>
 
                 <Route
                     path="/login"
@@ -73,6 +81,17 @@ export default function App() {
                         <VerifyEmail />
                     </OpenRoute>
                 } />
+
+                <Route
+                    path="admin/board"
+                    element={
+                        <AdminRoute>
+                            <Category_form />
+                        </AdminRoute>
+                    }
+                >
+
+                </Route>
 
                 <Route
                     path="dashboard"

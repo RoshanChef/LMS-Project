@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { gsap } from "gsap";
+import { useDispatch } from "react-redux";
+import { login } from "../services/operations/authAPI";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminLog() {
   const formRef = useRef(null);
@@ -20,9 +23,13 @@ export default function AdminLog() {
     });
   }, []);
 
-  const onSubmit = (data) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); 
+
+  const onSubmit = async (data) => {
     console.log("Form Submitted:", data);
-    // Handle login or submission here
+    dispatch(login(data.email, data.password , navigate));
+
   };
 
   return (
